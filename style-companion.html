@@ -846,7 +846,6 @@
   .look-name {
     font-family: 'Playfair Display', serif;
     font-size: 17px; color: var(--text-primary);
-    display: block; margin-bottom: 3px;
     line-height: 1.2;
   }
   .look-occasion {
@@ -869,6 +868,31 @@
     color: rgba(160,120,64,0.65);
     line-height: 1.6;
   }
+
+  /* SEASON TABS */
+  .looks-season-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .looks-season-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border-faint);
+    background: transparent; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.18s ease;
+  }
+  .looks-season-tab:hover { border-color: var(--camel); color: var(--camel); }
+  .looks-season-tab.active { background: var(--camel); color: #fff; border-color: var(--camel); }
+  .look-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
+  .look-season-badge {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 10px; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .look-season-SS { background: rgba(176,141,87,0.15); color: var(--camel); }
+  .look-season-AW { background: rgba(62,44,32,0.15); color: var(--text-secondary); }
+  .look-season-YR { background: rgba(107,107,51,0.15); color: #6B6B33; }
 
   /* COMBOS */
   .combos-section { margin-bottom: 80px; }
@@ -2477,6 +2501,12 @@
     <div class="section-label">Styled Looks — workwear &amp; heritage outfits for your frame</div>
     <p class="section-intro">Workwear &amp; Heritage · Dressed for 186cm</p>
     <p class="section-desc">Looks built for the workwear and heritage direction — V-taper, long torso, 50.8cm shoulders. Owned pieces flagged in the notes. Source EU Long block for all jackets and shirts.</p>
+    <div class="looks-season-tabs" id="looksSeasonTabs">
+      <button class="looks-season-tab active" data-season="all">All</button>
+      <button class="looks-season-tab" data-season="SS">Spring / Summer</button>
+      <button class="looks-season-tab" data-season="AW">Autumn / Winter</button>
+      <button class="looks-season-tab" data-season="YR">Year-Round</button>
+    </div>
     <div class="looks-grid" id="looksGrid"></div>
   </section>
 
@@ -2702,6 +2732,7 @@ const METALS = [
 const LOOKS = [
   {
     name: 'The Working Uniform',
+    season: 'AW',
     occasion: 'Casual · Daily',
     colours: ['#6B4E2E','#EDE3D0','#C9B79A','#3E2C20'],
     pieces: 'Plain tee (tobacco or cream, L) — owned: Carhartt WIP Brown or Dickies Cream; Wolsey Chore Jacket open; Nudie Dry Heavy W34/L33; Blundstone 2340 or Handball Spezial',
@@ -2709,6 +2740,7 @@ const LOOKS = [
   },
   {
     name: 'Heritage Smart',
+    season: 'AW',
     occasion: 'Smart Casual · Evening',
     colours: ['#B08D57','#C9B79A','#1A2535','#3E2C20'],
     pieces: 'Shetland crewneck (camel or forest green, L), chambray workshirt underneath (collar just visible), Nudie Dry Heavy or fatigue trouser, Blundstone Chelsea, Seiko Landmaster',
@@ -2716,6 +2748,7 @@ const LOOKS = [
   },
   {
     name: 'Full Stack',
+    season: 'AW',
     occasion: 'Cold Weather · Three Layers',
     colours: ['#3E2C20','#6B6B33','#2F4A2A','#1A2535'],
     pieces: 'Heavyweight tee (base), flannel overshirt (open), waxed cotton field jacket (outer), raw denim W34/L33, moc-toe work boot',
@@ -2723,6 +2756,7 @@ const LOOKS = [
   },
   {
     name: 'Summer Workwear',
+    season: 'SS',
     occasion: 'Casual · Warm Weather',
     colours: ['#C9B79A','#EDE3D0','#6B6B33','#B08D57'],
     pieces: 'Camp collar linen shirt open (EU Long), cream or tobacco tee underneath — owned: Dickies Cream; BOSS Stone Chino Short or RL Khaki; Birkenstock Arizona Cognac',
@@ -2730,6 +2764,7 @@ const LOOKS = [
   },
   {
     name: 'Off-Duty Heritage',
+    season: 'AW',
     occasion: 'Weekend · Relaxed',
     colours: ['#6E2C2C','#6B4E2E','#1A2535','#5C3A1E'],
     pieces: 'Champion Hoodie Burgundy (owned, L), Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
@@ -2737,6 +2772,7 @@ const LOOKS = [
   },
   {
     name: 'The Olive Layer',
+    season: 'YR',
     occasion: 'Casual · Everyday',
     colours: ['#6B6B33','#EDE3D0','#6B4E2E','#3E2C20'],
     pieces: 'Olive overshirt or chore jacket (L), cream tee (L) — owned: Dickies Cream; tobacco chino or raw denim (W34/L33), Blundstone or Spezial',
@@ -2744,6 +2780,7 @@ const LOOKS = [
   },
   {
     name: 'Rust & Chocolate',
+    season: 'AW',
     occasion: 'Everyday · Autumn',
     colours: ['#A6471F','#3E2C20','#EDE3D0','#6B4E2E'],
     pieces: 'Rust workshirt or knit (L), chocolate chino or raw denim, cream tee underneath — owned: Dickies Cream; Blundstone or work boot',
@@ -2751,6 +2788,7 @@ const LOOKS = [
   },
   {
     name: 'Forest Field Day',
+    season: 'AW',
     occasion: 'Casual · Outdoor',
     colours: ['#2F4A2A','#EDE3D0','#6B4E2E','#3E2C20'],
     pieces: 'Forest green field jacket or waxed cotton (L, EU Long), cream tee (L), tobacco chino or fatigue trouser (W36), work boot or Blundstone',
@@ -2758,17 +2796,43 @@ const LOOKS = [
   },
   {
     name: 'The Burgundy Layer',
+    season: 'AW',
     occasion: 'Smart Casual · Evening',
     colours: ['#6E2C2C','#C9B79A','#3E2C20','#B08D57'],
-    pieces: 'Burgundy knit or Champion Hoodie (L) — owned: Champion; stone chino or BOSS Chino Short; Blundstone 2340 or Gazelle Stone/Burgundy; Seiko Landmaster',
+    pieces: 'Barbour Stone Half-Zip or Champion Hoodie (owned); stone chino or BOSS Chino Short; Blundstone 2340 or Gazelle Stone/Burgundy; Seiko Landmaster',
     fitNote: 'Burgundy against olive skin reads with real depth. One colour hit, neutrals carry everything else'
   },
   {
     name: 'Deep Navy & Camel',
+    season: 'AW',
     occasion: 'Smart Casual · Elevated',
     colours: ['#1A2535','#B08D57','#3E2C20','#EDE3D0'],
     pieces: 'Deep navy crew knit (L), camel chambray shirt or overshirt underneath, Nudie raw denim or chocolate trouser (W34/L33), Blundstone Chelsea',
     fitNote: 'Navy + camel is the smartest neutral combination in the palette. Layered shirt collar at the V gives it workwear heritage weight'
+  },
+  {
+    name: 'Tobacco & Stone',
+    season: 'SS',
+    occasion: 'Casual · Summer',
+    colours: ['#6B4E2E','#C9B79A','#B08D57','#EDE3D0'],
+    pieces: 'Carhartt WIP Brown tee (owned, L); BOSS Stone Chino Shorts (owned, W36); Adidas Gazelle Stone/Burgundy or Handball Spezial; Glenmuir no-shows; G-Shock',
+    fitNote: 'All-warm palette in a single temperature register — tobacco on top, stone below. Nothing competes. Keep the tee tucked slightly at the front if going without a belt'
+  },
+  {
+    name: 'The Linen Edit',
+    season: 'SS',
+    occasion: 'Casual · Hot Weather',
+    colours: ['#6B6B33','#EDE3D0','#8B5E3C','#C9B79A'],
+    pieces: 'Olive linen shirt (EU Long, worn open); Dickies Cream tee underneath (owned, L); BOSS Stone Chino Shorts or RL Khaki swim (owned); Birkenstock Arizona Cognac; barefoot',
+    fitNote: 'Linen open over a cream tee is the single most effective summer look for a tall frame — the vertical break cools the silhouette. No socks. No belt. No watch if above 28°C'
+  },
+  {
+    name: 'Stone + Merino',
+    season: 'YR',
+    occasion: 'Casual · Mild Weather',
+    colours: ['#C4AD88','#1A2535','#6B4E2E','#3E2C20'],
+    pieces: 'Barbour Stone Half-Zip (owned, L); Carhartt WIP Brown tee underneath (owned, L); Nudie Dry Heavy W34/L33; Handball Spezial Aurora Coffee; Glenmuir no-shows',
+    fitNote: 'Stone lambswool over tobacco tee — the Barbour brings texture without adding colour. Half-zip left open at the collar prevents the neck from closing in on a long torso'
   },
 ];
 
@@ -3744,16 +3808,22 @@ function switchPickerMode(mode) {
   refreshPicker();
 }
 
+let activeLookSeason = 'all';
+
 function renderLooks() {
   const grid = document.getElementById('looksGrid');
-  LOOKS.forEach(look => {
+  grid.innerHTML = '';
+  const filtered = activeLookSeason === 'all' ? LOOKS : LOOKS.filter(l => l.season === activeLookSeason);
+  const seasonLabel = { SS: 'Spring / Summer', AW: 'Autumn / Winter', YR: 'Year-Round' };
+  filtered.forEach(look => {
     const card = document.createElement('div');
     card.className = 'look-card';
     const swatches = look.colours.map(h => `<div style="background:${h}"></div>`).join('');
+    const badge = look.season ? `<span class="look-season-badge look-season-${look.season}">${seasonLabel[look.season] || ''}</span>` : '';
     card.innerHTML = `
       <div class="look-swatches">${swatches}</div>
       <div class="look-body">
-        <span class="look-name">${look.name}</span>
+        <div class="look-header-row">${badge}<span class="look-name">${look.name}</span></div>
         <span class="look-occasion">${look.occasion}</span>
         <p class="look-pieces">${look.pieces}</p>
         <p class="look-fit-note">${look.fitNote}</p>
@@ -3767,6 +3837,17 @@ function renderLooks() {
       document.getElementById('builder').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     grid.appendChild(card);
+  });
+}
+
+function initLooksSeasonTabs() {
+  document.querySelectorAll('#looksSeasonTabs .looks-season-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeLookSeason = btn.dataset.season;
+      document.querySelectorAll('#looksSeasonTabs .looks-season-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderLooks();
+    });
   });
 }
 
@@ -4018,6 +4099,7 @@ renderGrid('neutralGrid', PALETTE.neutrals);
 renderOutfitSlots();
 refreshPicker();
 renderLooks();
+initLooksSeasonTabs();
 renderCombos();
 renderRules();
 renderAudit();
