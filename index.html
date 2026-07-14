@@ -56,6 +56,7 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  #builder, #body, #palette, #colours, #looks, #combos, #rules, #audit { scroll-margin-top: 64px; }
   body {
     background: var(--page-bg);
     color: var(--text-primary);
@@ -200,14 +201,14 @@
   }
 
   /* PALETTE */
-  .palette-section { margin-bottom: 28px; }
-  .palette-block { margin-bottom: 22px; }
+  .palette-section { margin-bottom: 20px; }
+  .palette-block { margin-bottom: 14px; }
   .palette-block-head {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   .palette-block-title {
     font-family: 'DM Mono', monospace;
@@ -225,7 +226,7 @@
   .palette-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
   .swatch-card {
     border-radius: 6px;
@@ -239,7 +240,7 @@
   }
   .swatch-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.16); }
   .swatch-card:hover .swatch-action { opacity: 1; transform: translateY(0); }
-  .swatch-color { width: 100%; aspect-ratio: 2/1; position: relative; }
+  .swatch-color { width: 100%; aspect-ratio: 2.6/1; position: relative; }
   .swatch-action {
     position: absolute; top: 6px; right: 6px;
     width: 22px; height: 22px;
@@ -250,9 +251,10 @@
     transition: all 0.2s ease; z-index: 2;
   }
   .swatch-action svg { width: 11px; height: 11px; }
-  .swatch-info { padding: 7px 9px 9px; }
-  .swatch-name { font-weight: 500; font-size: 11px; color: var(--text-primary); display: block; margin-bottom: 2px; }
+  .swatch-info { padding: 6px 8px 7px; }
+  .swatch-name { font-weight: 500; font-size: 11px; color: var(--text-primary); display: block; margin-bottom: 1px; }
   .swatch-hex { font-family: 'DM Mono', monospace; font-size: 8.5px; color: var(--text-secondary); display: block; letter-spacing: 0.06em; }
+  #palette .section-label { margin-bottom: 16px; }
 
   /* ---- BODY PROFILE ---- */
   .body-section { margin-bottom: 80px; }
