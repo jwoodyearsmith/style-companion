@@ -1670,6 +1670,234 @@
     margin-top: 6px;
   }
 
+  /* ── WARDROBE AUDIT ── */
+  .audit-section { margin-bottom: 80px; }
+
+  .audit-coverage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 44px;
+    padding: 28px 32px;
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+  }
+  .audit-coverage-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+  .audit-coverage-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 160px;
+    align-items: center;
+    gap: 14px;
+  }
+  .audit-occasion-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .audit-coverage-track {
+    height: 4px;
+    background: rgba(30,15,9,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .audit-coverage-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .audit-coverage-fill.high   { background: #4A7C50; }
+  .audit-coverage-fill.medium { background: var(--camel); }
+  .audit-coverage-fill.low    { background: var(--terracotta); }
+  .audit-coverage-note {
+    font-size: 11px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    text-align: right;
+  }
+  .audit-coverage-note em {
+    font-style: normal;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--terracotta);
+  }
+
+  .audit-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 28px;
+    align-items: start;
+  }
+  .audit-gaps-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 18px;
+    opacity: 0.8;
+  }
+  .audit-gap-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+    padding: 22px 24px 22px 20px;
+    border-left: 3px solid transparent;
+    margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .audit-gap-card:last-child { margin-bottom: 0; }
+  .audit-gap-card.priority-critical { border-left-color: var(--terracotta); }
+  .audit-gap-card.priority-high     { border-left-color: var(--camel); }
+  .audit-gap-card.priority-medium   { border-left-color: rgba(30,15,9,0.2); }
+  .audit-gap-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .audit-priority-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+  .badge-critical { background: rgba(181,86,46,0.12); color: var(--terracotta); border: 1px solid rgba(181,86,46,0.25); }
+  .badge-high     { background: rgba(176,141,87,0.12); color: var(--camel);      border: 1px solid rgba(176,141,87,0.25); }
+  .badge-medium   { background: rgba(30,15,9,0.06);   color: var(--text-secondary); border: 1px solid var(--border-faint); }
+  .audit-gap-category {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+  .audit-gap-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .audit-gap-problem {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .audit-gap-suggestion {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .audit-gap-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .audit-colour-chips { display: flex; gap: 4px; }
+  .audit-colour-chip {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .audit-meta-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    padding: 2px 8px;
+    border: 1px solid var(--border-faint);
+    border-radius: 10px;
+  }
+  .audit-budget {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.06em;
+    color: var(--camel);
+    margin-left: auto;
+  }
+
+  .audit-sidebar { display: flex; flex-direction: column; gap: 14px; }
+  .audit-strengths-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 8px;
+    padding: 22px 24px;
+    border-left: 3px solid #4A7C50;
+  }
+  .audit-strengths-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #4A7C50;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+  .audit-strength-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .audit-strength-row:last-child { margin-bottom: 0; }
+  .audit-strength-check {
+    color: #4A7C50;
+    font-size: 11px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .audit-strength-text {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .audit-summary-card {
+    background: rgba(176,141,87,0.05);
+    border: 1px solid rgba(176,141,87,0.18);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .audit-summary-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  .audit-summary-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
   /* ── RESPONSIVE ── */
 
   /* Tablet: ≤ 900px */
@@ -1729,12 +1957,17 @@
     .metals-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .rules-grid { grid-template-columns: 1fr; }
 
+    .audit-layout { grid-template-columns: 1fr; }
+    .audit-coverage-row { grid-template-columns: 80px 1fr 120px; }
     .body-insights { grid-template-columns: 1fr; }
     .harmony-bar { padding: 10px 12px; }
     .tip-text { font-size: 13px; padding: 12px 14px; }
     .picker-panel { padding: 18px; border-radius: 6px; }
     .picker-grid { grid-template-columns: repeat(3, 1fr); }
 
+    .audit-coverage { padding: 20px; }
+    .audit-coverage-row { grid-template-columns: 70px 1fr; gap: 8px; }
+    .audit-coverage-note { display: none; }
     .toast { width: calc(100% - 32px); left: 16px; transform: translateX(0) translateY(80px); }
     .toast.show { transform: translateX(0) translateY(0); }
   }
@@ -1758,6 +1991,7 @@
   <a class="nav-item" href="#looks">Styled Looks</a>
   <a class="nav-item" href="#combos">Combinations</a>
   <a class="nav-item" href="#rules">Dressing Code</a>
+  <a class="nav-item" href="#audit">Wardrobe Audit</a>
 </nav>
 
 <main>
@@ -2259,6 +2493,23 @@
     <p class="section-intro">12 rules</p>
     <p class="section-desc">Colour, fit, and aesthetic rules for the workwear and heritage direction — calibrated to the Deep Autumn palette and the confirmed frame.</p>
     <div class="rules-grid" id="rulesGrid"></div>
+  </section>
+
+  <section class="audit-section" id="audit">
+    <div class="section-label">Wardrobe Audit — gaps &amp; next purchases</div>
+    <p class="section-intro">What's Working, What's Missing</p>
+    <p class="section-desc">An honest assessment of your current wardrobe against your occasion needs, colour profile, and frame — ranked by the impact each gap has on what you can actually wear.</p>
+    <div class="audit-coverage" id="auditCoverage"></div>
+    <div class="audit-layout">
+      <div>
+        <div class="audit-gaps-title">Gaps to fill — ranked by priority</div>
+        <div id="auditGaps"></div>
+      </div>
+      <div class="audit-sidebar">
+        <div class="audit-strengths-card" id="auditStrengths"></div>
+        <div class="audit-summary-card" id="auditSummary"></div>
+      </div>
+    </div>
   </section>
 
 
@@ -3529,6 +3780,169 @@ function renderCombos() {
   });
 }
 
+// ── WARDROBE AUDIT DATA ──
+
+const AUDIT_COVERAGE = [
+  { occasion: 'Casual',       score: 92, label: 'Well covered',     note: null },
+  { occasion: 'Beach',        score: 88, label: 'Well covered',     note: null },
+  { occasion: 'Outdoor',      score: 52, label: 'Gaps remain',      note: 'No outerwear · no hat' },
+  { occasion: 'Smart Casual', score: 40, label: 'Under-equipped',   note: 'No chinos · no smart shoes' },
+  { occasion: 'Work',         score: 30, label: 'Under-equipped',   note: 'No formal trousers or shoes' },
+];
+
+const AUDIT_GAPS = [
+  {
+    priority: 'critical',
+    category: 'Bottoms',
+    title: 'Chino Trousers',
+    problem: 'You own one pair of jeans. Every smart casual, work, or elevated casual occasion has no trouser option. This is the most limiting gap in the entire wardrobe.',
+    suggestion: 'Slim-fit chino in camel or olive — your two strongest colours below the waist. Reiss, BOSS, or Massimo Dutti. Avoid wide leg on a long torso.',
+    colours: ['#B08D57', '#6B6B33'],
+    brands: 'Reiss · BOSS · Massimo Dutti',
+    size: 'W34 · L33',
+    budget: '£80–£160',
+  },
+  {
+    priority: 'critical',
+    category: 'Outerwear',
+    title: 'Waterproof Outer Layer',
+    problem: 'No weather protection exists. The Wolsey chore jacket is cotton twill — it offers zero rain resistance and nothing substantial for temperatures below 10°C.',
+    suggestion: 'Wax jacket or technical shell in dark brown or olive. Barbour Bedale silhouette works with your height. This is the single most-worn piece you don\'t own.',
+    colours: ['#3E2C20', '#4B5A3A', '#2E2A26'],
+    brands: 'Barbour · Patagonia · Rains',
+    size: 'Size L',
+    budget: '£150–£380',
+  },
+  {
+    priority: 'critical',
+    category: 'Knitwear',
+    title: 'Crew Neck Knit',
+    problem: 'Nothing exists between a t-shirt and a jacket. For mild weather (10–18°C) — which accounts for most of the year in the UK — there is no layering piece.',
+    suggestion: 'Heavyweight crew neck in tobacco or rust. Shetland or lambswool adds natural texture that works with the heritage direction. One piece, constant rotation.',
+    colours: ['#6B4E2E', '#B5562E', '#7A5C2E'],
+    brands: 'Howlin\' · Arket · John Smedley',
+    size: 'Size L / 40" chest',
+    budget: '£90–£220',
+  },
+  {
+    priority: 'high',
+    category: 'Shoes',
+    title: 'Smart Casual Shoes',
+    problem: 'Nothing sits between the Chelsea boot and trainers for smart casual occasions — no clean leather option for evenings, events, or smart work settings.',
+    suggestion: 'Clean leather loafer or plain-toe derby in dark chocolate or cognac. No branding, no chunky sole. Loake, Grenson, or Clarks Desert Boot in suede.',
+    colours: ['#5C3A20', '#8B5E3C'],
+    brands: 'Loake · Grenson · Clarks',
+    size: 'EU 43',
+    budget: '£150–£340',
+  },
+  {
+    priority: 'high',
+    category: 'Tops',
+    title: 'Linen Shirt — Power Colour',
+    problem: 'Hot weather (23°C+) forces a choice between swim shorts or the same heavy shirts. No summer-weight top in your strongest colours exists.',
+    suggestion: 'Olive or tobacco linen shirt, loose box cut. Your two best colours in the most breathable fabric — this completely changes summer dressing.',
+    colours: ['#6B6B33', '#6B4E2E'],
+    brands: 'Toast · Hartford · Uniqlo',
+    size: 'Size L',
+    budget: '£60–£180',
+  },
+  {
+    priority: 'high',
+    category: 'Accessories',
+    title: 'Hat',
+    problem: 'The hat slot in the outfit builder is empty. Nothing for outdoor occasions, summer sun, or the heritage aesthetic that defines the rest of the wardrobe.',
+    suggestion: 'Olive or natural canvas bucket hat for summer, or tobacco wool beanie for winter. Bucket hat suits a long face and completes the workwear/outdoor look immediately.',
+    colours: ['#6B6B33', '#C9B79A', '#6B4E2E'],
+    brands: 'Patagonia · Carhartt WIP · Borsalino',
+    size: 'L / XL',
+    budget: '£30–£80',
+  },
+  {
+    priority: 'medium',
+    category: 'Tops',
+    title: 'Deep Teal Statement Piece',
+    problem: 'Your palette analysis identifies deep teal as the most overlooked power colour for your season. Nothing in this shade exists in the wardrobe.',
+    suggestion: 'A deep, muted teal overshirt, pigment-dyed sweatshirt, or shirt. Not bright teal — the specific shade is almost green-blue, close to #1F5A52. Replace the burgundy hoodie slot with this.',
+    colours: ['#1F5A52', '#1A4A42'],
+    brands: 'Arket · Folk · Sunspel',
+    size: 'Size L',
+    budget: '£65–£160',
+  },
+  {
+    priority: 'medium',
+    category: 'Bottoms',
+    title: 'Second Trouser Option',
+    problem: 'Even after adding camel chinos, having olive as a second trouser colour would complete the palette. Your strongest colour on your legs grounds the whole look.',
+    suggestion: 'Tapered olive chino or cargo. Also consider a dark chocolate cord for autumn — your "black replacement" as a trouser reads beautifully on your colouring.',
+    colours: ['#6B6B33', '#3E2C20'],
+    brands: 'Nudie · G-Star · Reiss',
+    size: 'W34 · L33',
+    budget: '£70–£150',
+  },
+];
+
+const AUDIT_STRENGTHS = [
+  'Shoe rotation is strong — four pairs covering trainers, slides, Chelsea boot, and casual sneaker',
+  'Colour palette is coherent — earth tones throughout with one burgundy accent, no clashing pieces',
+  'Sock intelligence is correct — no-shows for trainers, crew for Blundstones, barefoot for Birkenstocks',
+  'The raw denim is a quality anchor — Steady Eddie II works for casual and elevated casual',
+  'Two watches suit two registers — the Seiko for outdoor, G-Shock for casual is the right split',
+  'The Bellroy sling covers daily carry without a backpack — size is appropriate for your activities',
+];
+
+const AUDIT_SUMMARY = 'Casual and beach are fully equipped. The wardrobe falls apart the moment you need to dress up even slightly — one pair of trousers and nothing waterproof means roughly half your occasions are uncovered. Fix chinos, outerwear, and knitwear first; everything else follows.';
+
+function renderAudit() {
+  // Coverage bars
+  const covEl = document.getElementById('auditCoverage');
+  covEl.innerHTML = `<div class="audit-coverage-title">Occasion coverage — current wardrobe</div>` +
+    AUDIT_COVERAGE.map(c => {
+      const tier = c.score >= 75 ? 'high' : c.score >= 55 ? 'medium' : 'low';
+      const noteHtml = c.note ? `<em>${c.note}</em>` : `<span style="color:var(--camel);font-family:'DM Mono',monospace;font-size:9px">${c.score}%</span>`;
+      return `<div class="audit-coverage-row">
+        <span class="audit-occasion-label">${c.occasion}</span>
+        <div class="audit-coverage-track">
+          <div class="audit-coverage-fill ${tier}" style="width:${c.score}%"></div>
+        </div>
+        <span class="audit-coverage-note">${noteHtml}</span>
+      </div>`;
+    }).join('');
+
+  // Gap cards
+  const gapsEl = document.getElementById('auditGaps');
+  gapsEl.innerHTML = AUDIT_GAPS.map(g => {
+    const chips = g.colours.map(c => `<div class="audit-colour-chip" style="background:${c}"></div>`).join('');
+    return `<div class="audit-gap-card priority-${g.priority}">
+      <div class="audit-gap-header">
+        <span class="audit-priority-badge badge-${g.priority}">${g.priority}</span>
+        <span class="audit-gap-category">${g.category}</span>
+      </div>
+      <div class="audit-gap-title">${g.title}</div>
+      <p class="audit-gap-problem">${g.problem}</p>
+      <p class="audit-gap-suggestion">${g.suggestion}</p>
+      <div class="audit-gap-meta">
+        <div class="audit-colour-chips">${chips}</div>
+        <span class="audit-meta-pill">${g.size}</span>
+        <span class="audit-meta-pill">${g.brands}</span>
+        <span class="audit-budget">${g.budget}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Strengths
+  const strEl = document.getElementById('auditStrengths');
+  strEl.innerHTML = `<div class="audit-strengths-title">What's working</div>` +
+    AUDIT_STRENGTHS.map(s => `<div class="audit-strength-row">
+      <span class="audit-strength-check">✓</span>
+      <span class="audit-strength-text">${s}</span>
+    </div>`).join('');
+
+  // Summary
+  document.getElementById('auditSummary').innerHTML =
+    `<div class="audit-summary-title">Consultant's verdict</div>
+     <p class="audit-summary-text">${AUDIT_SUMMARY}</p>`;
+}
+
 function renderRules() {
   const grid = document.getElementById('rulesGrid');
   RULES.forEach(r => {
@@ -3552,7 +3966,7 @@ function showToast(msg) {
 
 // Nav active state via IntersectionObserver
 const navItems = document.querySelectorAll('.nav-item');
-const sectionIds = ['builder','body','palette','colours','looks','combos','rules'];
+const sectionIds = ['builder','body','palette','colours','looks','combos','rules','audit'];
 let activeSection = 'builder';
 const navObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -3601,6 +4015,7 @@ refreshPicker();
 renderLooks();
 renderCombos();
 renderRules();
+renderAudit();
 fetchWeather();
 
 </script>
