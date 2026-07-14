@@ -60,7 +60,7 @@
     background: var(--page-bg);
     color: var(--text-primary);
     font-family: 'Jost', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -104,8 +104,8 @@
     text-decoration: none;
     display: block;
   }
-  .nav-item:hover { color: var(--camel); }
-  .nav-item.active { color: var(--camel); border-bottom-color: var(--camel); }
+  .nav-item:hover { color: var(--terracotta); }
+  .nav-item.active { color: var(--terracotta); border-bottom-color: var(--terracotta); font-weight: 500; }
 
   /* HEADER */
   header {
@@ -115,6 +115,15 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    left: 40px; right: 40px; bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--chocolate), var(--terracotta), var(--camel), var(--olive), var(--burgundy));
+    opacity: 0.55;
+    border-radius: 2px;
   }
   .logo-block .eyebrow {
     font-family: 'DM Mono', monospace;
@@ -185,17 +194,38 @@
     font-size: 13px;
     color: var(--text-secondary);
     margin-bottom: 32px;
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1.7;
     max-width: 600px;
   }
 
   /* PALETTE */
-  .palette-section { margin-bottom: 80px; }
+  .palette-section { margin-bottom: 28px; }
+  .palette-block { margin-bottom: 22px; }
+  .palette-block-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .palette-block-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+  }
+  .palette-block-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
   .palette-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
+    gap: 10px;
   }
   .swatch-card {
     border-radius: 6px;
@@ -204,23 +234,25 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background: var(--espresso-card);
     border: 1px solid var(--border-faint);
+    display: flex;
+    flex-direction: column;
   }
-  .swatch-card:hover { transform: translateY(-5px); box-shadow: 0 14px 32px rgba(0,0,0,0.16); }
+  .swatch-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.16); }
   .swatch-card:hover .swatch-action { opacity: 1; transform: translateY(0); }
-  .swatch-color { width: 100%; aspect-ratio: 3/4; position: relative; }
+  .swatch-color { width: 100%; aspect-ratio: 2/1; position: relative; }
   .swatch-action {
-    position: absolute; top: 8px; right: 8px;
-    width: 26px; height: 26px;
+    position: absolute; top: 6px; right: 6px;
+    width: 22px; height: 22px;
     background: rgba(237,229,200,0.9);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transform: translateY(-4px);
     transition: all 0.2s ease; z-index: 2;
   }
-  .swatch-action svg { width: 12px; height: 12px; }
-  .swatch-info { padding: 10px 12px 13px; }
-  .swatch-name { font-weight: 400; font-size: 12px; color: var(--text-primary); display: block; margin-bottom: 3px; }
-  .swatch-hex { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-secondary); display: block; letter-spacing: 0.06em; }
+  .swatch-action svg { width: 11px; height: 11px; }
+  .swatch-info { padding: 7px 9px 9px; }
+  .swatch-name { font-weight: 500; font-size: 11px; color: var(--text-primary); display: block; margin-bottom: 2px; }
+  .swatch-hex { font-family: 'DM Mono', monospace; font-size: 8.5px; color: var(--text-secondary); display: block; letter-spacing: 0.06em; }
 
   /* ---- BODY PROFILE ---- */
   .body-section { margin-bottom: 80px; }
@@ -294,7 +326,7 @@
   }
   .insight-text {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.75;
   }
@@ -341,7 +373,7 @@
     padding: 11px 16px;
     border-bottom: 1px solid var(--border-faint);
     color: var(--text-secondary);
-    font-weight: 200;
+    font-weight: 400;
     vertical-align: top;
   }
   .fit-table tr:last-child td { border-bottom: none; }
@@ -385,7 +417,7 @@
     padding: 10px 16px;
     border-bottom: 1px solid var(--border-faint);
     color: var(--text-secondary);
-    font-weight: 200;
+    font-weight: 400;
     vertical-align: top;
     line-height: 1.5;
   }
@@ -459,7 +491,7 @@
   }
   .fit-rule-note {
     font-size: 11px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.6;
     margin: 0;
@@ -501,21 +533,29 @@
   }
   .slot-row-label {
     font-family: 'DM Mono', monospace;
-    font-size: 8px;
+    font-size: 9px;
+    font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(30,15,9,0.22);
+    color: var(--terracotta);
     margin-bottom: -2px;
   }
-  .slot-group { display: flex; flex-direction: column; gap: 6px; }
+  .slot-group { display: flex; flex-direction: column; gap: 6px; position: relative; padding-left: 14px; }
+  .slot-group::before {
+    content: '';
+    position: absolute; left: 0; top: 2px; bottom: 6px;
+    width: 2px; border-radius: 2px;
+    background: linear-gradient(180deg, var(--terracotta), var(--camel));
+    opacity: 0.4;
+  }
   .slot-pair { display: flex; flex-direction: column; gap: 4px; }
   .slot-pair-items { display: flex; gap: 6px; flex: 1; }
   .slot-pair-items .outfit-slot { flex: 1; min-width: 0; aspect-ratio: auto !important; min-height: 68px; }
-  .slot-pair-divider { font-family: 'DM Mono', monospace; font-size: 7px; text-align: center; color: rgba(30,15,9,0.22); letter-spacing: 0.06em; }
+  .slot-pair-divider { font-family: 'DM Mono', monospace; font-size: 7px; text-align: center; color: rgba(30,15,9,0.45); letter-spacing: 0.06em; }
   .outfit-slot {
     aspect-ratio: 1;
     border-radius: 5px;
-    border: 1px dashed rgba(30,15,9,0.14);
+    border: 1.5px dashed rgba(30,15,9,0.28);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -524,35 +564,36 @@
     transition: all 0.18s ease;
     position: relative;
     overflow: hidden;
-    background: rgba(30,15,9,0.015);
+    background: rgba(30,15,9,0.03);
   }
   .outfit-slot.filled { border-style: solid; border-color: transparent; }
-  .outfit-slot.active { border-style: solid; border-color: var(--camel); background: rgba(176,141,87,0.07); box-shadow: 0 0 0 1px rgba(176,141,87,0.2); }
-  .outfit-slot.active .slot-icon { color: var(--camel); opacity: 0.7; }
-  .outfit-slot.active .slot-label { color: var(--camel); }
-  .outfit-slot:not(.filled):not(.active):hover { border-color: rgba(160,120,64,0.3); background: rgba(160,120,64,0.04); }
+  .outfit-slot.active { border-style: solid; border-color: var(--terracotta); background: rgba(181,86,46,0.08); box-shadow: 0 0 0 1px rgba(181,86,46,0.25); }
+  .outfit-slot.active .slot-icon { color: var(--terracotta); opacity: 0.85; }
+  .outfit-slot.active .slot-label { color: var(--terracotta); }
+  .outfit-slot:not(.filled):not(.active):hover { border-color: rgba(181,86,46,0.45); background: rgba(181,86,46,0.06); }
   .outfit-slot.filled:hover::after {
     content: '×';
     position: absolute; inset: 0;
     background: rgba(0,0,0,0.44);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px; color: var(--cream);
-    font-weight: 200;
+    font-weight: 400;
     border-radius: 5px;
   }
   .slot-label {
     font-family: 'DM Mono', monospace;
     font-size: 8px; letter-spacing: 0.14em;
+    font-weight: 500;
     text-transform: uppercase;
-    color: rgba(30,15,9,0.28);
+    color: rgba(30,15,9,0.55);
     margin-top: 5px;
   }
   .outfit-slot.filled .slot-label {
     position: absolute; bottom: 6px;
-    color: rgba(237,229,200,0.75);
+    color: rgba(237,229,200,0.85);
     font-size: 7px; margin-top: 0;
   }
-  .slot-icon { color: rgba(30,15,9,0.16); }
+  .slot-icon { color: rgba(30,15,9,0.4); }
   .harmony-bar {
     background: rgba(30,15,9,0.03);
     border: 1px solid rgba(30,15,9,0.06);
@@ -654,9 +695,9 @@
   .picker-chip-name { font-family: 'DM Mono', monospace; font-size: 6.5px; text-align: center; color: var(--text-secondary); line-height: 1.3; letter-spacing: 0.02em; opacity: 0.85; }
   .picker-unready .picker-chip { opacity: 0.25; cursor: not-allowed; }
   .picker-unready .picker-group-label { opacity: 0.2; }
-  .picker-await { font-size: 12px; font-weight: 200; color: var(--camel); text-align: center; padding: 10px 0 4px; letter-spacing: 0.02em; }
+  .picker-await { font-size: 12px; font-weight: 400; color: var(--camel); text-align: center; padding: 10px 0 4px; letter-spacing: 0.02em; }
   .slot-select-prompt {
-    font-size: 12px; font-weight: 200;
+    font-size: 12px; font-weight: 400;
     color: var(--text-secondary); line-height: 1.65;
     border-top: 1px solid var(--border);
     padding-top: 14px;
@@ -721,7 +762,7 @@
   }
   .weather-feels {
     font-size: 9px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     opacity: 0.7;
   }
@@ -795,7 +836,7 @@
   .rec-chips { display: flex; gap: 4px; }
   .rec-chip { width: 16px; height: 16px; border-radius: 2px; cursor: pointer; transition: transform 0.15s; border: 1px solid rgba(0,0,0,0.12); }
   .rec-chip:hover { transform: scale(1.25); }
-  .rec-hint { font-size: 11px; font-weight: 200; color: var(--text-secondary); }
+  .rec-hint { font-size: 11px; font-weight: 400; color: var(--text-secondary); }
   .rec-owned-chips { display: flex; gap: 5px; flex-wrap: wrap; }
   .rec-item-chip { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; border: 1px solid rgba(176,141,87,0.55); border-radius: 3px; padding: 2px 4px; background: rgba(176,141,87,0.06); transition: border-color 0.15s, background 0.15s; }
   .rec-item-chip:hover { border-color: var(--camel); background: rgba(176,141,87,0.13); }
@@ -811,14 +852,14 @@
   .item-card-swatch { width: 11px; height: 28px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
   .item-card-info { flex: 1; min-width: 0; }
   .item-card-name { display: block; font-size: 12px; font-weight: 300; color: var(--text-primary); line-height: 1.3; }
-  .item-card-sub { display: block; font-size: 10px; font-weight: 200; color: var(--text-secondary); margin-top: 2px; }
-  .picker-back { display: block; font-size: 11px; font-weight: 200; color: var(--camel); cursor: pointer; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 6px; }
+  .item-card-sub { display: block; font-size: 10px; font-weight: 400; color: var(--text-secondary); margin-top: 2px; }
+  .picker-back { display: block; font-size: 11px; font-weight: 400; color: var(--camel); cursor: pointer; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 6px; }
   .picker-back:hover { text-decoration: underline; }
   .item-picker-sep { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary); opacity: 0.5; margin: 12px 0 8px; display: flex; align-items: center; gap: 8px; }
   .item-picker-sep::before, .item-picker-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .slot-item-swatches { display: flex; gap: 2px; justify-content: center; margin-bottom: 3px; }
   .slot-item-swatch { width: 8px; height: 8px; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); }
-  .slot-item-name { font-size: 9px; font-weight: 200; color: rgba(255,255,255,0.92); text-align: center; line-height: 1.2; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
+  .slot-item-name { font-size: 9px; font-weight: 400; color: rgba(255,255,255,0.92); text-align: center; line-height: 1.2; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
 
   /* LOOKS / STYLED OUTFITS */
   .looks-section { margin-bottom: 80px; }
@@ -856,7 +897,7 @@
     opacity: 0.8;
   }
   .look-pieces {
-    font-size: 12px; font-weight: 200;
+    font-size: 12px; font-weight: 400;
     color: var(--text-secondary); line-height: 1.7;
   }
   .look-fit-note {
@@ -921,7 +962,7 @@
 
   /* CATEGORY GUIDE */
   .guide-section { margin-bottom: 80px; }
-  .guide-intro { font-size: 13px; font-weight: 200; color: var(--text-secondary); line-height: 1.7; margin-bottom: 36px; max-width: 640px; }
+  .guide-intro { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.7; margin-bottom: 36px; max-width: 640px; }
   .guide-category { margin-bottom: 48px; }
   .guide-category-header {
     font-family: 'DM Mono', monospace;
@@ -970,7 +1011,7 @@
   }
   .guide-item-detail {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.75;
   }
@@ -982,7 +1023,7 @@
     padding: 16px 18px;
     margin-top: 16px;
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.75;
   }
@@ -994,7 +1035,7 @@
   }
   .guide-avoid-note {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: rgba(122,26,16,0.7);
     line-height: 1.7;
     padding: 12px 0;
@@ -1022,7 +1063,7 @@
   .everyday-outfit { list-style: none; display: flex; flex-direction: column; gap: 5px; }
   .everyday-outfit li {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.55;
     padding-left: 14px;
@@ -1064,7 +1105,7 @@
   }
   .investment-detail {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.7;
   }
@@ -1087,7 +1128,7 @@
   }
   .trainer-flag-text {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.75;
   }
@@ -1122,7 +1163,7 @@
   }
   .trainer-detail {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.65;
   }
@@ -1193,7 +1234,7 @@
   .trainer-sizing-table td {
     padding: 10px 12px;
     border-bottom: 1px solid var(--border-faint);
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     vertical-align: top;
     line-height: 1.5;
@@ -1223,7 +1264,7 @@
   }
   .trainer-colour-row:last-child { border-bottom: none; }
   .trainer-colour-brand { font-weight: 300; color: var(--text-primary); }
-  .trainer-colour-detail { font-weight: 200; color: var(--text-secondary); line-height: 1.6; }
+  .trainer-colour-detail { font-weight: 400; color: var(--text-secondary); line-height: 1.6; }
 
   /* BUYING GUIDE */
   .buying-section { margin-bottom: 80px; }
@@ -1262,12 +1303,12 @@
     margin-bottom: 12px;
   }
   .bg-flag-items { display: flex; flex-direction: column; gap: 8px; }
-  .bg-flag-item { font-size: 12px; font-weight: 200; color: var(--text-secondary); line-height: 1.7; padding-left: 14px; position: relative; }
+  .bg-flag-item { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.7; padding-left: 14px; position: relative; }
   .bg-flag-item::before { content: '!'; position: absolute; left: 0; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--amber-warn); }
   .bg-flag-item strong { font-weight: 400; color: var(--text-primary); }
   .bg-caveat {
     font-size: 11px;
-    font-weight: 200;
+    font-weight: 400;
     color: rgba(107,78,46,0.65);
     font-style: italic;
     margin-top: 16px;
@@ -1294,7 +1335,7 @@
     letter-spacing: -0.02em;
   }
   .rule-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--text-primary); margin-bottom: 10px; line-height: 1.2; }
-  .rule-text { font-size: 13px; font-weight: 200; color: var(--text-secondary); line-height: 1.75; }
+  .rule-text { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; }
   .rule-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
   .rule-chip { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
 
@@ -1309,7 +1350,7 @@
   }
   .footer-left { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: var(--text-secondary); }
   .footer-left em { font-style: normal; color: var(--terracotta); }
-  .footer-right { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(30,15,9,0.28); }
+  .footer-right { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(30,15,9,0.5); }
 
   /* TOAST */
   .toast {
@@ -1417,7 +1458,7 @@
   .tier-desc {
     font-size: 12px;
     color: var(--text-secondary);
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1.7;
   }
   .hit-list { display: flex; flex-direction: column; gap: 10px; }
@@ -1440,7 +1481,7 @@
   }
   .hit-body { display: flex; flex-direction: column; gap: 2px; }
   .hit-name { font-size: 13px; color: var(--text-primary); }
-  .hit-note { font-size: 11px; color: var(--text-secondary); font-weight: 200; line-height: 1.5; }
+  .hit-note { font-size: 11px; color: var(--text-secondary); font-weight: 400; line-height: 1.5; }
 
   /* FORMULA */
   .formula-grid {
@@ -1497,7 +1538,7 @@
   .formula-text {
     font-size: 12px;
     color: var(--text-secondary);
-    font-weight: 200;
+    font-weight: 400;
     line-height: 1.6;
   }
   .power-colours-grid {
@@ -1534,7 +1575,7 @@
   }
   .power-desc {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.65;
   }
@@ -1580,7 +1621,7 @@
   }
   .fl-role {
     font-size: 10px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.5;
   }
@@ -1609,7 +1650,7 @@
   }
   .avoid-text {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.6;
   }
@@ -1634,7 +1675,7 @@
   }
   .context-desc {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.65;
     margin-bottom: 10px;
@@ -1688,7 +1729,7 @@
   .metal-verdict.no  { color: #7A1A10; }
   .metal-desc {
     font-size: 11px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.55;
     margin-top: 6px;
@@ -1745,7 +1786,7 @@
   .audit-coverage-fill.low    { background: var(--terracotta); }
   .audit-coverage-note {
     font-size: 11px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     text-align: right;
   }
@@ -1819,7 +1860,7 @@
   }
   .audit-gap-problem {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.65;
     margin-bottom: 10px;
@@ -1895,7 +1936,7 @@
   }
   .audit-strength-text {
     font-size: 12px;
-    font-weight: 200;
+    font-weight: 400;
     color: var(--text-secondary);
     line-height: 1.6;
   }
@@ -2216,22 +2257,28 @@
   <!-- PALETTE -->
   <div id="palette">
     <section class="palette-section">
-      <div class="section-label">Core Colours — build your wardrobe around these</div>
-      <p class="section-intro">The Heavy Hitters</p>
-      <p class="section-desc">These five do the heavy lifting. Multiple pieces in each. Worn in every context from casual to formal.</p>
-      <div class="palette-grid" id="coreGrid"></div>
-    </section>
-    <section class="palette-section">
-      <div class="section-label">Accent Colours — smaller-dose statements</div>
-      <p class="section-intro">Lift Without Taking Over</p>
-      <p class="section-desc">A knit, a shirt, a scarf. These elevate an outfit when used as the single statement piece — not layered together.</p>
-      <div class="palette-grid" id="accentGrid"></div>
-    </section>
-    <section class="palette-section">
-      <div class="section-label">Neutrals — your warm defaults</div>
-      <p class="section-intro">The Connective Tissue</p>
-      <p class="section-desc">These replace black, white, and grey with warmer equivalents that work with your undertone rather than against it.</p>
-      <div class="palette-grid" id="neutralGrid"></div>
+      <div class="section-label">Your Colour Palette — the full Deep Autumn set, at a glance</div>
+      <div class="palette-block">
+        <div class="palette-block-head">
+          <span class="palette-block-title">Core — The Heavy Hitters</span>
+          <span class="palette-block-desc">Multiple pieces in each. Worn in every context from casual to formal.</span>
+        </div>
+        <div class="palette-grid" id="coreGrid"></div>
+      </div>
+      <div class="palette-block">
+        <div class="palette-block-head">
+          <span class="palette-block-title">Accent — Lift Without Taking Over</span>
+          <span class="palette-block-desc">A knit, a shirt, a scarf — the single statement piece, not layered together.</span>
+        </div>
+        <div class="palette-grid" id="accentGrid"></div>
+      </div>
+      <div class="palette-block">
+        <div class="palette-block-head">
+          <span class="palette-block-title">Neutrals — The Connective Tissue</span>
+          <span class="palette-block-desc">Warmer equivalents to black, white, and grey — work with your undertone, not against it.</span>
+        </div>
+        <div class="palette-grid" id="neutralGrid"></div>
+      </div>
     </section>
   </div>
 
@@ -3133,9 +3180,14 @@ function renderGrid(id, colours) {
 }
 
 const SLOT_GROUPS = [
-  { label: 'Clothing', slots: ['Shirt', 'T-Shirt', 'Shorts', 'Pants', 'Jacket', 'Jumper', 'Accent'],
-    pairs: [['Shirt', 'T-Shirt'], ['Shorts', 'Pants'], ['Jacket', 'Jumper']] },
-  { label: 'Accessories', slots: ['Shoes', 'Socks', 'Watch', 'Hat', 'Belt', 'Bag'] }
+  { label: 'Head', slots: ['Hat'] },
+  { label: 'Upper Body', slots: ['Jacket', 'Jumper', 'Shirt', 'T-Shirt', 'Watch', 'Accent'],
+    pairs: [['Jacket', 'Jumper'], ['Shirt', 'T-Shirt']] },
+  { label: 'Waist', slots: ['Belt'] },
+  { label: 'Legs', slots: ['Shorts', 'Pants'],
+    pairs: [['Shorts', 'Pants']] },
+  { label: 'Feet', slots: ['Socks', 'Shoes'] },
+  { label: 'Carried', slots: ['Bag'] }
 ];
 const SLOT_PAIRS = { 'Shirt': 'T-Shirt', 'T-Shirt': 'Shirt', 'Shorts': 'Pants', 'Pants': 'Shorts', 'Jacket': 'Jumper', 'Jumper': 'Jacket' };
 const SLOT_LABELS = SLOT_GROUPS.flatMap(g => g.slots);
