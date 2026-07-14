@@ -3214,17 +3214,17 @@ async function fetchWeather() {
       lat = pos.coords.latitude;
       lon = pos.coords.longitude;
     } catch(_) {
-      // Stage 2: try ip-api.com (reliable, no key needed)
+      // Stage 2: IP geolocation via ipwho.is (HTTPS, free, no key)
       try {
-        const g = await fetch('https://ip-api.com/json/?fields=lat,lon,status').then(r => r.json());
-        if (g.status === 'success') { lat = g.lat; lon = g.lon; }
+        const g = await fetch('https://ipwho.is/').then(r => r.json());
+        if (g.success) { lat = g.latitude; lon = g.longitude; }
       } catch(__) {}
     }
 
-    // Stage 3: try ipapi.co as second IP fallback
+    // Stage 3: second IP fallback via freeipapi.com
     if (!lat) {
       try {
-        const g2 = await fetch('https://ipapi.co/json/').then(r => r.json());
+        const g2 = await fetch('https://freeipapi.com/api/json').then(r => r.json());
         if (g2.latitude) { lat = g2.latitude; lon = g2.longitude; }
       } catch(__) {}
     }
@@ -3234,7 +3234,7 @@ async function fetchWeather() {
 
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
       `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m` +
-      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code_max` +
+      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
       `&temperature_unit=celsius&wind_speed_unit=mph&timezone=auto&forecast_days=1`;
     const r = await fetch(url);
     const data = await r.json();
