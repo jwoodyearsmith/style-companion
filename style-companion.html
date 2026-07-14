@@ -2600,7 +2600,11 @@ const JACKETS = [
   { id: 'wolsey-chore', name: 'Wolsey Chore Jacket', short: 'Chore Jacket', sub: 'Wolsey 1755 · Chore Jacket · Size M · Stone Twill', colours: ['#C9B79A','#A89878','#1C1C1C'], colour: '#C9B79A' },
 ];
 const HOODIES = [
-  { id: 'champion-hood', name: 'Champion Hoodie', short: 'Champion Hood', sub: 'Champion · Hooded Sweatshirt · Size L · Burgundy', colours: ['#6B2D3A','#5A2230','#C8B8A8'], colour: '#6E2C2C' },
+  { id: 'champion-hood',   name: 'Champion Hoodie',          short: 'Champion Hood',   sub: 'Champion · Hooded Sweatshirt · Size L · Burgundy',             colours: ['#6B2D3A','#5A2230','#C8B8A8'], colour: '#6E2C2C' },
+  { id: 'barbour-halfzip', name: 'Barbour Half-Zip Sweater', short: 'Barbour Stone',   sub: 'Barbour · Stone Lambswool Half-Zip · Size L',                  colours: ['#C4AD88','#B09870','#D4C4A8'], colour: '#C4AD88' },
+];
+const HATS = [
+  { id: 'gunn-beanie', name: 'Gunn Beanie', short: 'Gunn Beanie', sub: 'Rodd & Gunn · Extra Fine Merino Wool · One Size · Grey', colours: ['#909090','#787878','#A8A8A8'], colour: '#909090' },
 ];
 const BAGS = [
   { id: 'bellroy-sling-black', name: 'Bellroy Venture Ready Sling 2.5L', short: 'Bellroy Sling', sub: 'Bellroy · Crossbody Sling · 2.5L · Black · Recycled Fabric', colours: ['#1C1C1C','#2A2A2A','#383838'], colour: '#2E2A26' },
@@ -2948,7 +2952,7 @@ function getSlotRecommendations() {
     return harmonyScore(test).score;
   }
 
-  const OWNED_ITEMS = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Hoodie: HOODIES, Bag: BAGS };
+  const OWNED_ITEMS = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Hoodie: HOODIES, Bag: BAGS, Hat: HATS };
 
   const CANDIDATES = {
     Shirt:     () => ALL_COLOURS,
@@ -3102,7 +3106,7 @@ function clearPartner(label) {
 
 function buildSlotEl(label) {
   const i = SLOT_LABELS.indexOf(label);
-  const isItemSlot = label === 'Shoes' || label === 'Socks' || label === 'Watch' || label === 'Pants' || label === 'Belt' || label === 'T-Shirt' || label === 'Shorts' || label === 'Jacket' || label === 'Hoodie' || label === 'Shirt' || label === 'Bag';
+  const isItemSlot = label === 'Shoes' || label === 'Socks' || label === 'Watch' || label === 'Pants' || label === 'Belt' || label === 'T-Shirt' || label === 'Shorts' || label === 'Jacket' || label === 'Hoodie' || label === 'Shirt' || label === 'Bag' || label === 'Hat';
   const item = outfitItems[label];
   const slot = document.createElement('div');
   slot.className = 'outfit-slot' + (outfitSlots[i] ? ' filled' : '') + (selectedSlot === i ? ' active' : '');
@@ -3321,6 +3325,8 @@ function generateStyleTip() {
       return 'Dickies cream with the RL khaki shorts — fully neutral and unfussy. A clean summer base that you can leave as-is or accent upward.';
     if (id('T-Shirt') === 'dickies-cream' && id('Pants') === 'se2-dry-heavy')
       return 'Cream tee with the Dry Heavy — the lightest neutral against the deepest base. Clean contrast, the denim does the heavy lifting.';
+    if (id('Hoodie') === 'barbour-halfzip')
+      return `Barbour stone half-zip over ${topName || 'a base layer'} — the lambswool texture adds weight without adding colour. Stone sits at the warm-neutral midpoint of your palette and works with everything below it. Half-zip open is the correct silhouette at your height.`;
     if (id('Hoodie') === 'champion-hood' && id('Pants') === 'se2-dry-heavy')
       return 'Champion burgundy hoodie over the Dry Heavy — the muted red-brown and raw indigo are a classic autumn pairing. Rich without being loud.';
     if (id('Jacket') === 'wolsey-chore' && topSlot)
@@ -3626,6 +3632,13 @@ function generateOutfit() {
   const needBelt = gotPants && (isAdaptive || occ === 'work' || occ === 'smart' || occ === 'casual' || occ === 'outdoor');
   if (needBelt) fillSlot('Belt', BELTS);
 
+  // ── HAT ──
+  // Beanie for cold/mild outdoor or casual; skip for work/smart or hot weather
+  const hatOccOk = occ === 'outdoor' || occ === 'casual' || isAdaptive;
+  if (hatOccOk && (band === 'cold' || band === 'mild')) {
+    fillSlot('Hat', HATS.filter(h => h.id === 'gunn-beanie'));
+  }
+
   // ── WATCH ──
   const watchRank = (!isAdaptive && (occ === 'work' || occ === 'smart')) ? ['seiko', 'gshock'] : ['gshock', 'seiko'];
   fillSlot('Watch', [...WATCHES].sort((a, b) => watchRank.indexOf(a.id) - watchRank.indexOf(b.id)));
@@ -3680,6 +3693,7 @@ function refreshPicker() {
       belt:     { items: BELTS,   label: 'Belt',     title: 'Select belt'  },
       bag:      { items: BAGS,    label: 'Bag',      title: 'Select bag'   },
       socks:    { items: SOCKS,   label: 'Socks',    title: 'Select socks' },
+      hat:      { items: HATS,   label: 'Hat',      title: 'Select hat'   },
     };
     const { items, label: slotLabel, title } = modeMap[pickerMode] || modeMap.shoes;
     content.innerHTML = `<div class="picker-title">${title}</div><div id="itemPickerGrid"></div><div class="item-picker-sep">or choose a colour</div><div class="picker-grid" id="itemColourGrid"></div><span class="picker-back" onclick="switchPickerMode('colour')">← Back to all colours</span>`;
@@ -3783,9 +3797,9 @@ function renderCombos() {
 // ── WARDROBE AUDIT DATA ──
 
 const AUDIT_COVERAGE = [
-  { occasion: 'Casual',       score: 92, label: 'Well covered',     note: null },
+  { occasion: 'Casual',       score: 95, label: 'Well covered',     note: null },
   { occasion: 'Beach',        score: 88, label: 'Well covered',     note: null },
-  { occasion: 'Outdoor',      score: 52, label: 'Gaps remain',      note: 'No outerwear · no hat' },
+  { occasion: 'Outdoor',      score: 68, label: 'Gaps remain',      note: 'No waterproof layer' },
   { occasion: 'Smart Casual', score: 40, label: 'Under-equipped',   note: 'No chinos · no smart shoes' },
   { occasion: 'Work',         score: 30, label: 'Under-equipped',   note: 'No formal trousers or shoes' },
 ];
@@ -3814,17 +3828,6 @@ const AUDIT_GAPS = [
     budget: '£150–£380',
   },
   {
-    priority: 'critical',
-    category: 'Knitwear',
-    title: 'Crew Neck Knit',
-    problem: 'Nothing exists between a t-shirt and a jacket. For mild weather (10–18°C) — which accounts for most of the year in the UK — there is no layering piece.',
-    suggestion: 'Heavyweight crew neck in tobacco or rust. Shetland or lambswool adds natural texture that works with the heritage direction. One piece, constant rotation.',
-    colours: ['#6B4E2E', '#B5562E', '#7A5C2E'],
-    brands: 'Howlin\' · Arket · John Smedley',
-    size: 'Size L / 40" chest',
-    budget: '£90–£220',
-  },
-  {
     priority: 'high',
     category: 'Shoes',
     title: 'Smart Casual Shoes',
@@ -3849,13 +3852,13 @@ const AUDIT_GAPS = [
   {
     priority: 'high',
     category: 'Accessories',
-    title: 'Hat',
-    problem: 'The hat slot in the outfit builder is empty. Nothing for outdoor occasions, summer sun, or the heritage aesthetic that defines the rest of the wardrobe.',
-    suggestion: 'Olive or natural canvas bucket hat for summer, or tobacco wool beanie for winter. Bucket hat suits a long face and completes the workwear/outdoor look immediately.',
-    colours: ['#6B6B33', '#C9B79A', '#6B4E2E'],
-    brands: 'Patagonia · Carhartt WIP · Borsalino',
+    title: 'Summer Hat',
+    problem: 'The Gunn Beanie covers winter head coverage, but there is nothing for summer sun, outdoor festival days, or the workwear/heritage look in warmer months.',
+    suggestion: 'Olive or natural canvas bucket hat. Bucket hat suits your face shape and completes the outdoor/workwear look immediately in summer. Patagonia Wavefarer or Carhartt WIP.',
+    colours: ['#6B6B33', '#C9B79A'],
+    brands: 'Patagonia · Carhartt WIP · Arket',
     size: 'L / XL',
-    budget: '£30–£80',
+    budget: '£30–£65',
   },
   {
     priority: 'medium',
@@ -3886,11 +3889,13 @@ const AUDIT_STRENGTHS = [
   'Colour palette is coherent — earth tones throughout with one burgundy accent, no clashing pieces',
   'Sock intelligence is correct — no-shows for trainers, crew for Blundstones, barefoot for Birkenstocks',
   'The raw denim is a quality anchor — Steady Eddie II works for casual and elevated casual',
+  'Layering is now covered — Barbour half-zip in stone sits between a tee and a jacket for mild weather',
+  'Winter head coverage sorted — Gunn Beanie in merino is the right call (warm, minimal, correct fabric)',
   'Two watches suit two registers — the Seiko for outdoor, G-Shock for casual is the right split',
   'The Bellroy sling covers daily carry without a backpack — size is appropriate for your activities',
 ];
 
-const AUDIT_SUMMARY = 'Casual and beach are fully equipped. The wardrobe falls apart the moment you need to dress up even slightly — one pair of trousers and nothing waterproof means roughly half your occasions are uncovered. Fix chinos, outerwear, and knitwear first; everything else follows.';
+const AUDIT_SUMMARY = 'Casual and beach are fully equipped, and the knitwear gap is now closed with the Barbour half-zip. The wardrobe still falls apart the moment you need to dress up even slightly — one pair of trousers and nothing waterproof means smart casual and work remain uncovered. Chinos and a wax jacket are the two remaining critical purchases.';
 
 function renderAudit() {
   // Coverage bars
