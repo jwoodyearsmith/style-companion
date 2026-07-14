@@ -3,38 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deep Autumn — Style Companion</title>
+<title>Style Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   :root {
+    /* UI structure */
     --espresso: #1E0F09;
     --espresso-mid: #311810;
-    --espresso-card: #3D2016;
-    --espresso-hover: #4A2A1C;
-    --cream: #EDE5C8;
+    --espresso-card: #EAE0CC;
+    --espresso-hover: #DDD3BA;
     --cream-dim: #C4B898;
     --cream-faint: #F5EFD8;
-    --teal: #1B6B7A;
-    --pine: #2D5A3D;
-    --terracotta: #B04A28;
-    --aubergine: #5C2E2E;
-    --mustard: #8A7020;
-    --camel: #A07840;
-    --charcoal: #3A3535;
-    --taupe: #6B6245;
-    --ivory: #EDE5C8;
-    --accent: #B04A28;
-    --gold: #A07840;
     --green-ok: #2D6A2A;
     --amber-warn: #7A5010;
     --red-no: #7A1A10;
+    --page-bg: #F0E8D0;
+    --text-primary: #3E2C20;
+    --text-secondary: #6B4E2E;
+
+    /* Core Colours */
+    --tobacco:    #6B4E2E;
+    --camel:      #B08D57;
+    --olive:      #6B6B33;
+    --terracotta: #B5562E;
+    --burgundy:   #6E2C2C;
+
+    /* Accent Colours */
+    --rust:         #A6471F;
+    --golden-ochre: #C68A1E;
+    --forest:       #2F4A2A;
+    --teal:         #1F5A52;
+    --brick:        #9C3B26;
+
+    /* Neutrals */
+    --chocolate:    #3E2C20;
+    --cream:        #EDE3D0;
+    --stone:        #C9B79A;
+    --charcoal:     #2E2A26;
+    --deep-navy:    #1A2535;
+
+    /* Aliases for backward-compat UI usage */
+    --pine:      #2F4A2A;
+    --mustard:   #6B6B33;
+    --aubergine: #6E2C2C;
+    --taupe:     #C9B79A;
+    --ivory:     #EDE3D0;
+    --accent:    #B5562E;
+    --gold:      #B08D57;
+    --border: rgba(30,15,9,0.12);
+    --border-faint: rgba(30,15,9,0.07);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--espresso);
-    color: var(--cream);
+    background: var(--page-bg);
+    color: var(--text-primary);
     font-family: 'Jost', sans-serif;
     font-weight: 300;
     min-height: 100vh;
@@ -56,9 +80,9 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(30,15,9,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(237,229,200,0.07);
+    background: rgba(240,232,208,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
     padding: 0 40px;
     display: flex;
     gap: 0;
@@ -71,22 +95,23 @@
     font-size: 9px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--cream-dim);
-    padding: 16px 20px;
+    color: var(--text-secondary);
+    padding: 17px 18px;
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
     white-space: nowrap;
     text-decoration: none;
     display: block;
   }
-  .nav-item:hover, .nav-item.active { color: var(--camel); border-bottom-color: var(--camel); }
+  .nav-item:hover { color: var(--camel); }
+  .nav-item.active { color: var(--camel); border-bottom-color: var(--camel); }
 
   /* HEADER */
   header {
     position: relative;
     z-index: 10;
-    padding: 52px 40px 36px;
+    padding: 44px 40px 32px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -103,10 +128,10 @@
   }
   .logo-block h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 400;
     font-style: italic;
-    color: var(--cream);
+    color: var(--text-primary);
     line-height: 1;
   }
   .logo-block h1 em { font-style: normal; color: var(--terracotta); }
@@ -134,98 +159,39 @@
   .section-label {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
     color: var(--camel);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
   .section-label::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: rgba(160,120,64,0.2);
+    background: rgba(160,120,64,0.18);
   }
   .section-intro {
     font-family: 'Playfair Display', serif;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 400;
-    color: var(--cream);
-    margin-bottom: 6px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
   }
   .section-desc {
     font-size: 13px;
-    color: var(--cream-dim);
-    margin-bottom: 28px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
     font-weight: 200;
-    line-height: 1.6;
+    line-height: 1.7;
+    max-width: 600px;
   }
-
-  /* HERO */
-  .hero {
-    padding: 48px 0 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: end;
-    margin-bottom: 72px;
-  }
-  .hero-text p {
-    font-family: 'Playfair Display', serif;
-    font-size: 46px;
-    line-height: 1.15;
-    color: var(--cream-faint);
-    font-weight: 400;
-  }
-  .hero-text p em { font-style: italic; color: var(--terracotta); }
-  .hero-text .sub {
-    font-size: 15px;
-    font-weight: 200;
-    color: var(--cream-dim);
-    line-height: 1.75;
-    margin-top: 18px;
-    max-width: 360px;
-  }
-  .hero-palette {
-    display: flex;
-    gap: 7px;
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
-  .hero-swatch {
-    border-radius: 3px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex-shrink: 0;
-  }
-  .hero-swatch:hover { transform: translateY(-10px); box-shadow: 0 18px 36px rgba(0,0,0,0.5); }
-  .hero-swatch:nth-child(1){width:34px;height:80px}
-  .hero-swatch:nth-child(2){width:34px;height:105px}
-  .hero-swatch:nth-child(3){width:34px;height:128px}
-  .hero-swatch:nth-child(4){width:34px;height:92px}
-  .hero-swatch:nth-child(5){width:34px;height:115px}
-  .hero-swatch:nth-child(6){width:34px;height:68px}
-  .hero-swatch:nth-child(7){width:34px;height:98px}
-  .hero-swatch:nth-child(8){width:34px;height:85px}
-  .hero-swatch:nth-child(9){width:34px;height:62px}
-  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)} }
-  .hero-text{animation:fadeUp 0.7s ease both}
-  .hero-palette{animation:fadeUp 0.7s ease 0.15s both}
-  .hero-swatch{animation:fadeUp 0.5s ease both}
-  .hero-swatch:nth-child(1){animation-delay:0.15s}
-  .hero-swatch:nth-child(2){animation-delay:0.2s}
-  .hero-swatch:nth-child(3){animation-delay:0.25s}
-  .hero-swatch:nth-child(4){animation-delay:0.3s}
-  .hero-swatch:nth-child(5){animation-delay:0.35s}
-  .hero-swatch:nth-child(6){animation-delay:0.4s}
-  .hero-swatch:nth-child(7){animation-delay:0.45s}
-  .hero-swatch:nth-child(8){animation-delay:0.5s}
-  .hero-swatch:nth-child(9){animation-delay:0.55s}
 
   /* PALETTE */
-  .palette-section { margin-bottom: 60px; }
+  .palette-section { margin-bottom: 80px; }
   .palette-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -238,9 +204,9 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background: var(--espresso-card);
   }
-  .swatch-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.5); }
+  .swatch-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); }
   .swatch-card:hover .swatch-action { opacity: 1; transform: translateY(0); }
-  .swatch-color { width: 100%; aspect-ratio: 1/1.1; position: relative; }
+  .swatch-color { width: 100%; aspect-ratio: 1/1.1; position: relative; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
   .swatch-action {
     position: absolute; top: 8px; right: 8px;
     width: 28px; height: 28px;
@@ -252,11 +218,11 @@
   }
   .swatch-action svg { width: 12px; height: 12px; }
   .swatch-info { padding: 10px 10px 12px; }
-  .swatch-name { font-weight: 400; font-size: 12px; color: var(--cream); display: block; margin-bottom: 2px; }
-  .swatch-hex { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--cream-dim); display: block; }
+  .swatch-name { font-weight: 400; font-size: 12px; color: var(--text-primary); display: block; margin-bottom: 2px; }
+  .swatch-hex { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-secondary); display: block; }
 
   /* ---- BODY PROFILE ---- */
-  .body-section { margin-bottom: 60px; }
+  .body-section { margin-bottom: 80px; }
   .body-grid {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -265,7 +231,7 @@
   }
   .measurements-card {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.07);
+    border: 1px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
   }
@@ -283,7 +249,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 11px 18px;
-    border-bottom: 1px solid rgba(237,229,200,0.05);
+    border-bottom: 1px solid var(--border-faint);
   }
   .measurement-row:last-child { border-bottom: none; }
   .m-label {
@@ -291,7 +257,7 @@
     font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--cream-dim);
+    color: var(--text-secondary);
   }
   .m-value {
     font-family: 'DM Mono', monospace;
@@ -306,7 +272,7 @@
   }
   .insight-card {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.06);
+    border: 1px solid var(--border-faint);
     border-radius: 6px;
     padding: 18px 20px;
     transition: border-color 0.2s ease;
@@ -320,13 +286,13 @@
   .insight-title {
     font-family: 'Playfair Display', serif;
     font-size: 15px;
-    color: var(--cream);
+    color: var(--text-primary);
     margin-bottom: 6px;
   }
   .insight-text {
     font-size: 12px;
     font-weight: 200;
-    color: var(--cream-dim);
+    color: var(--text-secondary);
     line-height: 1.7;
   }
   .insight-tags {
@@ -343,9 +309,9 @@
     padding: 3px 8px;
     border-radius: 2px;
   }
-  .tag-green { background: rgba(45,106,61,0.3); color: #6BBF7A; border: 1px solid rgba(45,106,61,0.4); }
-  .tag-amber { background: rgba(138,112,32,0.3); color: #C4A045; border: 1px solid rgba(138,112,32,0.4); }
-  .tag-red { background: rgba(122,26,16,0.3); color: #E07060; border: 1px solid rgba(122,26,16,0.4); }
+  .tag-green { background: rgba(45,106,61,0.14); color: #1A5C28; border: 1px solid rgba(45,106,61,0.3); }
+  .tag-amber { background: rgba(138,112,32,0.14); color: #6B5010; border: 1px solid rgba(138,112,32,0.3); }
+  .tag-red { background: rgba(122,26,16,0.14); color: #7A1A10; border: 1px solid rgba(122,26,16,0.3); }
 
   /* FIT GUIDE TABLE */
   .fit-table-wrap { margin-top: 20px; }
@@ -366,12 +332,12 @@
     background: var(--espresso-hover);
     padding: 12px 16px;
     text-align: left;
-    border-bottom: 1px solid rgba(237,229,200,0.08);
+    border-bottom: 1px solid var(--border);
   }
   .fit-table td {
     padding: 11px 16px;
-    border-bottom: 1px solid rgba(237,229,200,0.04);
-    color: var(--cream-dim);
+    border-bottom: 1px solid var(--border-faint);
+    color: var(--text-secondary);
     font-weight: 200;
     vertical-align: top;
   }
@@ -380,7 +346,7 @@
   .fit-table td:first-child {
     font-family: 'Jost', sans-serif;
     font-weight: 400;
-    color: var(--cream);
+    color: var(--text-primary);
     width: 120px;
   }
   .fit-table td.fit-size {
@@ -391,90 +357,220 @@
     width: 130px;
   }
 
+  /* BODY PROFILE — unified ref table */
+  .ref-table-wrap { margin-top: 16px; overflow-x: auto; }
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--espresso-card);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 12px;
+  }
+  .ref-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--camel);
+    background: var(--espresso-hover);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-faint);
+    color: var(--text-secondary);
+    font-weight: 200;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: rgba(160,120,64,0.04); }
+  .ref-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    white-space: nowrap;
+    width: 100px;
+  }
+  .ref-table td.ref-body {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    width: 155px;
+  }
+  .ref-table td.ref-size {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--camel);
+    white-space: nowrap;
+    width: 185px;
+  }
+  .ref-table td.ref-rule { font-size: 12px; }
+  .ref-table tr.ref-group-row td {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--camel);
+    background: rgba(176,141,87,0.08);
+    padding: 7px 16px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table tr.ref-group-row:hover td { background: rgba(176,141,87,0.08); }
+
+  /* FIT RULES STRIP */
+  .fit-rules-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .fit-rule {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 16px 18px;
+  }
+  .fit-rule-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 5px;
+  }
+  .fit-rule-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 7px;
+  }
+  .fit-rule-note {
+    font-size: 11px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
   /* OUTFIT BUILDER */
-  .builder-section { margin-bottom: 60px; }
+  .builder-section { margin-bottom: 80px; padding-top: 56px; }
   .builder-layout {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 24px;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
     align-items: start;
   }
   .outfit-canvas {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.07);
-    border-radius: 6px;
-    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
   }
   .outfit-canvas-label {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--cream-dim);
-    margin-bottom: 20px;
+    color: var(--camel);
+    margin-bottom: 22px;
+    opacity: 0.7;
   }
   .outfit-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .slot-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
   }
+  .slot-row-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(30,15,9,0.22);
+    margin-bottom: -2px;
+  }
+  .slot-group { display: flex; flex-direction: column; gap: 6px; }
+  .slot-pair { display: flex; flex-direction: column; gap: 4px; }
+  .slot-pair-items { display: flex; gap: 6px; flex: 1; }
+  .slot-pair-items .outfit-slot { flex: 1; min-width: 0; aspect-ratio: auto !important; min-height: 68px; }
+  .slot-pair-divider { font-family: 'DM Mono', monospace; font-size: 7px; text-align: center; color: rgba(30,15,9,0.22); letter-spacing: 0.06em; }
   .outfit-slot {
     aspect-ratio: 1;
-    border-radius: 4px;
-    border: 1px dashed rgba(237,229,200,0.14);
+    border-radius: 5px;
+    border: 1px dashed rgba(30,15,9,0.14);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
     position: relative;
     overflow: hidden;
-    background: rgba(237,229,200,0.02);
+    background: rgba(30,15,9,0.015);
   }
   .outfit-slot.filled { border-style: solid; border-color: transparent; }
-  .outfit-slot:not(.filled):hover { border-color: rgba(160,120,64,0.35); background: rgba(160,120,64,0.04); }
+  .outfit-slot.active { border-style: solid; border-color: var(--camel); background: rgba(176,141,87,0.07); box-shadow: 0 0 0 1px rgba(176,141,87,0.2); }
+  .outfit-slot.active .slot-icon { color: var(--camel); opacity: 0.7; }
+  .outfit-slot.active .slot-label { color: var(--camel); }
+  .outfit-slot:not(.filled):not(.active):hover { border-color: rgba(160,120,64,0.3); background: rgba(160,120,64,0.04); }
   .outfit-slot.filled:hover::after {
     content: '×';
     position: absolute; inset: 0;
-    background: rgba(0,0,0,0.42);
+    background: rgba(0,0,0,0.44);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px; color: var(--cream);
     font-weight: 200;
+    border-radius: 5px;
   }
   .slot-label {
     font-family: 'DM Mono', monospace;
     font-size: 8px; letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(237,229,200,0.28);
+    color: rgba(30,15,9,0.28);
     margin-top: 5px;
   }
   .outfit-slot.filled .slot-label {
     position: absolute; bottom: 6px;
-    color: rgba(237,229,200,0.55);
+    color: rgba(237,229,200,0.75);
     font-size: 7px; margin-top: 0;
   }
-  .slot-icon { color: rgba(237,229,200,0.14); }
+  .slot-icon { color: rgba(30,15,9,0.16); }
   .harmony-bar {
-    background: rgba(237,229,200,0.04);
-    border-radius: 3px;
-    padding: 14px 16px;
+    background: rgba(30,15,9,0.03);
+    border: 1px solid rgba(30,15,9,0.06);
+    border-radius: 4px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 6px;
   }
   .harmony-label {
     font-family: 'DM Mono', monospace;
-    font-size: 9px; letter-spacing: 0.14em;
+    font-size: 8px; letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--cream-dim);
+    color: var(--text-secondary);
     white-space: nowrap;
+    opacity: 0.7;
   }
   .harmony-track {
-    flex: 1; height: 3px;
-    background: rgba(237,229,200,0.08);
+    flex: 1; height: 4px;
+    background: rgba(30,15,9,0.08);
     border-radius: 2px; overflow: hidden;
   }
   .harmony-fill {
@@ -484,53 +580,245 @@
   }
   .harmony-score {
     font-family: 'DM Mono', monospace;
-    font-size: 13px; font-weight: 500;
+    font-size: 14px; font-weight: 500;
     color: var(--camel); min-width: 40px; text-align: right;
   }
   .tip-text {
     font-family: 'Playfair Display', serif;
     font-size: 14px; font-style: italic;
-    color: var(--cream-dim); line-height: 1.65;
-    min-height: 46px;
+    color: var(--text-secondary); line-height: 1.75;
+    min-height: 52px;
+    margin: 12px 0 6px;
+    padding: 14px 18px;
+    background: rgba(176,141,87,0.05);
+    border-left: 2px solid rgba(176,141,87,0.35);
+    border-radius: 0 4px 4px 0;
     transition: opacity 0.3s ease;
   }
   .picker-panel {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.07);
-    border-radius: 6px;
-    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    position: sticky;
+    top: 58px;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176,141,87,0.25) transparent;
   }
+  .picker-panel::-webkit-scrollbar { width: 4px; }
+  .picker-panel::-webkit-scrollbar-track { background: transparent; }
+  .picker-panel::-webkit-scrollbar-thumb { background: rgba(176,141,87,0.25); border-radius: 2px; }
   .picker-title {
     font-family: 'DM Mono', monospace;
-    font-size: 9px; letter-spacing: 0.18em;
+    font-size: 9px; letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--cream-dim);
-    margin-bottom: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
   }
   .picker-grid {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 8px;
-    margin-bottom: 18px;
+    grid-template-columns: repeat(4,1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .picker-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    margin-top: 4px;
+    opacity: 0.55;
   }
   .picker-chip {
-    aspect-ratio: 1; border-radius: 3px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
     border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 2px;
+    transition: opacity 0.15s;
   }
-  .picker-chip:hover { transform: scale(1.08); box-shadow: 0 4px 14px rgba(0,0,0,0.4); }
-  .picker-chip.selected { border-color: var(--cream); box-shadow: 0 0 0 1px rgba(237,229,200,0.25); }
+  .picker-chip-swatch {
+    width: 100%; aspect-ratio: 1; border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .picker-chip:hover .picker-chip-swatch { transform: scale(1.08); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15), 0 4px 14px rgba(0,0,0,0.25); }
+  .picker-chip.selected { border-color: var(--espresso); }
+  .picker-chip.selected .picker-chip-swatch { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15), 0 0 0 1px rgba(30,15,9,0.25); }
+  .picker-chip-name { font-family: 'DM Mono', monospace; font-size: 6.5px; text-align: center; color: var(--text-secondary); line-height: 1.3; letter-spacing: 0.02em; opacity: 0.85; }
+  .picker-unready .picker-chip { opacity: 0.25; cursor: not-allowed; }
+  .picker-unready .picker-group-label { opacity: 0.2; }
+  .picker-await { font-size: 12px; font-weight: 200; color: var(--camel); text-align: center; padding: 10px 0 4px; letter-spacing: 0.02em; }
   .slot-select-prompt {
     font-size: 12px; font-weight: 200;
-    color: var(--cream-dim); line-height: 1.65;
-    border-top: 1px solid rgba(237,229,200,0.07);
+    color: var(--text-secondary); line-height: 1.65;
+    border-top: 1px solid var(--border);
     padding-top: 14px;
   }
   .slot-select-prompt strong { color: var(--camel); font-weight: 400; }
+  /* CONTEXT BAR — occasions + weather inline */
+  .context-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(30,15,9,0.07);
+  }
+  .occasion-chips {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .occasion-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .occasion-chip:hover { border-color: var(--camel); color: var(--camel); background: rgba(176,141,87,0.04); }
+  .occasion-chip.active { background: rgba(176,141,87,0.1); border-color: var(--camel); color: var(--camel); }
+  /* WEATHER BAR — compact inline strip */
+  .weather-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .weather-temp {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .weather-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .weather-condition {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .weather-feels {
+    font-size: 9px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+  .weather-context {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--camel);
+    padding: 3px 7px;
+    background: rgba(176,141,87,0.1);
+    border-radius: 10px;
+  }
+  .weather-loading {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+  /* GENERATE OUTFIT BUTTON */
+  .generate-btn {
+    display: none;
+    width: 100%;
+    margin-top: 0;
+    padding: 14px 0;
+    background: linear-gradient(135deg, #2E1208 0%, #1A0A04 100%);
+    border: 1px solid rgba(176,141,87,0.35);
+    border-radius: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--camel);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.18);
+  }
+  .generate-btn:hover {
+    background: linear-gradient(135deg, #3D1A0A 0%, #261005 100%);
+    border-color: var(--camel);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.24);
+    transform: translateY(-1px);
+  }
+  .generate-btn:active { transform: translateY(0); box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+  .generate-btn.visible { display: block; }
+  .outfit-actions { display: flex; gap: 8px; margin-top: 18px; }
+  .outfit-actions .generate-btn { flex: 1; margin-top: 0; }
+  .clear-btn {
+    padding: 14px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(30,15,9,0.35);
+    cursor: pointer;
+    transition: border-color 0.18s, color 0.18s;
+    white-space: nowrap;
+  }
+  .clear-btn:hover { border-color: var(--text-secondary); color: var(--text-secondary); }
+  /* RECOMMENDATION PANEL */
+  .rec-panel { margin-top: 18px; padding: 16px 18px; background: rgba(176,141,87,0.04); border: 1px solid rgba(176,141,87,0.15); border-radius: 6px; }
+  .rec-panel-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--camel); margin-bottom: 12px; opacity: 0.8; }
+  .rec-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .rec-row:last-child { margin-bottom: 0; }
+  .rec-slot-name { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); min-width: 46px; }
+  .rec-chips { display: flex; gap: 4px; }
+  .rec-chip { width: 16px; height: 16px; border-radius: 2px; cursor: pointer; transition: transform 0.15s; border: 1px solid rgba(0,0,0,0.12); }
+  .rec-chip:hover { transform: scale(1.25); }
+  .rec-hint { font-size: 11px; font-weight: 200; color: var(--text-secondary); }
+  .rec-owned-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+  .rec-item-chip { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; border: 1px solid rgba(176,141,87,0.55); border-radius: 3px; padding: 2px 4px; background: rgba(176,141,87,0.06); transition: border-color 0.15s, background 0.15s; }
+  .rec-item-chip:hover { border-color: var(--camel); background: rgba(176,141,87,0.13); }
+  .rec-item-swatches { display: flex; gap: 1px; }
+  .rec-item-swatch { width: 8px; height: 12px; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
+  .rec-item-name { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--camel); letter-spacing: 0.05em; white-space: nowrap; }
+  .rec-owned-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 1px; }
+  /* ITEM PICKER */
+  .item-card { display: flex; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 5px; cursor: pointer; border: 1px solid transparent; margin-bottom: 6px; transition: background 0.15s, border-color 0.15s; }
+  .item-card:hover { background: rgba(107,78,46,0.06); border-color: rgba(107,78,46,0.25); }
+  .item-card.selected { background: rgba(107,78,46,0.1); border-color: var(--camel); }
+  .item-card-swatches { display: flex; gap: 2px; flex-shrink: 0; }
+  .item-card-swatch { width: 11px; height: 28px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
+  .item-card-info { flex: 1; min-width: 0; }
+  .item-card-name { display: block; font-size: 12px; font-weight: 300; color: var(--text-primary); line-height: 1.3; }
+  .item-card-sub { display: block; font-size: 10px; font-weight: 200; color: var(--text-secondary); margin-top: 2px; }
+  .picker-back { display: block; font-size: 11px; font-weight: 200; color: var(--camel); cursor: pointer; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 6px; }
+  .picker-back:hover { text-decoration: underline; }
+  .item-picker-sep { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary); opacity: 0.5; margin: 12px 0 8px; display: flex; align-items: center; gap: 8px; }
+  .item-picker-sep::before, .item-picker-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .slot-item-swatches { display: flex; gap: 2px; justify-content: center; margin-bottom: 3px; }
+  .slot-item-swatch { width: 8px; height: 8px; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); }
+  .slot-item-name { font-size: 9px; font-weight: 200; color: rgba(255,255,255,0.92); text-align: center; line-height: 1.2; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
 
   /* LOOKS / STYLED OUTFITS */
-  .looks-section { margin-bottom: 60px; }
+  .looks-section { margin-bottom: 80px; }
   .looks-grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -538,7 +826,7 @@
   }
   .look-card {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.06);
+    border: 1px solid var(--border-faint);
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
@@ -546,15 +834,15 @@
   }
   .look-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.15);
     border-color: rgba(160,120,64,0.2);
   }
-  .look-swatches { display: flex; height: 76px; }
+  .look-swatches { display: flex; height: 76px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
   .look-swatches > div { flex: 1; }
   .look-body { padding: 16px 18px; }
   .look-name {
     font-family: 'Playfair Display', serif;
-    font-size: 16px; color: var(--cream);
+    font-size: 16px; color: var(--text-primary);
     display: block; margin-bottom: 4px;
   }
   .look-occasion {
@@ -565,12 +853,12 @@
   }
   .look-pieces {
     font-size: 12px; font-weight: 200;
-    color: var(--cream-dim); line-height: 1.65;
+    color: var(--text-secondary); line-height: 1.65;
   }
   .look-fit-note {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid rgba(237,229,200,0.07);
+    border-top: 1px solid var(--border);
     font-family: 'DM Mono', monospace;
     font-size: 9px; letter-spacing: 0.1em;
     color: rgba(160,120,64,0.7);
@@ -578,7 +866,7 @@
   }
 
   /* COMBOS */
-  .combos-section { margin-bottom: 60px; }
+  .combos-section { margin-bottom: 80px; }
   .combos-grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -586,53 +874,410 @@
   }
   .combo-card {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.06);
+    border: 1px solid var(--border-faint);
     border-radius: 6px; overflow: hidden;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
   .combo-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14);
     border-color: rgba(160,120,64,0.2);
   }
-  .combo-swatches { display: flex; height: 72px; }
+  .combo-swatches { display: flex; height: 72px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
   .combo-swatches > div { flex: 1; }
   .combo-body { padding: 12px 14px; }
-  .combo-name { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--cream); display: block; margin-bottom: 3px; }
+  .combo-name { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 3px; }
   .combo-occasion { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--camel); }
 
+  /* CATEGORY GUIDE */
+  .guide-section { margin-bottom: 80px; }
+  .guide-intro { font-size: 13px; font-weight: 200; color: var(--text-secondary); line-height: 1.7; margin-bottom: 36px; max-width: 640px; }
+  .guide-category { margin-bottom: 48px; }
+  .guide-category-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--camel);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+  .guide-items { display: flex; flex-direction: column; }
+  .guide-item {
+    display: grid;
+    grid-template-columns: 8px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-faint);
+    align-items: start;
+  }
+  .guide-item:last-child { border-bottom: none; }
+  .guide-item-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .guide-item-indicator.buy { background: var(--green-ok); }
+  .guide-item-indicator.avoid { background: var(--red-no); }
+  .guide-item-indicator.note { background: var(--camel); opacity: 0.6; }
+  .guide-item-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(176,141,87,0.8);
+    margin-bottom: 4px;
+  }
+  .guide-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .guide-item-detail {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+  .guide-item-detail strong { font-weight: 400; color: var(--text-primary); }
+  .guide-note-block {
+    background: rgba(176,141,87,0.08);
+    border: 1px solid rgba(176,141,87,0.18);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+  .guide-note-block strong { font-weight: 400; color: var(--text-primary); }
+  .guide-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .guide-avoid-note {
+    font-size: 12px;
+    font-weight: 200;
+    color: rgba(122,26,16,0.7);
+    line-height: 1.7;
+    padding: 12px 0;
+    border-top: 1px solid rgba(166,71,31,0.12);
+    margin-top: 4px;
+  }
+  .guide-avoid-note strong { font-weight: 400; color: rgba(122,26,16,0.85); }
+
+  /* EVERYDAY UNIFORM */
+  .everyday-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .everyday-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+  .everyday-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 12px;
+  }
+  .everyday-outfit { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .everyday-outfit li {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    padding-left: 14px;
+    position: relative;
+  }
+  .everyday-outfit li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    color: var(--camel);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+  }
+
+  /* INVESTMENT LIST */
+  .investment-list { display: flex; flex-direction: column; gap: 12px; }
+  .investment-item {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 16px;
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 18px 20px;
+    align-items: start;
+  }
+  .investment-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    color: var(--camel);
+    opacity: 0.35;
+    line-height: 1.1;
+  }
+  .investment-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .investment-detail {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* TRAINER GUIDE */
+  .trainer-flag {
+    background: rgba(122,80,16,0.07);
+    border: 1px solid rgba(122,80,16,0.18);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+  }
+  .trainer-flag-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber-warn);
+    margin-bottom: 8px;
+  }
+  .trainer-flag-text {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+  .trainer-flag-text strong { font-weight: 400; color: var(--text-primary); }
+  .trainer-tier-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 28px 0 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-faint);
+  }
+  .trainer-tier-header:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .trainer-cards { display: flex; flex-direction: column; gap: 10px; }
+  .trainer-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: start;
+  }
+  .trainer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .trainer-detail {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .trainer-detail strong { font-weight: 400; color: var(--text-primary); }
+  .trainer-verdict {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 2px;
+  }
+  .trainer-verdict.yes { background: rgba(45,106,42,0.10); color: var(--green-ok); border: 1px solid rgba(45,106,42,0.2); }
+  .trainer-verdict.yes-caveat { background: rgba(122,80,16,0.10); color: var(--amber-warn); border: 1px solid rgba(122,80,16,0.2); }
+  .trainer-verdict.yes-use { background: rgba(45,106,42,0.06); color: var(--green-ok); border: 1px solid rgba(45,106,42,0.14); }
+  .priority-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 16px;
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .priority-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-faint);
+    background: var(--espresso-card);
+  }
+  .priority-row:last-child { border-bottom: none; }
+  .priority-rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--camel);
+    opacity: 0.7;
+  }
+  .priority-name { font-size: 13px; color: var(--text-primary); }
+  .priority-size {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+  }
+  .trainer-sizing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  .trainer-sizing-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--camel);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .trainer-sizing-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-faint);
+    font-weight: 200;
+    color: var(--text-secondary);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .trainer-sizing-table td:first-child { color: var(--text-primary); font-weight: 300; }
+  .trainer-sizing-table td:nth-child(2) {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--camel);
+    white-space: nowrap;
+  }
+  .trainer-sizing-table tr:last-child td { border-bottom: none; }
+  .trainer-colours {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .trainer-colour-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-faint);
+    align-items: start;
+    font-size: 12px;
+  }
+  .trainer-colour-row:last-child { border-bottom: none; }
+  .trainer-colour-brand { font-weight: 300; color: var(--text-primary); }
+  .trainer-colour-detail { font-weight: 200; color: var(--text-secondary); line-height: 1.6; }
+
+  /* BUYING GUIDE */
+  .buying-section { margin-bottom: 80px; }
+  .bg-tier {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 5px;
+  }
+  .bg-tier.accessible { background: rgba(45,106,42,0.10); color: var(--green-ok); border: 1px solid rgba(45,106,42,0.18); }
+  .bg-tier.mid { background: rgba(176,141,87,0.12); color: #7A5A20; border: 1px solid rgba(176,141,87,0.25); }
+  .bg-tier.premium { background: rgba(62,44,32,0.08); color: var(--text-primary); border: 1px solid var(--border); }
+  .bg-price {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--camel);
+    margin-top: 2px;
+  }
+  .bg-flag-block {
+    background: rgba(122,80,16,0.07);
+    border: 1px solid rgba(122,80,16,0.20);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-top: 28px;
+  }
+  .bg-flag-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber-warn);
+    margin-bottom: 12px;
+  }
+  .bg-flag-items { display: flex; flex-direction: column; gap: 8px; }
+  .bg-flag-item { font-size: 12px; font-weight: 200; color: var(--text-secondary); line-height: 1.7; padding-left: 14px; position: relative; }
+  .bg-flag-item::before { content: '!'; position: absolute; left: 0; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--amber-warn); }
+  .bg-flag-item strong { font-weight: 400; color: var(--text-primary); }
+  .bg-caveat {
+    font-size: 11px;
+    font-weight: 200;
+    color: rgba(107,78,46,0.65);
+    font-style: italic;
+    margin-top: 16px;
+    line-height: 1.65;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-faint);
+  }
+
   /* RULES */
-  .rules-section { margin-bottom: 60px; }
+  .rules-section { margin-bottom: 80px; }
   .rules-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
   .rule-card {
     background: var(--espresso-card);
-    border: 1px solid rgba(237,229,200,0.06);
+    border: 1px solid var(--border-faint);
     border-radius: 6px; padding: 22px 24px;
   }
   .rule-number {
     font-family: 'DM Mono', monospace;
     font-size: 30px; font-weight: 300;
-    color: rgba(160,120,64,0.22);
+    color: rgba(160,120,64,0.45);
     line-height: 1; margin-bottom: 10px;
   }
-  .rule-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--cream); margin-bottom: 8px; }
-  .rule-text { font-size: 13px; font-weight: 200; color: var(--cream-dim); line-height: 1.7; }
+  .rule-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text-primary); margin-bottom: 8px; }
+  .rule-text { font-size: 13px; font-weight: 200; color: var(--text-secondary); line-height: 1.7; }
   .rule-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-  .rule-chip { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+  .rule-chip { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
 
   /* FOOTER */
   footer {
     position: relative; z-index: 1;
-    border-top: 1px solid rgba(237,229,200,0.07);
+    border-top: 1px solid var(--border);
     padding: 28px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .footer-left { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: var(--cream-dim); }
+  .footer-left { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: var(--text-secondary); }
   .footer-left em { font-style: normal; color: var(--terracotta); }
-  .footer-right { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,229,200,0.22); }
+  .footer-right { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(30,15,9,0.28); }
 
   /* TOAST */
   .toast {
@@ -647,20 +1292,376 @@
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  @media (max-width: 900px) {
-    header { padding: 28px 24px 24px; }
-    main { padding: 0 24px 60px; }
-    nav { padding: 0 16px; }
-    .hero { grid-template-columns: 1fr; gap: 28px; }
-    .hero-text p { font-size: 32px; }
-    .hero-palette { justify-content: flex-start; }
-    .palette-grid { grid-template-columns: repeat(3,1fr); }
-    .body-grid { grid-template-columns: 1fr; }
-    .builder-layout { grid-template-columns: 1fr; }
-    .looks-grid { grid-template-columns: 1fr 1fr; }
-    .combos-grid { grid-template-columns: 1fr 1fr; }
-    .rules-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 10px; text-align: center; }
+  /* COLOUR GUIDE */
+  .colour-guide-section { margin-bottom: 80px; }
+
+  /* WATCHES */
+  .watch-intro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .watch-direction-swatch-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .watch-direction-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+
+  /* WEARING PHILOSOPHY */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .tier-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 24px;
+  }
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .tier-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 24px;
+    color: var(--camel);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .tier-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+  .tier-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--camel);
+  }
+  .tier-swatch-row {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 24px;
+    margin-bottom: 14px;
+  }
+  .tier-swatch {
+    flex: 1;
+    height: 48px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  .tier-swatch span {
+    position: absolute;
+    bottom: -17px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tier-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 200;
+    line-height: 1.7;
+  }
+  .hit-list { display: flex; flex-direction: column; gap: 10px; }
+  .hit-row { display: flex; align-items: center; gap: 12px; }
+  .hit-rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--camel);
+    opacity: 0.45;
+    width: 12px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .hit-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .hit-body { display: flex; flex-direction: column; gap: 2px; }
+  .hit-name { font-size: 13px; color: var(--text-primary); }
+  .hit-note { font-size: 11px; color: var(--text-secondary); font-weight: 200; line-height: 1.5; }
+
+  /* FORMULA */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .formula-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .formula-chips {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    padding-bottom: 16px;
+    margin-bottom: 12px;
+  }
+  .formula-chip {
+    width: 34px;
+    height: 34px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .formula-chip.is-hit {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .formula-chip.is-hit::after {
+    content: 'HIT';
+    position: absolute;
+    bottom: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    color: var(--camel);
+  }
+  .formula-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--camel);
+    margin-bottom: 5px;
+  }
+  .formula-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 200;
+    line-height: 1.6;
+  }
+  .power-colours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .power-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .power-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.12); }
+  .power-swatch { height: 80px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
+  .power-body { padding: 14px 16px; }
+  .power-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .power-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--camel);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .power-desc {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .foundation-strip {
+    background: var(--espresso-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .foundation-header {
+    padding: 14px 20px;
+    background: var(--espresso-hover);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--camel);
+  }
+  .foundation-swatches {
+    display: flex;
+    height: 64px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+  }
+  .foundation-swatches > div { flex: 1; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+  .foundation-labels {
+    display: flex;
+    padding: 12px 0 0;
+  }
+  .foundation-label-item {
+    flex: 1;
+    padding: 0 12px 14px;
+    border-right: 1px solid var(--border-faint);
+  }
+  .foundation-label-item:last-child { border-right: none; }
+  .fl-name {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .fl-role {
+    font-size: 10px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .avoid-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .avoid-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .avoid-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .avoid-text {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .avoid-text strong { color: var(--text-primary); font-weight: 400; }
+  .context-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .context-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .context-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .context-desc {
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .context-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .context-chip {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .metals-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .metal-card {
+    background: var(--espresso-card);
+    border: 1px solid var(--border-faint);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metal-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .metal-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .metal-verdict {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .metal-verdict.yes { color: #1A5C28; }
+  .metal-verdict.ok  { color: #6B5010; }
+  .metal-verdict.no  { color: #7A1A10; }
+  .metal-desc {
+    font-size: 11px;
+    font-weight: 200;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+
   }
 </style>
 </head>
@@ -671,13 +1672,14 @@
     <span class="eyebrow">Personal Style Companion</span>
     <h1>Deep <em>Autumn</em></h1>
   </div>
-  <span class="season-badge">James · 186cm · 104cm chest · EU 44</span>
+  <span class="season-badge">James · 186cm · 104cm chest · EU 43 shoe</span>
 </header>
 
 <nav>
-  <a class="nav-item" href="#palette">Palette</a>
-  <a class="nav-item" href="#body">Body Profile</a>
   <a class="nav-item" href="#builder">Outfit Builder</a>
+  <a class="nav-item" href="#body">Measurements</a>
+  <a class="nav-item" href="#palette">Palette</a>
+  <a class="nav-item" href="#colours">Colour Guide</a>
   <a class="nav-item" href="#looks">Styled Looks</a>
   <a class="nav-item" href="#combos">Combinations</a>
   <a class="nav-item" href="#rules">Dressing Code</a>
@@ -685,189 +1687,24 @@
 
 <main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-text">
-      <p>Tall, dark,<br><em>considered.</em></p>
-      <p class="sub">186cm of warm-toned Deep Autumn colouring — your frame and palette are calibrated to each other. Every section below is built around how you actually look, not the average man.</p>
-    </div>
-    <div class="hero-palette" id="heroPalette"></div>
-  </section>
-
-  <!-- PALETTE -->
-  <div id="palette">
-    <section class="palette-section">
-      <div class="section-label">Signature Colours — colours that make you shine</div>
-      <p class="section-intro">Your Power Colours</p>
-      <p class="section-desc">The strongest performers against warm olive skin and dark hair at your depth of colouring</p>
-      <div class="palette-grid" id="signatureGrid"></div>
-    </section>
-    <section class="palette-section">
-      <div class="section-label">Best Neutrals — your everyday foundation</div>
-      <p class="section-intro">Foundation Palette</p>
-      <p class="section-desc">Every outfit starts here — pair these with any signature colour and it works</p>
-      <div class="palette-grid" id="neutralGrid"></div>
-    </section>
-  </div>
-
-  <!-- BODY PROFILE -->
-  <section class="body-section" id="body">
-    <div class="section-label">Body Profile — fit intelligence for your frame</div>
-    <p class="section-intro">186cm · 104cm chest · 88cm waist · V-taper</p>
-    <p class="section-desc">Every number is useful in the fitting room. Your 47cm shoulders and 104cm chest against an 88cm waist is a genuine athletic taper — and your 83cm inseam rules out most standard-length trousers immediately.</p>
-
-    <div class="body-grid">
-      <div class="measurements-card">
-        <div class="measurements-header">Your Measurements</div>
-        <div class="measurement-row"><span class="m-label">Height</span><span class="m-value">186 cm / 6'1"</span></div>
-        <div class="measurement-row"><span class="m-label">Weight</span><span class="m-value">87 kg</span></div>
-        <div class="measurement-row"><span class="m-label">Neck</span><span class="m-value">40 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Shoulders</span><span class="m-value">47 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Chest</span><span class="m-value">104 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Waist</span><span class="m-value">88 cm / 34"</span></div>
-        <div class="measurement-row"><span class="m-label">Jacket Length</span><span class="m-value">72 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Inseam</span><span class="m-value">83 cm / 33"</span></div>
-        <div class="measurement-row"><span class="m-label">Out Seam</span><span class="m-value">117 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Shirt Collar</span><span class="m-value">EU 40 cm</span></div>
-        <div class="measurement-row"><span class="m-label">Top Size</span><span class="m-value">Large (L Tall preferred)</span></div>
-        <div class="measurement-row"><span class="m-label">Jacket / EU</span><span class="m-value">EU 50–52 Long</span></div>
-        <div class="measurement-row"><span class="m-label">Trousers</span><span class="m-value">W34 / L33 (can wear L32)</span></div>
-        <div class="measurement-row"><span class="m-label">Shoe</span><span class="m-value">UK 10 / EU 44</span></div>
-        <div class="measurement-row"><span class="m-label">Frame Type</span><span class="m-value">Tall · V-taper · Athletic</span></div>
-      </div>
-
-      <div class="body-insights">
-        <div class="insight-card">
-          <span class="insight-icon">📐</span>
-          <div class="insight-title">The V-taper is real</div>
-          <p class="insight-text">47cm shoulders, 104cm chest, 88cm waist — a 16cm drop. This is a strong athletic taper. Slim and tailored fits flatter it. Boxy or relaxed cuts hide it and add visual bulk you don't have.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">Slim tapered</span>
-            <span class="tag tag-green">Structured shoulder</span>
-            <span class="tag tag-red">Boxy / oversized tops</span>
-          </div>
-        </div>
-        <div class="insight-card">
-          <span class="insight-icon">👔</span>
-          <div class="insight-title">Shirts: the collar trap</div>
-          <p class="insight-text">Your 40cm neck takes a EU 40 collar. Many brands only go to 39 or 41 — always verify. In casual shirts this matters less, but a dress shirt collar that's too tight or gaping undermines everything else.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">EU / cm 40 collar</span>
-            <span class="tag tag-green">Charles Tyrwhitt Tall</span>
-            <span class="tag tag-amber">Check before buying online</span>
-          </div>
-        </div>
-        <div class="insight-card">
-          <span class="insight-icon">🧥</span>
-          <div class="insight-title">Jackets: the 72cm body length</div>
-          <p class="insight-text">Your jacket length is 72cm — most EU 50 regular jackets run 74-76cm, which will be too long. EU 50 Short or a made-to-measure option may suit you better. Shoulder width (47cm) is your primary fit anchor; body length is secondary and can be altered.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">Shoulder on point first</span>
-            <span class="tag tag-amber">EU 50 Short / check length</span>
-            <span class="tag tag-amber">Budget for body length alter</span>
-          </div>
-        </div>
-        <div class="insight-card">
-          <span class="insight-icon">👖</span>
-          <div class="insight-title">Trousers: 83cm inseam</div>
-          <p class="insight-text">83cm (33") inseam is longer than most high-street stocks. With your 117cm out seam and 88cm waist, you need a tall-specific range or a brand offering L34 inseam. A 32" inseam works only with a deliberate turn-up or ankle stack.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">ASOS Tall W34 L34</span>
-            <span class="tag tag-green">Gap Tall</span>
-            <span class="tag tag-amber">Reiss (measure inseam)</span>
-            <span class="tag tag-red">Standard W34 L30/32</span>
-          </div>
-        </div>
-        <div class="insight-card">
-          <span class="insight-icon">👞</span>
-          <div class="insight-title">UK 10 / EU 44 footwear</div>
-          <p class="insight-text">UK 10 is well-stocked by most brands. Your RM Williams dark brown Chelsea and Adidas Gazelle Indoor in camel/burgundy are both proportionally right for your height — a slim profile on a tall frame. Avoid overly chunky soles unless paired with slim trousers.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">RM Williams (owned)</span>
-            <span class="tag tag-green">Gazelle Indoor (owned)</span>
-            <span class="tag tag-amber">Chunky sole: use with care</span>
-          </div>
-        </div>
-        <div class="insight-card">
-          <span class="insight-icon">🎨</span>
-          <div class="insight-title">Colour logic on your frame</div>
-          <p class="insight-text">Dark trouser, strong colour on top is your most powerful formula — it grounds the silhouette and lets your colouring lead. All-light reads washed out on a tall frame. A terracotta or teal shirt over espresso trousers is the visual sweet spot.</p>
-          <div class="insight-tags">
-            <span class="tag tag-green">Strong colour up top</span>
-            <span class="tag tag-green">Dark trouser base</span>
-            <span class="tag tag-red">Head-to-toe light</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fit-table-wrap">
-      <div class="section-label" style="margin-top:28px">Size Reference — what to look for in the fitting room</div>
-      <table class="fit-table">
-        <thead>
-          <tr>
-            <th>Garment</th>
-            <th>Your Size</th>
-            <th>What to check in the fitting room</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>T-shirt / Polo</td>
-            <td class="fit-size">L or L Tall</td>
-            <td>Hem to mid-hip (your torso is long); shoulder seam exactly on shoulder point; no pulling across 104cm chest</td>
-          </tr>
-          <tr>
-            <td>Casual shirt (worn open)</td>
-            <td class="fit-size">L or XL as layer</td>
-            <td>L for slim fit; XL for overshirt/layer; sleeve to wrist bone; body length past hip when untucked</td>
-          </tr>
-          <tr>
-            <td>Formal / dress shirt</td>
-            <td class="fit-size">EU 40cm collar / L Tall</td>
-            <td>40cm collar — check label, many brands skip this size; chest should button clean across 104cm; sleeve length ~88cm</td>
-          </tr>
-          <tr>
-            <td>Chino / trouser</td>
-            <td class="fit-size">W34 / L33 (83cm)</td>
-            <td>Out seam should reach 117cm; seat sits flush; thigh has some ease; ankle sits cleanly or with a small break</td>
-          </tr>
-          <tr>
-            <td>Jeans</td>
-            <td class="fit-size">W34 L32–34</td>
-            <td>Slim or straight tapered; L32 works with a small ankle stack; L34 for clean drape; avoid skinny in thigh</td>
-          </tr>
-          <tr>
-            <td>Jacket / blazer</td>
-            <td class="fit-size">EU 50 Short / check length</td>
-            <td>47cm shoulder is primary — seam on point, non-negotiable; jacket body should be ~72cm, not 74–76cm as regular runs; sleeve showing 1.5cm shirt cuff</td>
-          </tr>
-          <tr>
-            <td>Knitwear / jumper</td>
-            <td class="fit-size">L or XL</td>
-            <td>XL in relaxed/heavyweight; L in fine gauge; length past hip bone at your height; width should not pull across chest</td>
-          </tr>
-          <tr>
-            <td>Coat / overcoat</td>
-            <td class="fit-size">EU 50 Short–Regular</td>
-            <td>Mid-thigh length on 186cm; check body length isn't cropped; shoulder point and chest across 104cm are the key fits</td>
-          </tr>
-          <tr>
-            <td>Shoes</td>
-            <td class="fit-size">UK 10 / EU 44</td>
-            <td>Well-stocked size; Chelsea or slim profile works best for your frame; fit on the widest part of foot, not just length</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
 
   <!-- OUTFIT BUILDER -->
   <section class="builder-section" id="builder">
-    <div class="section-label">Outfit Builder — compose your colour combinations</div>
+    <div class="section-label">Outfit Builder</div>
     <div class="builder-layout">
       <div class="outfit-canvas">
-        <div class="outfit-canvas-label">Outfit Canvas — select a colour, then tap a slot</div>
+        <div class="outfit-canvas-label">Build Your Look</div>
+        <div class="context-bar">
+          <div class="occasion-chips">
+            <button class="occasion-chip active"  data-occasion="adaptive" onclick="setOccasion('adaptive')">Adaptive</button>
+            <button class="occasion-chip"         data-occasion="casual"   onclick="setOccasion('casual')">Casual</button>
+            <button class="occasion-chip"         data-occasion="work"     onclick="setOccasion('work')">Work</button>
+            <button class="occasion-chip"         data-occasion="smart"    onclick="setOccasion('smart')">Smart Casual</button>
+            <button class="occasion-chip"         data-occasion="beach"    onclick="setOccasion('beach')">Beach</button>
+            <button class="occasion-chip"         data-occasion="outdoor"  onclick="setOccasion('outdoor')">Outdoor</button>
+          </div>
+          <div id="weatherBar" class="weather-bar" style="display:none"></div>
+        </div>
         <div class="outfit-slots" id="outfitSlots"></div>
         <div class="harmony-bar">
           <span class="harmony-label">Palette Harmony</span>
@@ -876,25 +1713,464 @@
           </div>
           <span class="harmony-score" id="harmonyScore">—</span>
         </div>
-        <p class="tip-text" id="tipText">Select colours from the right panel to build your outfit combination.</p>
+        <p class="tip-text" id="tipText">Tap a slot to select an item or colour — start with clothing, then build out shoes and accessories.</p>
+        <div class="outfit-actions">
+          <button class="generate-btn visible" id="generateBtn" onclick="generateOutfit()">Generate outfit</button>
+          <button class="clear-btn" onclick="clearOutfit()" title="Clear all slots">Clear</button>
+        </div>
+        <div class="rec-panel" id="recPanel" style="display:none"></div>
       </div>
       <div class="picker-panel">
-        <div class="picker-title">Select a colour</div>
-        <div class="picker-grid" id="pickerGrid"></div>
-        <div class="slot-select-prompt">
-          Click a colour above, then <strong>tap a slot</strong> to place it. Click a filled slot to clear it.
+        <div id="pickerContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="body-section" id="body">
+    <div class="section-label">Body Profile — measurements &amp; sizing</div>
+    <p class="section-intro">Tall mesomorph · Strong V-taper · Broad shoulders and chest · Long torso · Fine wrists</p>
+
+    <div class="ref-table-wrap">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Measurement</th>
+            <th>Body</th>
+            <th>Size to buy</th>
+            <th>Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ref-group-row"><td colspan="4">Upper Body</td></tr>
+          <tr>
+            <td>Height</td>
+            <td class="ref-body">186cm / 6'1"</td>
+            <td class="ref-size">EU Long · L Tall</td>
+            <td class="ref-rule">Long torso — check body length on everything. Tuck shirts in to lengthen the leg line.</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td class="ref-body">87kg</td>
+            <td class="ref-size">—</td>
+            <td class="ref-rule">—</td>
+          </tr>
+          <tr>
+            <td>Chest</td>
+            <td class="ref-body">104cm / 41"</td>
+            <td class="ref-size">Large / EU 52</td>
+            <td class="ref-rule">16cm drop — relaxed or athletic fit only. Standard cuts bag at waist or pull at chest.</td>
+          </tr>
+          <tr>
+            <td>Pit to pit</td>
+            <td class="ref-body">53.5cm / 21"</td>
+            <td class="ref-size">T-shirt 58–61cm · Shirt 60–63cm</td>
+            <td class="ref-rule">Body pit-to-pit = 53.5cm. T-shirt: aim for 58–61cm (23–24") flat — enough ease across the chest without looking boxy. Shirt (woven): 60–63cm to allow the fabric to drape rather than pull. If between sizes, always size up — your V-taper loads the chest and back before it looks tight anywhere else.</td>
+          </tr>
+          <tr>
+            <td>Shoulders</td>
+            <td class="ref-body">50.8cm / 20"</td>
+<td class="ref-size">EU 52 · Large jacket</td>
+            <td class="ref-rule">Fit here first — the one thing a tailor can't fix cheaply. Seam must sit exactly on shoulder point.</td>
+          </tr>
+          <tr>
+            <td>Waist</td>
+            <td class="ref-body">91cm / 36"</td>
+            <td class="ref-size">—</td>
+            <td class="ref-rule">Measured at natural waist. APT means the actual widest point (belly level) runs a couple of centimetres higher — for fixed waistbands, size to W36 rather than the tape measurement alone.</td>
+          </tr>
+          <tr>
+            <td>Neck</td>
+            <td class="ref-body">40cm / 15.5"</td>
+            <td class="ref-size">40cm / 15.5" collar</td>
+            <td class="ref-rule">Many brands skip this size — always check the label. Sleeve ~88cm / 36".</td>
+          </tr>
+          <tr>
+            <td>Sleeve</td>
+            <td class="ref-body">91cm / 36"</td>
+            <td class="ref-size">36" / ~88cm</td>
+            <td class="ref-rule">—</td>
+          </tr>
+          <tr class="ref-group-row"><td colspan="4">Lower Body</td></tr>
+          <tr>
+            <td>Thigh</td>
+            <td class="ref-body">60cm / 23.6"</td>
+            <td class="ref-size">W34 denim · W36 chinos</td>
+            <td class="ref-rule">Defining fit challenge. Fit the thigh first — waist follows. Regular taper only. No slim cuts.</td>
+          </tr>
+          <tr>
+            <td>Inseam</td>
+            <td class="ref-body">89cm / 35"</td>
+            <td class="ref-size">L33</td>
+            <td class="ref-rule">L33 is the preferred length. L34 wearable but slightly long. L32 too short.</td>
+          </tr>
+          <tr>
+            <td>Shorts</td>
+            <td class="ref-body">W36</td>
+            <td class="ref-size">W36 · 6–8" inseam</td>
+            <td class="ref-rule">36" waist — W36 for structured shorts. 6" city casual · 7" beach-to-bar · 8" relaxed / holiday. Elastic/drawstring waist: medium or large depending on brand.</td>
+          </tr>
+          <tr class="ref-group-row"><td colspan="4">Extremities</td></tr>
+          <tr>
+            <td>Shoe size</td>
+            <td class="ref-body">268mm / 9.8cm wide (E)</td>
+            <td class="ref-size">EU 43 / UK 9</td>
+            <td class="ref-rule">Confirmed EU 43. E width (9.8cm) means standard D lasts feel tight across the forefoot. Birkenstock EU 42. Trainer sizing varies by last — see Trainer Guide.</td>
+          </tr>
+          <tr>
+            <td>Wrist</td>
+            <td class="ref-body">178mm / 7"</td>
+            <td class="ref-size">40–42mm watch</td>
+            <td class="ref-rule">Slim for frame — 44mm borderline, 45mm+ oversized on you.</td>
+          </tr>
+          <tr>
+            <td>Head</td>
+            <td class="ref-body">58.4cm</td>
+            <td class="ref-size">L / XL hat</td>
+            <td class="ref-rule">Slightly above average — always size up when in doubt. One-size-fits-most often snug.</td>
+          </tr>
+          <tr class="ref-group-row"><td colspan="4">Frame &amp; Composition</td></tr>
+          <tr>
+            <td>Somatotype</td>
+            <td class="ref-body">Tall mesomorph</td>
+            <td class="ref-size">—</td>
+            <td class="ref-rule">Strong V-taper — broad shoulders (50.8cm / 20") and chest carrying the frame, tapering cleanly to a proportionate waist and thigh. Long torso, fine wrists. The frame reads athletic and considered without effort.</td>
+          </tr>
+          <tr>
+            <td>Fat pattern</td>
+            <td class="ref-body">Central / android</td>
+            <td class="ref-size">—</td>
+            <td class="ref-rule">Fat concentrated in lower abdomen and flanks. Waist visibly exceeds hip width (apple shape). Peripheral leanness (hips, thighs, limbs) is consistent with the athletic thigh frame note. Mid-rise sits better than high-waisted — specifically, the waistband must sit below the navel. Mid-rise that lands at or above the widest point defeats the purpose.</td>
+          </tr>
+          <tr>
+            <td>Posture</td>
+            <td class="ref-body">APT + forward head</td>
+            <td class="ref-size">—</td>
+            <td class="ref-rule">Side profile shows mild forward head posture and anterior pelvic tilt (arched lower back, belly pushed forward). APT pushes belly forward by roughly 1-2cm beyond actual adiposity, meaning the 36" / 91cm natural waist understates the widest-point measurement. For fixed waistbands, size W36 and verify fit at the actual widest point before committing. Anti-extension core work and glute activation moves the visual midsection faster than fat loss alone. See tucking, layering, and jacket-length rules in Dressing Code for the immediate styling fix.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fit-rules-row">
+      <div class="fit-rule">
+        <div class="fit-rule-label">Shoulder first</div>
+        <div class="fit-rule-value">50.8cm / 20"</div>
+        <p class="fit-rule-note">Everything else can be tailored. Shoulder seam off by 1cm and nothing else matters.</p>
+      </div>
+      <div class="fit-rule">
+        <div class="fit-rule-label">Thigh first</div>
+        <div class="fit-rule-value">26" / W36</div>
+        <p class="fit-rule-note">Fit the thigh first — W34 for raw/rigid denim (confirmed Nudie), W36 for chinos, trousers, and structured shorts. Regular taper only.</p>
+      </div>
+      <div class="fit-rule">
+        <div class="fit-rule-label">Tall mesomorph</div>
+        <div class="fit-rule-value">16cm drop</div>
+        <p class="fit-rule-note">Broad shoulders and chest taper cleanly to a proportionate waist and thigh. Long torso, fine wrists. Relaxed or athletic fits — the frame carries structure on its own.</p>
+      </div>
+      <div class="fit-rule">
+        <div class="fit-rule-label">E-width foot</div>
+        <div class="fit-rule-value">EU 43 / UK 9</div>
+        <p class="fit-rule-note">Standard D lasts feel tight. Confirm E-width before buying online. Birkenstock EU 42 regular.</p>
+      </div>
+      <div class="fit-rule">
+        <div class="fit-rule-label">Long torso</div>
+        <div class="fit-rule-value">EU Long always</div>
+        <p class="fit-rule-note">Body length fails before shoulder does. Check hem on every top and jacket.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALETTE -->
+  <div id="palette">
+    <section class="palette-section">
+      <div class="section-label">Core Colours — build your wardrobe around these</div>
+      <p class="section-intro">The Heavy Hitters</p>
+      <p class="section-desc">These five do the heavy lifting. Multiple pieces in each. Worn in every context from casual to formal.</p>
+      <div class="palette-grid" id="coreGrid"></div>
+    </section>
+    <section class="palette-section">
+      <div class="section-label">Accent Colours — smaller-dose statements</div>
+      <p class="section-intro">Lift Without Taking Over</p>
+      <p class="section-desc">A knit, a shirt, a scarf. These elevate an outfit when used as the single statement piece — not layered together.</p>
+      <div class="palette-grid" id="accentGrid"></div>
+    </section>
+    <section class="palette-section">
+      <div class="section-label">Neutrals — your warm defaults</div>
+      <p class="section-intro">The Connective Tissue</p>
+      <p class="section-desc">These replace black, white, and grey with warmer equivalents that work with your undertone rather than against it.</p>
+      <div class="palette-grid" id="neutralGrid"></div>
+    </section>
+  </div>
+
+  <!-- COLOUR GUIDE -->
+  <section class="colour-guide-section" id="colours">
+    <div class="section-label">Colour Guide — how to use your palette</div>
+    <p class="section-intro">Wearing Philosophy — neutral base, one colour hit</p>
+
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-header">
+          <span class="tier-number">01</span>
+          <div>
+            <div class="tier-name">Your Neutrals</div>
+            <div class="tier-sub">80–90% of every outfit lives here</div>
+          </div>
         </div>
+        <div class="tier-swatch-row">
+          <div class="tier-swatch" style="background:#3E2C20"><span>Chocolate</span></div>
+          <div class="tier-swatch" style="background:#EDE3D0"><span>Cream</span></div>
+          <div class="tier-swatch" style="background:#B08D57"><span>Camel</span></div>
+          <div class="tier-swatch" style="background:#2E2A26"><span>Charcoal</span></div>
+          <div class="tier-swatch" style="background:#C9B79A"><span>Stone</span></div>
+        </div>
+        <p class="tier-desc">Jeans, tees, shirts, boots, outerwear, trousers. The foundation of almost every outfit. Build freely here — multiple pieces, every context. Your instinct toward neutrals is correct.</p>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <span class="tier-number">02</span>
+          <div>
+            <div class="tier-name">Your Colour Hits</div>
+            <div class="tier-sub">One piece doing the talking</div>
+          </div>
+        </div>
+        <div class="hit-list">
+          <div class="hit-row">
+            <span class="hit-rank">1</span>
+            <div class="hit-swatch" style="background:#6B6B33"></div>
+            <div class="hit-body">
+              <span class="hit-name">Olive</span>
+              <span class="hit-note">Easiest pop — almost reads as neutral, lowest commitment</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">2</span>
+            <div class="hit-swatch" style="background:#6E2C2C"></div>
+            <div class="hit-body">
+              <span class="hit-name">Burgundy</span>
+              <span class="hit-note">Richest hit — best in knitwear, most impact for least effort</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">3</span>
+            <div class="hit-swatch" style="background:#6B4E2E"></div>
+            <div class="hit-body">
+              <span class="hit-name">Tobacco</span>
+              <span class="hit-note">Warm brown that reads as neutral-with-depth</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">4</span>
+            <div class="hit-swatch" style="background:#2F4A2A"></div>
+            <div class="hit-body">
+              <span class="hit-name">Forest Green</span>
+              <span class="hit-note">Darker, considered — best in overshirts and jackets</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">5</span>
+            <div class="hit-swatch" style="background:#1F5A52"></div>
+            <div class="hit-body">
+              <span class="hit-name">Deep Teal</span>
+              <span class="hit-note">The bolder move — for when you want to be noticed</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">6</span>
+            <div class="hit-swatch" style="background:#B5562E"></div>
+            <div class="hit-body">
+              <span class="hit-name">Terracotta</span>
+              <span class="hit-note">Mediterranean hit — best in warm weather, natural light</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <span class="hit-rank">7</span>
+            <div class="hit-swatch" style="background:#A6471F"></div>
+            <div class="hit-body">
+              <span class="hit-name">Rust</span>
+              <span class="hit-note">Most intense pop — small doses only, scarf or knit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section-label" style="margin-top:32px">Power Colours — the ones that make you look your best</div>
+    <div class="power-colours-grid" id="powerGrid"></div>
+
+
+    <div class="section-label">Colours to Avoid</div>
+    <div class="avoid-grid" id="avoidGrid"></div>
+
+
+
+    <div class="section-label" style="margin-top:40px">Watches — applying your palette to the wrist</div>
+
+    <div class="watch-intro-grid">
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Case Metal</div>
+        <p class="tier-desc">Yellow gold, bronze, or brass first. Rose gold works well. Aged and patina finishes are excellent. Steel is fine functionally but not your strongest choice aesthetically. Two-tone (gold and steel) outperforms pure steel.</p>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Dial</div>
+        <p class="tier-desc">Your palette applies directly here. Warm cream, tobacco, olive, warm green, burgundy, and golden amber are all very strong. Black works given your contrast level. Burnt orange is your most adventurous move.</p>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Strap</div>
+        <p class="tier-desc">Brown leather in every shade from tan to chocolate is home territory. Tobacco, dark brown, and natural leather — perfect. Olive and khaki NATO or canvas work well. Vintage-patina leather is excellent. Steel bracelet fine, gold bracelet better.</p>
+      </div>
+    </div>
+
+    <div class="formula-grid" style="margin-bottom:24px">
+      <div class="tier-card">
+        <div class="tier-sub" style="margin-bottom:16px">Best dial colours</div>
+        <div class="hit-list">
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#EDE3D0"></div>
+            <div class="hit-body">
+              <span class="hit-name">Warm Cream / Champagne / Ivory</span>
+              <span class="hit-note">Harmonises with your skin tone and cream neutral</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#6B4E2E"></div>
+            <div class="hit-body">
+              <span class="hit-name">Tobacco Brown / Chocolate</span>
+              <span class="hit-note">Sits directly inside your core palette</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#6B6B33"></div>
+            <div class="hit-body">
+              <span class="hit-name">Olive / Khaki</span>
+              <span class="hit-note">Less common but excellent on you</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#3A5C38"></div>
+            <div class="hit-body">
+              <span class="hit-name">Warm Green (vintage Datejust "palm")</span>
+              <span class="hit-note">Very strong — aged, warm-toned greens only</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#6E2C2C"></div>
+            <div class="hit-body">
+              <span class="hit-name">Burgundy / Oxblood</span>
+              <span class="hit-note">Rich and distinctive, works with your depth</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#C68A1E"></div>
+            <div class="hit-body">
+              <span class="hit-name">Golden / Honey Amber</span>
+              <span class="hit-note">Flatters your golden ochre accent territory</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#1A1410"></div>
+            <div class="hit-body">
+              <span class="hit-name">Black</span>
+              <span class="hit-note">Works given your contrast level — chocolate reads better</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#A6471F"></div>
+            <div class="hit-body">
+              <span class="hit-name">Burnt Orange / Copper</span>
+              <span class="hit-note">Your most adventurous dial — very Deep Autumn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-sub" style="margin-bottom:16px">Use with more caution</div>
+        <div class="hit-list" style="margin-bottom:28px">
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#6B9AC4"></div>
+            <div class="hit-body">
+              <span class="hit-name">Stark Cool Blue</span>
+              <span class="hit-note">Fights your warmth. Warm navy or petrol blue is fine — icy bright blue is your weakest.</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#A8A8A8"></div>
+            <div class="hit-body">
+              <span class="hit-name">Silver / Grey Dial</span>
+              <span class="hit-note">Functional but flat against you</span>
+            </div>
+          </div>
+          <div class="hit-row">
+            <div class="hit-swatch" style="background:#F5F5F5"></div>
+            <div class="hit-body">
+              <span class="hit-name">Pure / Optic White</span>
+              <span class="hit-note">Same issue as optic white in clothing — cool, drains warmth</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-note" style="margin-top:0">
+          <div class="brand-note-icon">◆</div>
+          <p><strong>Your Seiko AGS Landmaster:</strong> Steel case with dark dial — works fine because it reads as a tool watch rather than a jewellery piece, so metal rules matter less. The dark dial is your stronger end for steel. Put it on a tan or tobacco leather NATO and it will immediately feel more cohesive with your colouring.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Watch directions worth exploring</div>
+    <div class="formula-grid" style="margin-bottom:0">
+      <div class="tier-card">
+        <div class="watch-direction-swatch-row">
+          <div class="watch-direction-swatch" style="background:#8B6914"></div>
+          <div class="watch-direction-swatch" style="background:#1A1410"></div>
+          <div class="watch-direction-swatch" style="background:#6B4E2E"></div>
+        </div>
+        <div class="tier-name" style="margin-bottom:6px">Bronze Case Watches</div>
+        <div class="tier-sub" style="margin-bottom:12px">Oris · Tudor Black Bay Bronze · Frederique Constant</div>
+        <p class="tier-desc">The case patinas with wear and becomes uniquely warm and personal. Deepens to a rich amber-brown over time. The most Deep Autumn watch category that exists.</p>
+      </div>
+      <div class="tier-card">
+        <div class="watch-direction-swatch-row">
+          <div class="watch-direction-swatch" style="background:#EDE3D0"></div>
+          <div class="watch-direction-swatch" style="background:#C68A1E"></div>
+          <div class="watch-direction-swatch" style="background:#F2E6C8"></div>
+        </div>
+        <div class="tier-name" style="margin-bottom:6px">Champagne Dial Dress Watches</div>
+        <div class="tier-sub" style="margin-bottom:12px">Longines · Tissot · Vintage Omega</div>
+        <p class="tier-desc">A slim dress watch with a warm cream dial and yellow gold case is perhaps the single most flattering watch category for your colouring. The direct sweet spot.</p>
+      </div>
+      <div class="tier-card">
+        <div class="watch-direction-swatch-row">
+          <div class="watch-direction-swatch" style="background:#9B7D3A"></div>
+          <div class="watch-direction-swatch" style="background:#C68A1E"></div>
+          <div class="watch-direction-swatch" style="background:#6B4E2E"></div>
+        </div>
+        <div class="tier-name" style="margin-bottom:6px">Vintage Warm-Dial Pieces</div>
+        <div class="tier-sub" style="margin-bottom:12px">Tropical dials · Gilt indices · Honey lume</div>
+        <p class="tier-desc">Aged tropical dials, honey-coloured lume plots, patina on gilt indices. The warmth and complexity of vintage dials suits your palette far better than modern cool sterile ones.</p>
+      </div>
+      <div class="tier-card">
+        <div class="watch-direction-swatch-row">
+          <div class="watch-direction-swatch" style="background:#6B6B33"></div>
+          <div class="watch-direction-swatch" style="background:#8B7355"></div>
+          <div class="watch-direction-swatch" style="background:#6B4E2E"></div>
+        </div>
+        <div class="tier-name" style="margin-bottom:6px">Field Watches</div>
+        <div class="tier-sub" style="margin-bottom:12px">Olive dial · Canvas strap · Brushed bronze case</div>
+        <p class="tier-desc">Olive or khaki canvas strap, warm dial, brushed bronze or aged steel case. Sits perfectly within your neutral-with-a-hit approach. Practical and deeply cohesive with your palette.</p>
       </div>
     </div>
   </section>
 
   <!-- STYLED LOOKS -->
   <section class="looks-section" id="looks">
-    <div class="section-label">Styled Looks — complete outfits for your frame and palette</div>
-    <p class="section-intro">Dressed for 186cm</p>
-    <p class="section-desc">These looks are built around your actual measurements — fit notes tell you exactly what to watch for when buying</p>
+    <div class="section-label">Styled Looks — workwear &amp; heritage outfits for your frame</div>
+    <p class="section-intro">Workwear &amp; Heritage · Dressed for 186cm</p>
+    <p class="section-desc">Looks built for the workwear and heritage direction — V-taper, long torso, 50.8cm shoulders. Owned pieces flagged in the notes. Source EU Long block for all jackets and shirts.</p>
     <div class="looks-grid" id="looksGrid"></div>
   </section>
+
 
   <!-- COLOUR COMBOS -->
   <section class="combos-section" id="combos">
@@ -904,11 +2180,15 @@
 
   <!-- DRESSING RULES -->
   <section class="rules-section" id="rules">
-    <div class="section-label">Your Dressing Code — rules for Deep Autumn at 186cm</div>
+    <div class="section-label">Your Dressing Code — rules for Deep Autumn · workwear &amp; heritage</div>
+    <p class="section-intro">12 rules</p>
+    <p class="section-desc">Colour, fit, and aesthetic rules for the workwear and heritage direction — calibrated to the Deep Autumn palette and the confirmed frame.</p>
     <div class="rules-grid" id="rulesGrid"></div>
   </section>
 
+
 </main>
+
 
 <footer>
   <div class="footer-left">Dressed for <em>James</em> — Deep Autumn · 186cm</div>
@@ -919,156 +2199,521 @@
 
 <script>
 const PALETTE = {
-  signature: [
-    { name: 'Burnt Terracotta', hex: '#B04A28', role: 'sig' },
-    { name: 'Forest Pine',      hex: '#2D5A3D', role: 'sig' },
-    { name: 'Deep Teal',        hex: '#1B6B7A', role: 'sig' },
-    { name: 'Mustard Olive',    hex: '#8A7020', role: 'sig' },
-    { name: 'Aubergine Brown',  hex: '#5C2E2E', role: 'sig' },
+  core: [
+    { name: 'Tobacco',    hex: '#6B4E2E', role: 'sig' },
+    { name: 'Camel',      hex: '#B08D57', role: 'sig' },
+    { name: 'Olive',      hex: '#6B6B33', role: 'sig' },
+    { name: 'Terracotta', hex: '#B5562E', role: 'sig' },
+    { name: 'Burgundy',   hex: '#6E2C2C', role: 'sig' },
+  ],
+  accent: [
+    { name: 'Rust',          hex: '#A6471F', role: 'sig' },
+    { name: 'Golden Ochre',  hex: '#C68A1E', role: 'sig' },
+    { name: 'Forest Green',  hex: '#2F4A2A', role: 'sig' },
+    { name: 'Deep Teal',     hex: '#1F5A52', role: 'sig' },
+    { name: 'Brick',         hex: '#9C3B26', role: 'sig' },
   ],
   neutrals: [
-    { name: 'Espresso',      hex: '#3A2218', role: 'neu' },
-    { name: 'Warm Charcoal', hex: '#3A3535', role: 'neu' },
-    { name: 'Camel Sand',    hex: '#A07840', role: 'neu' },
-    { name: 'Olive Taupe',   hex: '#6B6245', role: 'neu' },
-    { name: 'Cream Ivory',   hex: '#EDE5C8', role: 'neu' },
+    { name: 'Chocolate',    hex: '#3E2C20', role: 'neu' },
+    { name: 'Cream',        hex: '#EDE3D0', role: 'neu' },
+    { name: 'Stone',        hex: '#C9B79A', role: 'neu' },
+    { name: 'Warm Charcoal',hex: '#2E2A26', role: 'neu' },
+    { name: 'Deep Navy',    hex: '#1A2535', role: 'neu' },
+  ],
+  extended: [
+    { name: 'Copper',     hex: '#9B5C28', role: 'sig' },
+    { name: 'Amber',      hex: '#C4821A', role: 'sig' },
+    { name: 'Plum',       hex: '#5E2D44', role: 'sig' },
+    { name: 'Taupe',      hex: '#8B7B6B', role: 'neu' },
+    { name: 'Khaki',      hex: '#7A7A3A', role: 'neu' },
+    { name: 'Parchment',  hex: '#D8C8A8', role: 'neu' },
+  ],
+  expanded: [
+    { name: 'Cognac',     hex: '#8B5E3C', role: 'sig' },
+    { name: 'Army Green', hex: '#4A4D20', role: 'sig' },
+    { name: 'Sage',       hex: '#7D8C68', role: 'neu' },
+    { name: 'Ivory',      hex: '#F4E8D0', role: 'neu' },
+    { name: 'Espresso',   hex: '#1E1208', role: 'neu' },
+    { name: 'Warm Sand',  hex: '#C8A87A', role: 'neu' },
   ]
 };
 
-const ALL_COLOURS = [...PALETTE.signature, ...PALETTE.neutrals];
+const ALL_COLOURS = [...PALETTE.core, ...PALETTE.accent, ...PALETTE.neutrals, ...PALETTE.extended, ...PALETTE.expanded];
+
+const SHOES = [
+  { id: 'spezial',     name: 'Handball Spezial',   short: 'Spezial',    sub: 'Aurora Coffee · Silver · Gum',  colours: ['#5C3A1E','#B8B5AF','#9E9378'], colour: '#6B4E2E' },
+  { id: 'gazelle',     name: 'Adidas Gazelle',      short: 'Gazelle',    sub: 'Stone · Burgundy · Gum',        colours: ['#C9B79A','#6E2C2C','#9E9378'], colour: '#C9B79A' },
+  { id: 'birkenstock', name: 'Birkenstock Arizona', short: 'Arizona',    sub: 'Cognac Oiled Leather',          colours: ['#8B5E3C','#6B4A2A'],           colour: '#B08D57' },
+  { id: 'blundstone',  name: 'Blundstone 2340',     short: 'Blundstone', sub: 'Brown Chelsea Boot',            colours: ['#6B4A2A','#4A3020'],           colour: '#3E2C20' },
+];
+const WATCHES = [
+  { id: 'seiko',  name: 'Seiko Landmaster',  short: 'Seiko',   sub: '5M23-6A20 · Silver / Black', colours: ['#B0B0B0','#1C1C1C','#8B8B8B'], colour: '#C9B79A' },
+  { id: 'gshock', name: 'G-Shock GA-B2100', short: 'G-Shock', sub: 'All Black',                   colours: ['#1C1C1C','#2E2E2E','#3A3A3A'], colour: '#2E2A26' },
+];
+const BOTTOMS = [
+  { id: 'se2-dry-heavy', name: 'Steady Eddie II', short: 'Dry Heavy', sub: 'Dry Heavy · W34/L33 · raw indigo', colours: ['#2A3040','#1E2535','#B87333'], colour: '#1A2535' },
+];
+const BELTS = [
+  { id: 'hzhy-choc', name: 'Hzhy Full Grain', short: 'Choc Belt', sub: 'Dark Chocolate · Brass Pin Buckle', colours: ['#5C3520','#4A2A18','#B8902A'], colour: '#3E2C20' },
+];
+const SHIRTS = [
+  { id: 'avignon-cream',   name: 'Avignon Cotton Shirt',      short: 'Avignon Cream',  sub: 'Avignon · Long Sleeve · Size L · Dark Cream · 100% Cotton',              colours: ['#EDE3D0','#D8C8A8'],           colour: '#EDE3D0' },
+  { id: 'wrangler-stripe', name: 'Wrangler Western Shirt',    short: 'Wrangler Stripe', sub: 'Wrangler · Short Sleeve · Size L · Beige Stripe · Western Style',       colours: ['#C9B79A','#D8C8A8','#B8A888'], colour: '#C9B79A' },
+  { id: 'ct-flannel-sage', name: 'CT Textured Flannel Shirt', short: 'CT Sage Flannel', sub: 'Charles Tyrwhitt · Long Sleeve · Size L · Sage Green · Dobby Flannel', colours: ['#4B5A3A','#3D4A2E'],           colour: '#4B5A3A', tags: ['heavy'] },
+];
+const TSHIRTS = [
+  { id: 'levis-khaki',    name: "Levi's Relaxed Tee",  short: 'Levis Khaki',    sub: "Levi's · Relaxed Fit · Size L · Khaki",         colours: ['#7A7A3A','#6B6B30'],           colour: '#7A7A3A' },
+  { id: 'carhartt-brown', name: 'Carhartt WIP Tee',    short: 'Carhartt Brown', sub: 'Carhartt WIP · Size L · Brown Cotton',            colours: ['#6B4E2E','#5A3E22'],           colour: '#6B4E2E' },
+  { id: 'dickies-cream',  name: 'Dickies Print Tee',   short: 'Dickies Cream',  sub: 'Dickies · Size L · Cream · Graphic Print',        colours: ['#EDE3D0','#D8CDB8','#2E2A26'], colour: '#EDE3D0' },
+];
+const SHORTS = [
+  { id: 'rl-khaki-shorts', name: 'Ralph Lauren Shorts', short: 'RL Khaki',   sub: 'Ralph Lauren · Swim Shorts · Size L · Khaki',          colours: ['#5A6030','#6B6B38','#F4E8D0'], colour: '#6B6B33', tags: ['swim'] },
+  { id: 'boss-chino',      name: 'BOSS Chino Shorts',   short: 'BOSS Stone',  sub: 'BOSS Orange · Slim Fit · W36 · Light Pastel Brown',    colours: ['#C9B79A','#B8A888'],           colour: '#C9B79A' },
+];
+const JACKETS = [
+  { id: 'wolsey-chore', name: 'Wolsey Chore Jacket', short: 'Chore Jacket', sub: 'Wolsey 1755 · Chore Jacket · Size M · Stone Twill', colours: ['#C9B79A','#A89878','#1C1C1C'], colour: '#C9B79A' },
+];
+const HOODIES = [
+  { id: 'champion-hood', name: 'Champion Hoodie', short: 'Champion Hood', sub: 'Champion · Hooded Sweatshirt · Size L · Burgundy', colours: ['#6B2D3A','#5A2230','#C8B8A8'], colour: '#6E2C2C' },
+];
+const BAGS = [
+  { id: 'bellroy-sling-black', name: 'Bellroy Venture Ready Sling 2.5L', short: 'Bellroy Sling', sub: 'Bellroy · Crossbody Sling · 2.5L · Black · Recycled Fabric', colours: ['#1C1C1C','#2A2A2A','#383838'], colour: '#2E2A26' },
+];
+const SOCKS = [
+  { id: 'glenmuir-noshows',  name: 'Glenmuir No-Show Liners',      short: 'No-Show',      sub: 'Glenmuir · Mesh Shoe Liners · 3-Pack · Size 7–11 · Nude',          colours: ['#D4AA80','#C49A6A'],           colour: '#D4AA80' },
+  { id: 'glenmuir-merino',   name: 'Glenmuir Merino Wool Socks',   short: 'Merino Brown',  sub: 'Glenmuir · Silk & Merino Wool · 1-Pair · Size 7–11 · Brown',       colours: ['#5C3A20','#4A2E18','#6B4E30'], colour: '#5C3A20' },
+  { id: 'niorasen-hiking',   name: 'Niorasen Merino Hiking Socks', short: 'Hiking Black',  sub: 'Niorasen · Merino Wool Crew · 3-Pair · Size 7–11 · Black',         colours: ['#1C1C1C','#2E2E2E','#4A4A4A'], colour: '#1C1C1C' },
+];
+
+const POWER_COLOURS = [
+  {
+    name: 'Tobacco',
+    hex: '#6B4E2E',
+    role: 'Your anchor colour',
+    desc: 'Sits at the intersection of your skin tone depth and warmth. Wearing it creates an authoritative, pulled-together look with no effort. The colour for important meetings and first impressions.'
+  },
+  {
+    name: 'Burgundy',
+    hex: '#6E2C2C',
+    role: 'Your richness colour',
+    desc: 'Against olive skin and dark hair, burgundy creates depth and contrast that is genuinely striking — makes your eyes read warmer and your complexion more vivid. The easiest way to elevate a simple outfit.'
+  },
+  {
+    name: 'Olive',
+    hex: '#6B6B33',
+    role: 'Your harmony colour',
+    desc: 'Sits so naturally against your colouring that it almost reads as a neutral while still being clearly a colour. Olive on you looks intentional and grounded — the colour most associated with the Mediterranean direction.'
+  },
+  {
+    name: 'Deep Teal',
+    hex: '#1F5A52',
+    role: 'Your unexpected power colour',
+    desc: 'Most Deep Autumns overlook teal, reaching for safer browns. This specific deep, muted teal creates a striking contrast with warm olive skin that few colours replicate. Use it as a statement piece.'
+  },
+];
+
+const FOUNDATION = [
+  { name: 'Chocolate', hex: '#3E2C20', role: 'Your black replacement' },
+  { name: 'Cream',     hex: '#EDE3D0', role: 'Your white replacement' },
+  { name: 'Camel',     hex: '#B08D57', role: 'Your most versatile mid-tone' },
+  { name: 'Olive',     hex: '#6B6B33', role: 'Your colour anchor' },
+  { name: 'Warm Charcoal', hex: '#2E2A26', role: 'Your smart neutral' },
+];
+
+const AVOID = [
+  { colour: '#1A1A1A', name: 'Pure Black', reason: 'Drains slightly against your warmth. Replace with Chocolate or Warm Charcoal. Exception: genuine black tie only.' },
+  { colour: '#F5F5F5', name: 'Optic White', reason: 'The bluish bright white fights your warmth. Use Cream, ecru, or ivory instead — always.' },
+  { colour: '#A8C8E8', name: 'Cool Pastels', reason: 'Baby blue, lavender, icy pink, mint. They make warm skin look sallow.' },
+  { colour: '#C040A0', name: 'Jewel Cool Tones', reason: 'Fuchsia, cobalt, bright emerald, pure magenta. Too clear and cold for your depth.' },
+  { colour: '#888888', name: 'Cool Mid-Grey', reason: 'Flattens you entirely. If you need grey, go deep and warm (charcoal) or skip it.' },
+  { colour: '#FF6600', name: 'Neon Brights', reason: 'Bright orange, lemon yellow, lime. Your palette is muted and complex — spectrum brights read cheap against it.' },
+];
+
+const CONTEXTS = [
+  {
+    title: 'Casual',
+    desc: 'Tees and overshirts in cream, olive, tobacco, terracotta. Denim in mid-to-dark warm indigo — not cold black-blue or pale stonewash.',
+    chips: ['#EDE3D0','#6B6B33','#6B4E2E','#B5562E','#3E2C20']
+  },
+  {
+    title: 'Smart Casual',
+    desc: 'Knitwear in burgundy, deep navy, and forest green over cream or stone. Clean chino and brown leather. One statement colour; neutrals carry the rest.',
+    chips: ['#6E2C2C','#1A2535','#2F4A2A','#EDE3D0','#C9B79A','#3E2C20']
+  },
+  {
+    title: 'Summer / Mediterranean',
+    desc: 'Stone, cream, terracotta, golden ochre, lighter olive. Linen and light cotton. Lighter brown and tan leather. Your colouring peaks in warm light.',
+    chips: ['#C9B79A','#EDE3D0','#B5562E','#C68A1E','#6B6B33','#B08D57']
+  },
+  {
+    title: 'Winter',
+    desc: 'Go deeper. Tobacco, chocolate, burgundy, forest green, deep teal in heavier textures. Layer warm tones rather than retreating to black and grey.',
+    chips: ['#6B4E2E','#3E2C20','#6E2C2C','#2F4A2A','#1F5A52','#2E2A26']
+  },
+  {
+    title: 'Formal',
+    desc: 'Deep navy suit where you have the choice. A deep brown or warm charcoal suit is a distinctive alternative to the standard grey. Black tie stays black.',
+    chips: ['#1A2535','#3E2C20','#2E2A26','#EDE3D0']
+  },
+  {
+    title: 'Colour by Garment',
+    desc: 'Trousers: tobacco, olive, stone, camel, charcoal, chocolate. Shirts: cream base, then olive, terracotta, tobacco, burgundy, forest. Outerwear: olive, tobacco, chocolate, navy. Footwear: dark brown and chocolate — keep black for black tie only.',
+    chips: ['#6B4E2E','#6B6B33','#C9B79A','#B08D57','#2E2A26','#EDE3D0','#B5562E','#3E2C20']
+  },
+];
+
+const METALS = [
+  { name: 'Gold',       hex: '#C5A028', verdict: 'yes', label: 'Primary', desc: 'Warm yellow gold echoes your skin tone and reads expensive against your colouring. First choice for everything.' },
+  { name: 'Bronze / Brass', hex: '#8C6520', verdict: 'yes', label: 'First choice', desc: 'Arguably more "you" than gold — the muted, antique quality suits the Mediterranean direction perfectly.' },
+  { name: 'Rose Gold',  hex: '#C4836A', verdict: 'ok',  label: 'Works in small doses', desc: 'Slightly soft and modern against your depth. Fine in small doses; not your strongest choice.' },
+  { name: 'Silver / Steel', hex: '#A0A0A0', verdict: 'no',  label: 'Avoid for jewellery', desc: 'Creates a disconnect against warm skin. Fine for functional objects (zips, hardware). Never for jewellery.' },
+];
 
 const LOOKS = [
   {
-    name: 'The Sales Call',
-    occasion: 'Smart Casual · ABCo',
-    colours: ['#3A3535','#A07840','#EDE5C8','#2D5A3D'],
-    pieces: 'Warm charcoal slim chino (W34 L33), camel linen shirt (L Tall), cream knit layer, dark Chelsea boots',
-    fitNote: 'Slim tapered chino avoids bulk; shirt length critical — should clear the belt when moving'
+    name: 'The Working Uniform',
+    occasion: 'Casual · Daily',
+    colours: ['#6B4E2E','#EDE3D0','#C9B79A','#3E2C20'],
+    pieces: 'Plain tee (tobacco or cream, L) — owned: Carhartt WIP Brown or Dickies Cream; Wolsey Chore Jacket open; Nudie Dry Heavy W34/L33; Blundstone 2340 or Handball Spezial',
+    fitNote: 'Keep the chore jacket open — the vertical line breaks the long torso. Shoulder seam must sit exactly at the bone'
   },
   {
-    name: 'Mediterranean Evening',
-    occasion: 'Bar / Cocktails / CITC',
-    colours: ['#1B6B7A','#3A2218','#A07840','#EDE5C8'],
-    pieces: 'Deep teal linen shirt or jacket (L), espresso slim trouser, camel leather belt and accessories',
-    fitNote: 'Teal is your strongest colour on the upper body — your frame carries it. Trouser W34 L33'
+    name: 'Heritage Smart',
+    occasion: 'Smart Casual · Evening',
+    colours: ['#B08D57','#C9B79A','#1A2535','#3E2C20'],
+    pieces: 'Shetland crewneck (camel or forest green, L), chambray workshirt underneath (collar just visible), Nudie Dry Heavy or fatigue trouser, Blundstone Chelsea, Seiko Landmaster',
+    fitNote: 'Shirt collar sitting clean at the V-neck is the detail that elevates this. Long-block shirt is non-negotiable at 186cm'
   },
   {
-    name: 'Riviera Day',
+    name: 'Full Stack',
+    occasion: 'Cold Weather · Three Layers',
+    colours: ['#3E2C20','#6B6B33','#2F4A2A','#1A2535'],
+    pieces: 'Heavyweight tee (base), flannel overshirt (open), waxed cotton field jacket (outer), raw denim W34/L33, moc-toe work boot',
+    fitNote: 'Three layers, each visible: tee at the neck, flannel at the chest, jacket carrying the shoulders. EU Long block for the jacket is non-negotiable'
+  },
+  {
+    name: 'Summer Workwear',
     occasion: 'Casual · Warm Weather',
-    colours: ['#B04A28','#6B6245','#EDE5C8','#A07840'],
-    pieces: 'Terracotta casual shirt (L Tall), olive taupe linen trouser (W34 L33), cream tee underneath, camel loafers',
-    fitNote: 'Linen trousers often run short — always check inseam before buying'
+    colours: ['#C9B79A','#EDE3D0','#6B6B33','#B08D57'],
+    pieces: 'Camp collar linen shirt open (EU Long), cream or tobacco tee underneath — owned: Dickies Cream; BOSS Stone Chino Short or RL Khaki; Birkenstock Arizona Cognac',
+    fitNote: 'Open camp collar does the torso-break work the chore jacket does in cooler months. Rise: at or just below the natural waist — not low-slung'
   },
   {
-    name: 'The Motorcyclist Off Bike',
-    occasion: 'Everyday · Exploring',
-    colours: ['#3A3535','#8A7020','#3A2218','#6B6245'],
-    pieces: 'Warm charcoal chore coat or overshirt (XL for layer), mustard olive tee (L Tall), espresso jeans (W34 L32-33)',
-    fitNote: 'XL overshirt over L tee gives a relaxed but proportionate layer on tall frame'
+    name: 'Off-Duty Heritage',
+    occasion: 'Weekend · Relaxed',
+    colours: ['#6E2C2C','#6B4E2E','#1A2535','#5C3A1E'],
+    pieces: 'Champion Hoodie Burgundy (owned, L), Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
+    fitNote: 'Hoodie as mid-layer not outer piece keeps the silhouette correct. Brown tee visible at collar warms the burgundy'
   },
   {
-    name: 'Autumn Formal',
-    occasion: 'Smart / Events',
-    colours: ['#3A2218','#1B6B7A','#A07840','#EDE5C8'],
-    pieces: 'Espresso or deep brown suit (EU 50-52 Long), teal shirt, camel pocket square, cream tie or no tie',
-    fitNote: 'Suit jacket length is critical at 186cm — EU 50 regular often runs short; always try Long'
+    name: 'The Olive Layer',
+    occasion: 'Casual · Everyday',
+    colours: ['#6B6B33','#EDE3D0','#6B4E2E','#3E2C20'],
+    pieces: 'Olive overshirt or chore jacket (L), cream tee (L) — owned: Dickies Cream; tobacco chino or raw denim (W34/L33), Blundstone or Spezial',
+    fitNote: 'Overshirt open, hem at the hip. Cream tee visible at neck and hem for the vertical torso break'
   },
   {
-    name: 'Forest Weekend',
-    occasion: 'Outdoor / Casual',
-    colours: ['#2D5A3D','#6B6245','#3A2218','#EDE5C8'],
-    pieces: 'Forest pine field jacket (L-XL), olive taupe or espresso cargo/work trouser, cream or camel base layer',
-    fitNote: 'Field jacket length should hit mid-hip — if shorter it reads cropped and off-proportion'
+    name: 'Rust & Chocolate',
+    occasion: 'Everyday · Autumn',
+    colours: ['#A6471F','#3E2C20','#EDE3D0','#6B4E2E'],
+    pieces: 'Rust workshirt or knit (L), chocolate chino or raw denim, cream tee underneath — owned: Dickies Cream; Blundstone or work boot',
+    fitNote: 'Rust is an accent colour — wear it as the single lead piece against dark neutrals'
+  },
+  {
+    name: 'Forest Field Day',
+    occasion: 'Casual · Outdoor',
+    colours: ['#2F4A2A','#EDE3D0','#6B4E2E','#3E2C20'],
+    pieces: 'Forest green field jacket or waxed cotton (L, EU Long), cream tee (L), tobacco chino or fatigue trouser (W36), work boot or Blundstone',
+    fitNote: 'Field jacket length should hit mid-hip — shorter reads cropped on a tall frame. Re-wax Barbour-style annually'
+  },
+  {
+    name: 'The Burgundy Layer',
+    occasion: 'Smart Casual · Evening',
+    colours: ['#6E2C2C','#C9B79A','#3E2C20','#B08D57'],
+    pieces: 'Burgundy knit or Champion Hoodie (L) — owned: Champion; stone chino or BOSS Chino Short; Blundstone 2340 or Gazelle Stone/Burgundy; Seiko Landmaster',
+    fitNote: 'Burgundy against olive skin reads with real depth. One colour hit, neutrals carry everything else'
+  },
+  {
+    name: 'Deep Navy & Camel',
+    occasion: 'Smart Casual · Elevated',
+    colours: ['#1A2535','#B08D57','#3E2C20','#EDE3D0'],
+    pieces: 'Deep navy crew knit (L), camel chambray shirt or overshirt underneath, Nudie raw denim or chocolate trouser (W34/L33), Blundstone Chelsea',
+    fitNote: 'Navy + camel is the smartest neutral combination in the palette. Layered shirt collar at the V gives it workwear heritage weight'
   },
 ];
 
 const COMBOS = [
-  { name: 'The Riviera',          occasion: 'Smart Casual', colours: ['#B04A28','#A07840','#EDE5C8','#2D5A3D'] },
-  { name: 'Dark Mediterranean',   occasion: 'Evening',      colours: ['#3A2218','#5C2E2E','#A07840','#3A3535'] },
-  { name: 'Olive & Rust',         occasion: 'Everyday',     colours: ['#6B6245','#8A7020','#B04A28','#EDE5C8'] },
-  { name: 'Coastal Dusk',         occasion: 'Bar / Cocktails', colours: ['#1B6B7A','#2D5A3D','#EDE5C8','#A07840'] },
-  { name: 'The Workshirt',        occasion: 'Casual',       colours: ['#3A3535','#6B6245','#8A7020','#EDE5C8'] },
-  { name: 'Autumn Formal',        occasion: 'Smart / Events', colours: ['#3A2218','#1B6B7A','#A07840','#EDE5C8'] },
+  { name: 'Tobacco + Olive',      occasion: 'Everyday',        colours: ['#6B4E2E','#6B6B33','#EDE3D0','#3E2C20'] },
+  { name: 'Burgundy + Stone',     occasion: 'Evening',         colours: ['#6E2C2C','#C9B79A','#3E2C20','#EDE3D0'] },
+  { name: 'Terracotta + Camel',   occasion: 'Smart Casual',    colours: ['#B5562E','#B08D57','#EDE3D0','#6B4E2E'] },
+  { name: 'Teal + Chocolate',     occasion: 'Statement',       colours: ['#1F5A52','#3E2C20','#EDE3D0','#B08D57'] },
+  { name: 'Forest + Cream',       occasion: 'Casual',          colours: ['#2F4A2A','#EDE3D0','#6B4E2E','#C9B79A'] },
+  { name: 'Navy + Camel',         occasion: 'Smart',           colours: ['#1A2535','#B08D57','#3E2C20','#EDE3D0'] },
+  { name: 'Rust + Chocolate',     occasion: 'Autumn · Everyday', colours: ['#A6471F','#3E2C20','#EDE3D0','#6B4E2E'] },
+  { name: 'Olive + Stone',        occasion: 'Mediterranean',   colours: ['#6B6B33','#C9B79A','#6B4E2E','#3E2C20'] },
+  { name: 'Brick + Camel',        occasion: 'Casual',          colours: ['#9C3B26','#B08D57','#EDE3D0','#3E2C20'] },
 ];
 
 const RULES = [
   {
     n: '01',
-    title: 'Tall means check the inseam',
-    text: 'Every trouser you try must be at least 33" inseam. Do not assume — check the label. A 32" break is acceptable only with a deliberate turn-up or ankle break. Nothing else.',
-    chips: ['#3A3535','#6B6245','#3A2218'],
+    title: 'Tobacco is your anchor',
+    text: 'Your single strongest colour — it sits at the intersection of your skin tone depth and warmth. Wearing it creates an authoritative, pulled-together look with no effort. Build your wardrobe around multiples of it.',
+    chips: ['#6B4E2E','#B08D57','#EDE3D0'],
   },
   {
     n: '02',
-    title: 'Ground with dark, not black',
-    text: 'Espresso, Warm Charcoal, and Forest Pine are your base darks — they stay warm. Black and navy cool the palette and fight your colouring. Swap every black piece for espresso or charcoal.',
-    chips: ['#3A2218','#3A3535','#2D5A3D'],
+    title: 'Replace black with chocolate',
+    text: 'Pure black drains slightly against your warmth. Chocolate (#3E2C20) fills every role black would — trousers, boots, belts, outerwear — with more warmth and more harmony. Genuine black tie is the only exception.',
+    chips: ['#3E2C20','#2E2A26','#6B4E2E'],
   },
   {
     n: '03',
-    title: 'One signature colour per outfit',
-    text: 'Terracotta, Pine, Teal, or Mustard — one at a time. Your height means a strong colour on the upper body has impact. Let it lead. Neutrals carry everything else.',
-    chips: ['#B04A28','#2D5A3D','#1B6B7A','#8A7020'],
+    title: 'Cream over white, always',
+    text: 'Optic white is too cool and bright — it fights your undertone and makes the warmth in your skin look odd. Cream (#EDE3D0) replaces it in every context: tees, shirts, knitwear. A rule with no exceptions.',
+    chips: ['#EDE3D0','#C9B79A','#B08D57'],
   },
   {
     n: '04',
-    title: 'Warm metals, always',
-    text: 'Gold, bronze, aged brass — in your belt, watch, rings, and sunglasses. No silver or chrome. Your Seiko Landmaster and RM Williams already follow this rule perfectly.',
-    chips: ['#A07840','#8A7020','#B04A28'],
+    title: 'One signature per outfit',
+    text: 'Tobacco, Burgundy, Terracotta, Teal, Forest Green — one at a time. Your height means a strong colour on the upper body has real impact. Let one colour lead; neutrals carry everything else.',
+    chips: ['#6B4E2E','#6E2C2C','#B5562E','#1F5A52'],
   },
   {
     n: '05',
-    title: 'Cream over white',
-    text: 'Pure white reads cold against warm olive skin. Cream Ivory is the right light — it harmonises with your colouring rather than fighting it. A rule with no exceptions.',
-    chips: ['#EDE5C8'],
+    title: 'Warm metals only',
+    text: 'Gold, bronze, aged brass — in your belt, watch, rings, and sunglasses. Silver creates a disconnect against warm skin. Your Seiko Landmaster and RM Williams already follow this rule. Keep it consistent.',
+    chips: ['#B08D57','#C68A1E','#A6471F'],
   },
   {
     n: '06',
     title: 'Fit is your biggest lever',
-    text: 'Your 47cm shoulder and 83cm inseam are the two measurements that rule things in or out fastest. A jacket where the seam is off the shoulder by 1cm, or a trouser 4cm short, both undermine the whole look regardless of colour.',
-    chips: ['#A07840','#3A3535'],
+    text: 'Your 50.8cm / 20" shoulders and long torso rule things in or out faster than any colour decision. A jacket where the shoulder seam is off by 1cm, or a trouser at the wrong length, undermines the whole look regardless of colour.',
+    chips: ['#6B4E2E','#2E2A26','#C9B79A'],
+  },
+  {
+    n: '07',
+    title: 'Tuck smart: half-tuck or untuck',
+    text: 'A full tuck draws a hard horizontal line at the widest point of the midsection. A relaxed half-tuck (front in, sides loose) or a straight-hem overshirt left untucked avoids that line. Reserve full tucks for structured shirts that sit cleanly above the trouser waist with no bunching.',
+    chips: ['#6B4E2E','#6B6B33','#EDE3D0'],
+  },
+  {
+    n: '08',
+    title: 'Jacket and overshirt: hip length or just past',
+    text: 'Hip-length or fractionally below is the correct length for your frame. Anything cropped at the belly sits at the widest point and emphasises it. Mid-thigh is the other option for outerwear, where longer length shifts focus entirely to the silhouette.',
+    chips: ['#3E2C20','#6B4E2E','#2E2A26'],
+  },
+  {
+    n: '09',
+    title: 'Open layers lengthen the torso',
+    text: 'An unbuttoned overshirt, open cardigan, or unstructured blazer worn open creates a vertical line down the front that lengthens the torso. A single tucked knit closes the silhouette and widens it. When in doubt, leave the outer layer open.',
+    chips: ['#6B6B33','#3E2C20','#6B4E2E'],
+  },
+  {
+    n: '10',
+    title: 'Belt: 35mm and flat',
+    text: 'A wider, flatter belt sits better than a slim one on a widening waistband. The Hzhy full-grain chocolate belt is exactly right. Avoid anything under 25mm, which draws attention to the waist, and avoid large logo buckles that anchor the eye at the widest point.',
+    chips: ['#6B4E2E','#3E2C20','#B08D57'],
+  },
+  {
+    n: '11',
+    title: 'Raw denim earns its fade',
+    text: 'The Nudie Dry Heavy fades to your body over time — the creases, honeycombs, and whiskers are a record of how you move. Washing too early kills the fade pattern. Turn inside out, cold soak only, maximum once a month. The more worn they look, the better they\'re working.',
+    chips: ['#1A2535','#2A3040','#B87333'],
+  },
+  {
+    n: '12',
+    title: 'Secondhand first for heritage pieces',
+    text: 'Heritage brands hold value and age better than new equivalents from lesser labels. Vinted, eBay, and Depop carry Red Wing, Barbour, Carhartt WIP, Nudie, Wolsey, and William Lockie knitwear consistently. A secondhand Red Wing 875 at £80 outperforms a new high-street boot at £120. The workwear direction rewards this approach — worn-in is the goal, not new.',
+    chips: ['#6B4E2E','#3E2C20','#C9B79A'],
   },
 ];
 
-// HARMONY
-function harmonyScore(slots) {
-  const filled = slots.filter(Boolean);
-  if (filled.length < 2) return { score: 0, tip: 'Select colours from the right panel to build your outfit combination.' };
-  let sigCount = 0, neuCount = 0;
-  filled.forEach(hex => {
-    const c = ALL_COLOURS.find(x => x.hex === hex);
-    if (!c) return;
-    if (c.role === 'sig') sigCount++;
-    if (c.role === 'neu') neuCount++;
-  });
-  const total = filled.length;
-  const neuRatio = neuCount / total;
-  let score = 50;
-  if (neuRatio >= 0.5) score += 20;
-  else if (neuRatio >= 0.25) score += 10;
-  if (sigCount <= 1) score += 20;
-  if (sigCount === 1 && neuCount >= 2) score += 15;
-  if (sigCount >= 3) score -= 20;
-  if (total >= 3) score += 5;
-  score = Math.min(100, Math.max(0, score));
-  let tip;
-  if (score >= 85) tip = 'A well-anchored combination — the neutrals give your signature colour room to breathe.';
-  else if (score >= 65) tip = 'A solid pairing. Add a Cream Ivory or Camel Sand piece to ground the look.';
-  else if (sigCount >= 3) tip = 'Too many signature colours compete. Let one lead and support with neutrals.';
-  else if (neuCount === 0) tip = 'All statement colours — introduce a neutral to balance the composition.';
-  else tip = 'A workable base — a third piece would help lock the combination in.';
-  return { score, tip };
+
+// HARMONY — Deep Autumn / Deep Winter hybrid colour theory
+function hexToHsl(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255,
+        g = parseInt(hex.slice(3,5),16)/255,
+        b = parseInt(hex.slice(5,7),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b), l = (max+min)/2;
+  let h=0, s=0;
+  if (max !== min) {
+    const d = max-min;
+    s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+    if (max===r) h=((g-b)/d+(g<b?6:0))/6;
+    else if (max===g) h=((b-r)/d+2)/6;
+    else h=((r-g)/d+4)/6;
+  }
+  return { h: h*360, s: s*100, l: l*100 };
 }
 
-function renderHero() {
-  const el = document.getElementById('heroPalette');
-  ALL_COLOURS.forEach(c => {
-    const s = document.createElement('div');
-    s.className = 'hero-swatch';
-    s.style.background = c.hex;
-    s.title = c.name;
-    el.appendChild(s);
+function colourFit(hex) {
+  const { h, s, l } = hexToHsl(hex);
+  let pts = 50;
+  const veryDark = l < 20, lowSat = s < 18;
+  if (veryDark || lowSat) {
+    pts += 8; // very dark / desaturated colours function as deep neutrals regardless of hue
+  } else {
+    if      (h <= 50 || h >= 350) pts += 28; // reds, oranges, warm yellows — home territory
+    else if (h <= 100)             pts += 22; // olive, golden-green, khaki — excellent
+    else if (h <= 135)             pts += 12; // forest greens, earthy darks
+    else if (h <= 165)             pts +=  0; // cool greens — neutral
+    else if (h <= 205)             pts -= 12; // teal / blue-green — mild conflict
+    else if (h <= 260)             pts -= 22; // cool mid-blues — fight warmth
+    else if (h <= 310)             pts -=  8; // mid purples
+    else                           pts += 14; // warm plum / garnet territory
+  }
+  if      (l < 20 && s < 35)        pts += 10; // very dark neutrals
+  else if (l <= 55 && s >= 20)      pts += 14; // rich, medium-dark — sweet spot
+  else if (l <= 80 && s < 38)       pts +=  4; // lighter neutrals (cream / stone range)
+  else if (l > 80)                   pts -= 12; // too light
+  else if (s > 70 && l > 35)         pts -= 16; // vivid / electric — wrong for Deep types
+  if      (s >= 20 && s <= 62)  pts += 10;
+  else if (s > 78)               pts -= 14;
+  else if (s < 12 && l > 22 && l < 75) pts -= 5; // mid-range dusty
+  return Math.max(0, Math.min(100, pts));
+}
+
+function harmonyScore(slots) {
+  const filled = slots.filter(Boolean);
+  if (filled.length < 2) return { score: 0, tip: 'Select a colour from the right, then tap a slot — clothing first, then shoes, watch, hat and belt.' };
+
+  const parsed = filled.map(hex => ({ hex, hsl: hexToHsl(hex), fit: colourFit(hex) }));
+  const avgFit = parsed.reduce((sum, c) => sum + c.fit, 0) / parsed.length;
+
+  // Contrast range — Deep looks need at least one dark and one lighter anchor
+  const lights = parsed.map(c => c.hsl.l);
+  const lRange = Math.max(...lights) - Math.min(...lights);
+  const contrastBonus = lRange > 45 ? 16 : lRange > 28 ? 10 : lRange > 14 ? 3 : -6;
+
+  // Competing statements: saturated, mid-lightness, different hue families at similar depth
+  let clashPenalty = 0;
+  const sigs = parsed.filter(c => c.hsl.s > 22 && c.hsl.l > 20 && c.hsl.l < 66);
+  sigs.forEach((a, i) => {
+    sigs.slice(i+1).forEach(b => {
+      const lGap = Math.abs(a.hsl.l - b.hsl.l);
+      const hGap = Math.min(Math.abs(a.hsl.h-b.hsl.h), 360-Math.abs(a.hsl.h-b.hsl.h));
+      const sameWarmFamily = a.hsl.h <= 140 && b.hsl.h <= 140;
+      if (!sameWarmFamily && lGap < 22 && hGap > 55) clashPenalty += 9;
+    });
   });
+
+  // Palette membership — curated palette = intentional, calibrated choice
+  const palBonus = filled.filter(h => ALL_COLOURS.find(c => c.hex === h)).length * 4;
+
+  const score = Math.min(100, Math.max(0, Math.round(avgFit * 0.65 + contrastBonus + palBonus - clashPenalty)));
+  return { score, tip: '' };
+}
+
+function getSlotRecommendations() {
+  const SIDX = {};
+  SLOT_LABELS.forEach((l, i) => { SIDX[l] = i; });
+  const filled = {};
+  SLOT_LABELS.forEach((l, i) => { if (outfitSlots[i]) filled[l] = outfitSlots[i]; });
+  if (!Object.keys(filled).length) return {};
+
+  const { score: currentScore } = harmonyScore(outfitSlots);
+  const fc = Object.values(filled).map(h => ALL_COLOURS.find(c => c.hex === h)).filter(Boolean);
+  const sigN = fc.filter(c => c.role === 'sig').length;
+
+  function scoreWith(label, hex) {
+    const test = [...outfitSlots];
+    test[SIDX[label]] = hex;
+    return harmonyScore(test).score;
+  }
+
+  const OWNED_ITEMS = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Hoodie: HOODIES, Bag: BAGS };
+
+  const CANDIDATES = {
+    Shirt:     () => ALL_COLOURS,
+    'T-Shirt': () => ALL_COLOURS,
+    Shorts:    () => ALL_COLOURS,
+    Pants:     () => ALL_COLOURS,
+    Layer:     () => ALL_COLOURS,
+    Accent:    () => ALL_COLOURS,
+    Shoes:     () => ALL_COLOURS,
+    Hat:       () => ALL_COLOURS,
+    Belt:      () => ALL_COLOURS,
+    Watch:     () => null,
+  };
+
+  const recs = {};
+  SLOT_LABELS.forEach((label, i) => {
+    if (outfitSlots[i] || !CANDIDATES[label]) return;
+    const partner = SLOT_PAIRS[label];
+    if (partner && outfitSlots[SIDX[partner]]) return;
+
+    // score every owned item, keep those that maintain or improve, sort best first
+    const owned = (OWNED_ITEMS[label] || [])
+      .map(item => ({ item, s: scoreWith(label, item.colour) }))
+      .filter(({ s }) => s >= currentScore)
+      .sort((a, b) => b.s - a.s)
+      .map(({ item }) => item);
+
+    const pool = CANDIDATES[label]();
+    let colours = [];
+    if (pool) {
+      const seen = new Set();
+      const scored = pool
+        .filter(c => { if (seen.has(c.hex)) return false; seen.add(c.hex); return true; })
+        .map(c => ({ c, s: scoreWith(label, c.hex) }))
+        .filter(({ s }) => s >= currentScore)          // maintain or improve
+        .sort((a, b) => b.s - a.s);                    // best score first
+      // only show colours if they actually improve or are genuinely the best available
+      const topScore = scored[0]?.s ?? 0;
+      colours = scored.filter(({ s }) => s === topScore).slice(0, 3).map(({ c }) => c);
+    }
+    if (owned.length || colours.length) recs[label] = { owned, colours };
+  });
+
+  return recs;
+}
+
+function renderRecommendations() {
+  const panel = document.getElementById('recPanel');
+  if (!panel) return;
+  const recs = getSlotRecommendations();
+  const entries = Object.entries(recs);
+  if (!entries.length) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  panel.innerHTML = '<div class="rec-panel-title">Suggestions for empty slots</div>' +
+    entries.map(([label, { owned, colours }]) => {
+      const ownedHtml = owned.length
+        ? `<div class="rec-owned-chips">${owned.map(item => {
+            const sw = item.colours.map(h => `<div class="rec-item-swatch" style="background:${h}"></div>`).join('');
+            return `<div class="rec-item-chip" title="${item.name}" onclick="applyRecItem('${label}','${item.id}')"><div class="rec-item-swatches">${sw}</div><span class="rec-item-name">${item.short}</span></div>`;
+          }).join('')}</div>` : '';
+      const sepHtml = owned.length && colours.length ? '<div class="rec-owned-sep"></div>' : '';
+      const colourHtml = colours.length
+        ? `<div class="rec-chips">${colours.map(c =>
+            `<div class="rec-chip" style="background:${c.hex}" title="${c.name}" onclick="applyRecColour('${c.hex}','${label}')"></div>`
+          ).join('')}</div><span class="rec-hint">${colours.map(c => c.name).join(' · ')}</span>` : '';
+      return `<div class="rec-row"><span class="rec-slot-name">${label}</span>${ownedHtml}${sepHtml}${colourHtml}</div>`;
+    }).join('');
+}
+
+function applyRecColour(hex, label) {
+  const i = SLOT_LABELS.indexOf(label);
+  if (i < 0) return;
+  clearPartner(label);
+  outfitSlots[i] = hex;
+  renderOutfitSlots();
+  updateHarmony();
+  showToast((ALL_COLOURS.find(c => c.hex === hex)?.name || hex) + ' → ' + label);
+}
+
+function applyRecItem(slotLabel, itemId) {
+  const allItems = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Hoodie: HOODIES, Bag: BAGS };
+  const item = (allItems[slotLabel] || []).find(x => x.id === itemId);
+  if (!item) return;
+  const i = SLOT_LABELS.indexOf(slotLabel);
+  if (i < 0) return;
+  clearPartner(slotLabel);
+  outfitItems[slotLabel] = item;
+  outfitSlots[i] = item.colour;
+  renderOutfitSlots();
+  updateHarmony();
+  showToast(item.name + ' → ' + slotLabel);
 }
 
 function renderGrid(id, colours) {
@@ -1093,62 +2738,670 @@ function renderGrid(id, colours) {
   });
 }
 
-const SLOT_LABELS = ['Top', 'Bottom', 'Layer', 'Accent'];
-let outfitSlots = [null, null, null, null];
+const SLOT_GROUPS = [
+  { label: 'Clothing', slots: ['Shirt', 'T-Shirt', 'Shorts', 'Pants', 'Jacket', 'Hoodie', 'Accent'],
+    pairs: [['Shirt', 'T-Shirt'], ['Shorts', 'Pants'], ['Jacket', 'Hoodie']] },
+  { label: 'Accessories', slots: ['Shoes', 'Socks', 'Watch', 'Hat', 'Belt', 'Bag'] }
+];
+const SLOT_PAIRS = { 'Shirt': 'T-Shirt', 'T-Shirt': 'Shirt', 'Shorts': 'Pants', 'Pants': 'Shorts', 'Jacket': 'Hoodie', 'Hoodie': 'Jacket' };
+const SLOT_LABELS = SLOT_GROUPS.flatMap(g => g.slots);
+let outfitSlots = new Array(SLOT_LABELS.length).fill(null);
 let selectedColour = null;
+let outfitItems = {};
+let pickerMode = 'colour';
+let selectedSlot = null;
+
+const SLOT_ICONS = {
+  Shirt:     '<rect x="6" y="3" width="12" height="3" rx="1.5"/><path d="M6 6 Q3 8 3 12v8h18v-8q0-4-3-6"/><line x1="9" y1="9" x2="15" y2="9"/>',
+  'T-Shirt': '<rect x="8" y="3" width="8" height="2.5" rx="1.25"/><path d="M8 5.5 Q5 7 3 9.5v1.5h4v9h10v-9h4V9.5Q19 7 16 5.5"/>',
+  Shorts:    '<path d="M5 4h14l-1 9H7L6 4z"/><line x1="12" y1="4" x2="12" y2="13"/>',
+  Pants:     '<path d="M5 4h14l-2 16H7L5 4z"/><line x1="12" y1="4" x2="12" y2="20"/>',
+  Jacket:    '<path d="M6 4h4l2 3 2-3h4v17H6V4z"/><line x1="12" y1="7" x2="12" y2="21"/>',
+  Hoodie:    '<path d="M8 4c-2.5 0-5 3-5 6v11h18V10c0-3-2.5-6-5-6"/><path d="M8 4s1.5 4 4 4 4-4 4-4"/>',
+  Accent:    '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  Shoes:     '<path d="M3 17c0 0 2-3 5-3h6c2 0 4 1 6 2v1H3v-1z"/><path d="M8 14V9c0-1 1-2 2-2h2"/>',
+  Socks:     '<path d="M10 3h4v10l4 4a2 2 0 1 1-3 3l-5-5H8V3z"/>',
+  Watch:     '<circle cx="12" cy="12" r="6"/><path d="M9 4h6M9 20h6"/><line x1="12" y1="9" x2="12" y2="12"/><line x1="12" y1="12" x2="14.5" y2="13.5"/>',
+  Hat:       '<path d="M4 16h16M8 16 Q8 10 12 9 Q16 10 16 16"/><line x1="2" y1="16" x2="22" y2="16"/>',
+  Belt:      '<rect x="2" y="10" width="20" height="4" rx="2"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>',
+  Bag:       '<path d="M6 7h12l1 12H5L6 7z"/><path d="M10 7V5a2 2 0 0 1 4 0v2"/><line x1="5" y1="12" x2="19" y2="12"/>'
+};
+
+function clearPartner(label) {
+  const partner = SLOT_PAIRS[label];
+  if (!partner) return;
+  outfitSlots[SLOT_LABELS.indexOf(partner)] = null;
+  delete outfitItems[partner];
+}
+
+function buildSlotEl(label) {
+  const i = SLOT_LABELS.indexOf(label);
+  const isItemSlot = label === 'Shoes' || label === 'Socks' || label === 'Watch' || label === 'Pants' || label === 'Belt' || label === 'T-Shirt' || label === 'Shorts' || label === 'Jacket' || label === 'Hoodie' || label === 'Shirt' || label === 'Bag';
+  const item = outfitItems[label];
+  const slot = document.createElement('div');
+  slot.className = 'outfit-slot' + (outfitSlots[i] ? ' filled' : '') + (selectedSlot === i ? ' active' : '');
+  if (outfitSlots[i]) {
+    slot.style.background = item ? item.colours[0] : outfitSlots[i];
+    if (item) {
+      const sw = item.colours.map(h => `<div class="slot-item-swatch" style="background:${h}"></div>`).join('');
+      slot.innerHTML = `<div class="slot-item-swatches">${sw}</div><span class="slot-item-name">${item.short}</span><span class="slot-label">${label}</span>`;
+    } else {
+      const colourName = ALL_COLOURS.find(c => c.hex === outfitSlots[i])?.name || '';
+      slot.innerHTML = `${colourName ? `<span class="slot-item-name">${colourName}</span>` : ''}<span class="slot-label">${label}</span>`;
+    }
+  } else {
+    slot.innerHTML = `
+      <svg class="slot-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        ${SLOT_ICONS[label] || '<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>'}
+      </svg>
+      <span class="slot-label">${label}</span>`;
+  }
+  slot.addEventListener('click', () => {
+    if (outfitSlots[i]) {
+      outfitSlots[i] = null;
+      if (isItemSlot) delete outfitItems[label];
+      if (selectedSlot === i) selectedSlot = null;
+      renderOutfitSlots();
+      updateHarmony();
+    } else if (isItemSlot) {
+      selectedSlot = i;
+      renderOutfitSlots();
+      switchPickerMode(label.toLowerCase());
+    } else {
+      selectedSlot = i;
+      if (pickerMode !== 'colour') switchPickerMode('colour');
+      else refreshPicker();
+      renderOutfitSlots();
+    }
+  });
+  return slot;
+}
 
 function renderOutfitSlots() {
   const cont = document.getElementById('outfitSlots');
   cont.innerHTML = '';
-  SLOT_LABELS.forEach((label, i) => {
-    const slot = document.createElement('div');
-    slot.className = 'outfit-slot' + (outfitSlots[i] ? ' filled' : '');
-    if (outfitSlots[i]) {
-      slot.style.background = outfitSlots[i];
-      slot.innerHTML = `<span class="slot-label">${label}</span>`;
-    } else {
-      slot.innerHTML = `
-        <svg class="slot-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="3" width="18" height="18" rx="2"/>
-          <line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-        </svg>
-        <span class="slot-label">${label}</span>`;
-    }
-    slot.addEventListener('click', () => {
-      if (outfitSlots[i]) { outfitSlots[i] = null; }
-      else if (selectedColour) { outfitSlots[i] = selectedColour; }
-      renderOutfitSlots();
-      updateHarmony();
+  SLOT_GROUPS.forEach(group => {
+    const groupEl = document.createElement('div');
+    groupEl.className = 'slot-group';
+    const groupLabel = document.createElement('div');
+    groupLabel.className = 'slot-row-label';
+    groupLabel.textContent = group.label;
+    groupEl.appendChild(groupLabel);
+    const row = document.createElement('div');
+    row.className = 'slot-row';
+
+    const pairOf = {};
+    (group.pairs || []).forEach(([a, b]) => { pairOf[a] = b; pairOf[b] = a; });
+    const rendered = new Set();
+
+    group.slots.forEach(label => {
+      if (rendered.has(label)) return;
+      const partner = pairOf[label];
+      if (partner) {
+        rendered.add(label);
+        rendered.add(partner);
+        const pairCell = document.createElement('div');
+        pairCell.className = 'slot-pair';
+        const pairRow = document.createElement('div');
+        pairRow.className = 'slot-pair-items';
+        pairRow.appendChild(buildSlotEl(label));
+        pairRow.appendChild(buildSlotEl(partner));
+        const divEl = document.createElement('div');
+        divEl.className = 'slot-pair-divider';
+        divEl.textContent = 'or';
+        pairCell.appendChild(pairRow);
+        pairCell.appendChild(divEl);
+        row.appendChild(pairCell);
+      } else {
+        row.appendChild(buildSlotEl(label));
+      }
     });
-    cont.appendChild(slot);
+
+    groupEl.appendChild(row);
+    cont.appendChild(groupEl);
   });
+}
+
+function generateStyleTip() {
+  const fi = {};
+  SLOT_LABELS.forEach((label, i) => {
+    if (!outfitSlots[i]) return;
+    fi[label] = { item: outfitItems[label], colour: ALL_COLOURS.find(c => c.hex === outfitSlots[i]), hex: outfitSlots[i] };
+  });
+  const count = Object.keys(fi).length;
+  if (count === 0) return 'Pick a top or bottom to begin — build the base first, then layer outward.';
+
+  const allC  = Object.values(fi).map(f => f.colour).filter(Boolean);
+  const sigN  = allC.filter(c => c.role === 'sig').length;
+  const neuN  = allC.filter(c => c.role === 'neu').length;
+
+  const topSlot  = fi['T-Shirt'] || fi['Shirt'];
+  const botSlot  = fi['Pants']   || fi['Shorts'];
+  const topName  = topSlot?.item?.short  || topSlot?.colour?.name;
+  const botName  = botSlot?.item?.short  || botSlot?.colour?.name;
+  const shoeName = fi['Shoes']?.item?.short  || fi['Shoes']?.colour?.name;
+  const laySlot  = fi['Jacket'] || fi['Hoodie'];
+  const layName  = laySlot?.item?.short  || laySlot?.colour?.name;
+
+  if (count === 1) {
+    const [label, { item, colour }] = Object.entries(fi)[0];
+    const name = item?.name || colour?.name || label;
+    if (label === 'Shoes') return `${name} on their own — solid foundation piece. Add a bottom next, then work upward.`;
+    if (label === 'T-Shirt' || label === 'Shirt') return `${name} is the starting point. What you pair below will define the whole direction — jeans for texture, chinos for cleanliness.`;
+    return `${name} selected. Build the rest of the outfit around this piece.`;
+  }
+
+  // Hard compatibility checks — flag gear mistakes before colour analysis
+  const shoeId  = fi['Shoes']?.item?.id;
+  const socksId = fi['Socks']?.item?.id;
+  const shortId = fi['Shorts']?.item?.id;
+  const layerId = (fi['Jacket'] || fi['Hoodie'])?.item?.id;
+
+  if (shoeId === 'birkenstock' && socksId) {
+    const socksName = fi['Socks'].item.short;
+    return `${socksName} with the Arizona slides — that's a hard no. Slides are worn barefoot. Remove the socks.`;
+  }
+  if (shoeId === 'blundstone' && socksId === 'glenmuir-noshows') {
+    return `No-show liners inside the Blundstones won't stay up — the boot shaft is too tall. Swap to the Merino Brown or Hiking socks.`;
+  }
+  if ((shoeId === 'spezial' || shoeId === 'gazelle') && (socksId === 'glenmuir-merino' || socksId === 'niorasen-hiking')) {
+    const socksName = fi['Socks'].item.short;
+    const shoeName2 = fi['Shoes'].item.short;
+    return `${socksName} with the ${shoeName2} — crew socks on low trainers is always wrong, regardless of weather. Trainers get no-show liners. Swap immediately.`;
+  }
+  if ((shoeId === 'spezial' || shoeId === 'gazelle') && fi['Shorts'] && !socksId) {
+    // Trainers + shorts with no socks selected is fine — they'll be wearing no-shows
+  }
+  if (shortId === 'rl-khaki-shorts' && (fi['Jacket'] || fi['Hoodie'])) {
+    return `Swim shorts with ${layerId ? fi['Jacket']?.item?.short || fi['Hoodie']?.item?.short : 'a layer'} — the Ralph Laurens are swimwear, not casual shorts. A layer over swim shorts reads confused. Either swap to the BOSS chinos, or drop the layer and keep it a beach/summer look.`;
+  }
+  if (shortId === 'rl-khaki-shorts' && fi['Belt']) {
+    return `Belt with swim shorts — the RL Khaki shorts are swimwear with a built-in waistband. No belt needed. Save the Choc Belt for the jeans or BOSS chinos.`;
+  }
+  if (fi['Shorts'] && fi['Jacket'] && !fi['Hoodie']) {
+    const jacketName = fi['Jacket'].item?.short || 'Jacket';
+    const shortName  = fi['Shorts'].item?.short  || 'Shorts';
+    return `${jacketName} with ${shortName} — a structured chore jacket over shorts creates a mismatched formality clash. If you want a layer, the Champion hoodie sits better with shorts. Or swap to jeans and keep the chore jacket.`;
+  }
+
+  // Critical analysis — HSL-based checks fire before pair callouts
+  if (count >= 2) {
+    const outfitHsl = Object.entries(fi).map(([label, { item, colour, hex }]) => ({
+      label,
+      name: item?.short || colour?.name || label,
+      hsl: hexToHsl(hex || '#888'),
+      fit: colourFit(hex || '#888')
+    }));
+
+    const lights = outfitHsl.map(d => d.hsl.l);
+    const lRange = Math.max(...lights) - Math.min(...lights);
+
+    // Problem: all-dark — no contrast anchor
+    if (lRange < 14 && Math.max(...lights) < 48) {
+      const darkNames = outfitHsl.map(d => d.name).join(' + ');
+      return `${darkNames} — too tonally dark. The outfit collapses into one heavy mass. You need a lighter piece to create separation: Dickies Cream tee, Stone chore jacket, or any cream/stone layer.`;
+    }
+
+    // Problem: all mid-tones — washed, no depth
+    if (lRange < 18 && Math.min(...lights) > 35 && Math.max(...lights) < 72) {
+      return `Everything is sitting in the same mid-tone band — the look needs either a dark anchor (Dry Heavy, chocolate belt, espresso layer) or a light counterpoint (cream, stone) to give it any depth.`;
+    }
+
+    // Problem: competing statements at same depth, different hue families
+    const midSigs = outfitHsl.filter(d => d.hsl.s > 22 && d.hsl.l > 20 && d.hsl.l < 66);
+    for (let i = 0; i < midSigs.length; i++) {
+      for (let j = i+1; j < midSigs.length; j++) {
+        const a = midSigs[i], b = midSigs[j];
+        const lGap = Math.abs(a.hsl.l - b.hsl.l);
+        const hGap = Math.min(Math.abs(a.hsl.h-b.hsl.h), 360-Math.abs(a.hsl.h-b.hsl.h));
+        const sameFamily = a.hsl.h <= 140 && b.hsl.h <= 140;
+        if (!sameFamily && lGap < 22 && hGap > 55) {
+          return `${a.name} and ${b.name} are both mid-depth statements with different hue directions — they fight for the same visual weight without resolving. One needs to step back: either swap one for a neutral (cream, stone, chocolate), or add a strong dark anchor like the Dry Heavy or Choc Belt to create hierarchy.`;
+        }
+      }
+    }
+
+    // Problem: low-fit colour (cool or wrong chroma for Deep Autumn)
+    const weakLink = outfitHsl.filter(d => d.fit < 45).sort((a,b) => a.fit - b.fit)[0];
+    if (weakLink) {
+      const coolOrBright = weakLink.hsl.h > 165 && weakLink.hsl.h < 310 && weakLink.hsl.s > 20;
+      const tooBright = weakLink.hsl.s > 70 && weakLink.hsl.l > 35;
+      if (tooBright) {
+        return `${weakLink.name} is too vivid for a Deep Autumn palette — the chroma is high enough to read as a different seasonal type. Dial it back: anything in this outfit should have richness, not brightness. Swap for something with more depth and warmth.`;
+      }
+      if (coolOrBright) {
+        return `${weakLink.name} is pulling cool — your Deep Autumn/Deep Winter colouring needs warmth as its base. Cool tones as a single contrast accent can work, but this is reading too blue/cool for the palette. Consider dropping to a deep neutral or swapping for a warm counterpart.`;
+      }
+    }
+
+    // Problem: tonal trap — all neutrals, zero personality
+    if (sigN === 0 && count >= 3) {
+      return `The outfit is fully neutral — technically clean but lacking character. All-neutral reads safe rather than considered on a Deep Autumn. Add one signature piece: a burgundy or tobacco layer, the Gazelles in stone/burgundy, or any warm earth tone at medium depth.`;
+    }
+  }
+
+  // Specific owned-item pair callouts
+  const id = label => fi[label]?.item?.id;
+  const pairNote = (() => {
+    if (id('Shoes') === 'birkenstock' && id('Pants') === 'se2-dry-heavy')
+      return 'Arizona birkenstocks with the Dry Heavy — cognac leather against raw indigo is a textural sweet spot. Earthy and considered.';
+    if (id('Shoes') === 'birkenstock' && id('Shorts') === 'boss-chino')
+      return 'Birks with the BOSS stone chinos is a clean summer pairing — relaxed without looking sloppy.';
+    if (id('Shoes') === 'gazelle' && id('Pants') === 'se2-dry-heavy')
+      return 'Gazelles and the Dry Heavy — stone and burgundy against raw indigo. Understated but with character.';
+    if (id('T-Shirt') === 'carhartt-brown' && id('Pants') === 'se2-dry-heavy')
+      return 'Carhartt brown tee with the Dry Heavy jeans — earthy warmth on top, structured indigo below. A workwear-influenced pairing that works effortlessly.';
+    if (id('T-Shirt') === 'dickies-cream' && id('Shorts') === 'rl-khaki-shorts')
+      return 'Dickies cream with the RL khaki shorts — fully neutral and unfussy. A clean summer base that you can leave as-is or accent upward.';
+    if (id('T-Shirt') === 'dickies-cream' && id('Pants') === 'se2-dry-heavy')
+      return 'Cream tee with the Dry Heavy — the lightest neutral against the deepest base. Clean contrast, the denim does the heavy lifting.';
+    if (id('Hoodie') === 'champion-hood' && id('Pants') === 'se2-dry-heavy')
+      return 'Champion burgundy hoodie over the Dry Heavy — the muted red-brown and raw indigo are a classic autumn pairing. Rich without being loud.';
+    if (id('Jacket') === 'wolsey-chore' && topSlot)
+      return `Wolsey Chore Jacket over ${topName || 'a tee'} — the stone twill reads as quietly elevated. Worker-influenced silhouette that sits well in the Deep Autumn palette.`;
+    if (id('Belt') === 'hzhy-choc' && botSlot)
+      return `Chocolate belt with ${botName || 'the bottom'} — the dark leather pulls the eye to the waist and anchors the warm end of the palette.`;
+    if (id('T-Shirt') === 'levis-khaki' && id('Shorts') === 'boss-chino')
+      return "Khaki tee with stone chinos — tonal and relaxed. You're in the neutral zone, which gives you total freedom with a layer or shoes in any sig colour.";
+    if (id('T-Shirt') === 'carhartt-brown' && id('Shorts') === 'rl-khaki-shorts')
+      return 'Carhartt brown with the RL khaki shorts — tobacco warmth on top, olive-green below. Two earthy sig tones in close range — keep everything else neutral.';
+    if (id('Shirt') === 'avignon-cream' && id('Pants') === 'se2-dry-heavy')
+      return 'Avignon cream shirt with the Dry Heavy — the lightest piece over the darkest base is the simplest version of good contrast. Tuck it in and it reads intentional immediately.';
+    if (id('Shirt') === 'wrangler-stripe' && id('Pants') === 'se2-dry-heavy')
+      return 'Wrangler stripe over the Dry Heavy — two heritage workwear pieces. The beige stripe keeps it warm and the indigo gives it weight. A natural combination that lands without effort.';
+    if (id('Shoes') === 'spezial' && id('Pants') === 'se2-dry-heavy')
+      return 'Spezials and the Dry Heavy — Aurora Coffee sneakers against raw indigo. The warm gum sole bridges the gap between the tobacco upper and the blue-black denim.';
+    if (id('Shoes') === 'blundstone' && id('Pants') === 'se2-dry-heavy')
+      return 'Blundstones and the Dry Heavy — brown Chelsea boot with raw indigo is a workwear staple. Dark chocolate against dark indigo: tonal but textural.';
+    return null;
+  })();
+
+  if (pairNote) {
+    const missing = [];
+    if (!fi['Belt'])  missing.push('belt');
+    if (!fi['Jacket'] && !fi['Hoodie']) missing.push('a layer');
+    if (!fi['Watch']) missing.push('watch');
+    if (!(fi['T-Shirt'] || fi['Shirt'])) missing.push('top');
+    if (!(fi['Pants'] || fi['Shorts'])) missing.push('bottom');
+    if (!fi['Shoes']) missing.push('shoes');
+    const next = missing[0];
+    const elevation = next ? ` Next: add ${next === 'belt' ? 'the Choc Belt to anchor the waist' : next === 'a layer' ? 'the Chore Jacket or Champion hoodie for depth' : next === 'watch' ? 'the Seiko or G-Shock at the wrist' : `a ${next}`}.` : ' The outfit is complete.';
+    return pairNote + elevation;
+  }
+
+  // Calibrated generic tips using actual composition analysis
+  if (topSlot && botSlot && fi['Shoes']) {
+    const base = `${topName} · ${botName} · ${shoeName}.`;
+    if (sigN === 0) return `${base} Fully neutral — a strong, clean read, but the palette has more character to offer. Add one warm earth tone: tobacco layer, olive accent, or swap the shoes for the Gazelles.`;
+    if (sigN === 1 && neuN >= 2) return `${base} One statement colour with strong neutral support — the balance Deep Autumn calls for. ${!fi['Belt'] ? 'The Choc Belt would close the waist and tighten the whole read.' : (!fi['Jacket'] && !fi['Hoodie']) ? 'A layer in stone or cream would add structure without disturbing the palette.' : 'Finish with the Seiko or G-Shock and the look is complete.'}`;
+    if (sigN >= 2) return `${base} Two warm signatures — the combination works if their depth levels are different. If they read as competing equals, drop one back to a neutral (stone, cream, chocolate) and let a single statement lead.`;
+    return `${base} Solid base. ${!fi['Belt'] ? 'A belt sharpens the silhouette — the Choc Belt is the obvious call.' : (!fi['Jacket'] && !fi['Hoodie']) ? 'A layer in stone or tobacco would add depth without complicating it.' : 'The accessories complete it.'}`;
+  }
+  if (topSlot && !botSlot) return `${topName} as the top. Pair with the Dry Heavy for depth and texture, or the BOSS stone chinos for a cleaner, more relaxed read.`;
+  if (botSlot && !topSlot) {
+    if (id('Pants') === 'se2-dry-heavy') return 'The Dry Heavy as your base — it does a lot of the work. Let a neutral tee carry the top: Dickies cream for maximum contrast, Carhartt brown for a warmer tonal build.';
+    return `${botName} as the base. A neutral top keeps the palette grounded — or a warm sig tee if you want more energy in the combination.`;
+  }
+  if (fi['Shoes'] && !topSlot && !botSlot) return `${shoeName} — solid choice. Add a bottom first, then build upward.`;
+  return 'Keep building — more pieces give the scoring more to work with.';
 }
 
 function updateHarmony() {
-  const { score, tip } = harmonyScore(outfitSlots);
+  const { score: rawScore } = harmonyScore(outfitSlots);
+  const hasTop    = outfitSlots[SLOT_LABELS.indexOf('Shirt')] || outfitSlots[SLOT_LABELS.indexOf('T-Shirt')];
+  const hasBottom = outfitSlots[SLOT_LABELS.indexOf('Shorts')] || outfitSlots[SLOT_LABELS.indexOf('Pants')];
+  const hasShoes  = outfitSlots[SLOT_LABELS.indexOf('Shoes')];
+  const isBase    = hasTop && hasBottom && hasShoes;
+  const score     = isBase ? rawScore : Math.min(rawScore, 85);
+
   document.getElementById('harmonyFill').style.width = score + '%';
   document.getElementById('harmonyScore').textContent = score > 0 ? score + '%' : '—';
-  document.getElementById('tipText').textContent = tip;
+  document.getElementById('tipText').textContent = generateStyleTip();
+  renderRecommendations();
+
 }
 
-function renderPicker() {
-  const grid = document.getElementById('pickerGrid');
-  ALL_COLOURS.forEach(c => {
-    const chip = document.createElement('div');
-    chip.className = 'picker-chip';
-    chip.style.background = c.hex;
-    chip.title = c.name;
-    chip.dataset.hex = c.hex;
-    chip.addEventListener('click', () => selectPickerColour(c.hex));
-    grid.appendChild(chip);
-  });
+function clearOutfit() {
+  outfitSlots = new Array(SLOT_LABELS.length).fill(null);
+  outfitItems = {};
+  selectedSlot = null;
+  renderOutfitSlots();
+  updateHarmony();
+  refreshPicker();
 }
 
-function selectPickerColour(hex) {
-  selectedColour = hex;
-  document.querySelectorAll('.picker-chip').forEach(c => {
-    c.classList.toggle('selected', c.dataset.hex === hex);
-  });
+let currentWeather = null;
+
+const WEATHER_CODES = {
+  0:'Clear', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
+  45:'Fog', 48:'Icy fog',
+  51:'Light drizzle', 53:'Drizzle', 55:'Heavy drizzle',
+  56:'Freezing drizzle', 57:'Heavy freezing drizzle',
+  61:'Light rain', 63:'Rain', 65:'Heavy rain',
+  66:'Freezing rain', 67:'Heavy freezing rain',
+  71:'Light snow', 73:'Snow', 75:'Heavy snow', 77:'Snow grains',
+  80:'Light showers', 81:'Showers', 82:'Heavy showers',
+  85:'Snow showers', 86:'Heavy snow showers',
+  95:'Thunderstorm', 96:'Thunderstorm + hail', 99:'Thunderstorm + heavy hail'
+};
+const RAINY_CODES = new Set([51,53,55,56,57,61,63,65,66,67,80,81,82,85,86,95,96,99]);
+
+function weatherBand(temp) {
+  if (temp >= 23) return 'hot';
+  if (temp >= 15) return 'warm';
+  if (temp >= 8)  return 'mild';
+  return 'cold';
+}
+
+let currentOccasion = 'adaptive';
+
+function setOccasion(occ) {
+  currentOccasion = occ;
+  document.querySelectorAll('.occasion-chip').forEach(el =>
+    el.classList.toggle('active', el.dataset.occasion === occ)
+  );
+}
+
+function renderWeatherBar() {
+  const bar = document.getElementById('weatherBar');
+  if (!bar) return;
+  const w = currentWeather;
+  if (!w) { bar.style.display = 'none'; return; }
+  const band = weatherBand(w.high);
+  const bandLabel = { hot: 'Hot day', warm: 'Warm day', mild: 'Layering weather', cold: 'Cold — full layers' }[band];
+  const condStr = WEATHER_CODES[w.code] || 'Clear';
+  const rainNote = w.rainLikely ? ' · Rain likely' : '';
+  const rangeStr = w.high !== w.low ? `High ${w.high}° · Low ${w.low}°` : `${w.high}°`;
+  bar.style.display = 'flex';
+  bar.innerHTML = `
+    <div class="weather-temp">${w.high}°</div>
+    <div class="weather-meta">
+      <span class="weather-condition">${condStr}${rainNote}</span>
+      <span class="weather-feels">L ${w.low}°${w.wind > 10 ? ' · ' + w.wind + ' mph' : ''}</span>
+    </div>
+    <div class="weather-context">${bandLabel}</div>`;
+
+  const btn = document.getElementById('generateBtn');
+  if (btn) btn.textContent = 'Generate outfit';
+}
+
+async function fetchWeather() {
+  const bar = document.getElementById('weatherBar');
+  if (bar) { bar.style.display = 'flex'; bar.innerHTML = '<span class="weather-loading">Getting weather...</span>'; }
+  try {
+    let lat, lon;
+
+    // Stage 1: browser geolocation (HTTPS only, needs permission)
+    try {
+      const pos = await new Promise((res, rej) =>
+        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000, maximumAge: 300000 })
+      );
+      lat = pos.coords.latitude;
+      lon = pos.coords.longitude;
+    } catch(_) {
+      // Stage 2: try ip-api.com (reliable, no key needed)
+      try {
+        const g = await fetch('https://ip-api.com/json/?fields=lat,lon,status').then(r => r.json());
+        if (g.status === 'success') { lat = g.lat; lon = g.lon; }
+      } catch(__) {}
+    }
+
+    // Stage 3: try ipapi.co as second IP fallback
+    if (!lat) {
+      try {
+        const g2 = await fetch('https://ipapi.co/json/').then(r => r.json());
+        if (g2.latitude) { lat = g2.latitude; lon = g2.longitude; }
+      } catch(__) {}
+    }
+
+    // Stage 4: hardcoded London as absolute last resort
+    if (!lat) { lat = 51.51; lon = -0.13; }
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+      `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m` +
+      `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code_max` +
+      `&temperature_unit=celsius&wind_speed_unit=mph&timezone=auto&forecast_days=1`;
+    const r = await fetch(url);
+    const data = await r.json();
+    currentWeather = {
+      temp:       Math.round(data.current.temperature_2m),
+      feelsLike:  Math.round(data.current.apparent_temperature),
+      code:       data.current.weather_code,
+      wind:       Math.round(data.current.wind_speed_10m),
+      high:       Math.round(data.daily.temperature_2m_max[0]),
+      low:        Math.round(data.daily.temperature_2m_min[0]),
+      rainLikely: data.daily.precipitation_probability_max[0] > 40,
+    };
+    renderWeatherBar();
+  } catch(e) {
+    if (bar) {
+      bar.style.display = 'flex';
+      bar.innerHTML = '<span class="weather-loading">No weather data · <span style="cursor:pointer;text-decoration:underline;color:var(--camel)" onclick="fetchWeather()">retry</span></span>';
+    }
+  }
+}
+
+function generateOutfit() {
+  const w       = currentWeather;
+  const temp    = w?.high ?? w?.temp ?? 14;
+  const tempLow = w?.low  ?? temp - 4;
+  const isRainy = w ? (RAINY_CODES.has(w.code) || w.rainLikely) : false;
+  const band    = weatherBand(temp);
+  const occ     = currentOccasion;
+
+  // Helper: fill one slot, scoring each candidate against current outfit
+  function fillSlot(label, items) {
+    const idx = SLOT_LABELS.indexOf(label);
+    if (idx < 0 || outfitSlots[idx] !== null) return;
+    const partner = SLOT_PAIRS[label];
+    if (partner && outfitSlots[SLOT_LABELS.indexOf(partner)] !== null) return;
+    if (!items || !items.length) return;
+    let bestItem = null, bestScore = -1;
+    for (const item of items) {
+      const test = [...outfitSlots];
+      test[idx] = item.colour;
+      const { score } = harmonyScore(test);
+      if (score > bestScore) { bestScore = score; bestItem = item; }
+    }
+    if (bestItem) {
+      outfitSlots[idx] = bestItem.colour;
+      outfitItems[label] = bestItem;
+      clearPartner(label);
+    }
+  }
+
+  // Adaptive: weather drives everything, no occasion constraints
+  const isAdaptive = occ === 'adaptive';
+
+  // ── BOTTOMS ──
+  // Swim shorts only for beach, or hot+casual. Never for adaptive (can't assume swim context).
+  const swimOK = occ === 'beach' || (band === 'hot' && occ === 'casual');
+  const avShorts = swimOK ? SHORTS : SHORTS.filter(s => !(s.tags || []).includes('swim'));
+  const canShorts  = band === 'hot' || (band === 'warm' && (isAdaptive || (occ !== 'work' && occ !== 'smart' && occ !== 'outdoor')));
+  const wantShorts = canShorts && (band === 'hot' || occ === 'beach');
+
+  if (wantShorts && avShorts.length) {
+    fillSlot('Shorts', avShorts);
+    if (!outfitSlots[SLOT_LABELS.indexOf('Shorts')]) fillSlot('Pants', BOTTOMS);
+  } else {
+    fillSlot('Pants', BOTTOMS);
+    if (canShorts && avShorts.length) fillSlot('Shorts', avShorts);
+  }
+
+  // ── TOP ──
+  // Flannel/heavy shirts out in hot weather regardless of occasion
+  const avShirts = (band === 'hot' || occ === 'beach')
+    ? SHIRTS.filter(s => !(s.tags || []).includes('heavy'))
+    : SHIRTS;
+  // Adaptive: tee-first in heat, shirt-first when cool (more layering-friendly)
+  const shirtFirst = !isAdaptive && (occ === 'work' || occ === 'smart' || occ === 'outdoor');
+  const adaptiveShirtFirst = isAdaptive && (band === 'mild' || band === 'cold');
+  if (shirtFirst || adaptiveShirtFirst) {
+    fillSlot('Shirt', avShirts);
+    fillSlot('T-Shirt', TSHIRTS);
+  } else {
+    fillSlot('T-Shirt', TSHIRTS);
+    fillSlot('Shirt', avShirts);
+  }
+
+  // ── LAYER ──
+  const gotShorts = outfitSlots[SLOT_LABELS.indexOf('Shorts')] !== null;
+  const needLayer = (band === 'mild' || band === 'cold' || tempLow < 12) && !gotShorts;
+  const skipLayer = band === 'hot' || occ === 'beach' || gotShorts;
+
+  if (!skipLayer && needLayer) {
+    if (!isAdaptive && (occ === 'work' || occ === 'smart')) {
+      fillSlot('Jacket', JACKETS);
+      if (band === 'cold') fillSlot('Hoodie', HOODIES);
+    } else if (band === 'cold') {
+      fillSlot('Hoodie', HOODIES);
+      fillSlot('Jacket', JACKETS);
+    } else {
+      fillSlot('Jacket', JACKETS);
+      fillSlot('Hoodie', HOODIES);
+    }
+  }
+
+  // ── SHOES ──
+  let avShoes = [...SHOES];
+  // Always strip Birkenstocks in cold/rain
+  if (band === 'cold' || isRainy) avShoes = avShoes.filter(s => s.id !== 'birkenstock');
+  // Occasion-specific exclusions (not applied in adaptive — let weather decide)
+  if (!isAdaptive) {
+    if (occ === 'work' || occ === 'smart') avShoes = avShoes.filter(s => s.id !== 'birkenstock');
+    if (occ === 'beach')                   avShoes = avShoes.filter(s => s.id !== 'blundstone');
+  }
+
+  const shoeRank = (isRainy || band === 'cold')
+    ? ['blundstone', 'spezial', 'gazelle', 'birkenstock']
+    : (band === 'hot')
+    ? ['birkenstock', 'gazelle', 'spezial', 'blundstone']
+    : (!isAdaptive && (occ === 'work' || occ === 'smart'))
+    ? ['spezial', 'blundstone', 'gazelle', 'birkenstock']
+    : (!isAdaptive && occ === 'outdoor')
+    ? ['blundstone', 'spezial', 'gazelle', 'birkenstock']
+    : ['spezial', 'gazelle', 'birkenstock', 'blundstone'];
+  fillSlot('Shoes', avShoes.sort((a, b) => shoeRank.indexOf(a.id) - shoeRank.indexOf(b.id)));
+
+  // ── SOCKS ── absolute rules, decided after shoes are known
+  const shoeId = outfitItems['Shoes']?.id;
+  if (shoeId === 'birkenstock') {
+    // Slides = barefoot. No socks. Ever.
+  } else if (shoeId === 'blundstone') {
+    // Chelsea boot = crew socks only. No-shows slip down inside the shaft.
+    fillSlot('Socks', SOCKS.filter(s => s.id !== 'glenmuir-noshows'));
+  } else {
+    // Trainers (Spezial, Gazelle) = no-show liners. Always.
+    fillSlot('Socks', SOCKS.filter(s => s.id === 'glenmuir-noshows'));
+  }
+
+  // ── BELT ──
+  const gotPants = outfitSlots[SLOT_LABELS.indexOf('Pants')] !== null;
+  const needBelt = gotPants && (isAdaptive || occ === 'work' || occ === 'smart' || occ === 'casual' || occ === 'outdoor');
+  if (needBelt) fillSlot('Belt', BELTS);
+
+  // ── WATCH ──
+  const watchRank = (!isAdaptive && (occ === 'work' || occ === 'smart')) ? ['seiko', 'gshock'] : ['gshock', 'seiko'];
+  fillSlot('Watch', [...WATCHES].sort((a, b) => watchRank.indexOf(a.id) - watchRank.indexOf(b.id)));
+
+  renderOutfitSlots();
+  updateHarmony();
+}
+
+function refreshPicker() {
+  const content = document.getElementById('pickerContent');
+  if (!content) return;
+  if (pickerMode === 'colour') {
+    const GROUP_LABELS = { core: 'Core', accent: 'Accent', neutrals: 'Neutrals', extended: 'Extended', expanded: 'Deep Palette' };
+    const groupsHtml = Object.keys(PALETTE).map(g =>
+      `<div class="picker-group-label">${GROUP_LABELS[g] || g}</div><div class="picker-grid" id="pgrid-${g}"></div>`
+    ).join('');
+    const hasSlot = selectedSlot !== null;
+    const slotHint = hasSlot ? `Choose colour for ${SLOT_LABELS[selectedSlot]}` : 'Select a colour';
+    const awaitMsg = hasSlot ? '' : '<div class="picker-await">← tap a slot first</div>';
+    content.innerHTML = `<div class="picker-title">${slotHint}</div>${awaitMsg}${groupsHtml}<div class="slot-select-prompt">Tap a slot on the canvas, then choose a colour here. Tap a filled slot to clear it.</div>`;
+    content.className = hasSlot ? '' : 'picker-unready';
+    Object.entries(PALETTE).forEach(([g, colours]) => {
+      const grid = document.getElementById(`pgrid-${g}`);
+      colours.forEach(c => {
+        const chip = document.createElement('div');
+        chip.className = 'picker-chip' + (selectedColour === c.hex ? ' selected' : '');
+        chip.dataset.hex = c.hex;
+        chip.innerHTML = `<div class="picker-chip-swatch" style="background:${c.hex}"></div><span class="picker-chip-name">${c.name}</span>`;
+        chip.addEventListener('click', () => {
+          if (selectedSlot === null) { showToast('Select a slot first'); return; }
+          selectedColour = c.hex;
+          clearPartner(SLOT_LABELS[selectedSlot]);
+          outfitSlots[selectedSlot] = c.hex;
+          selectedSlot = null;
+          renderOutfitSlots();
+          updateHarmony();
+          refreshPicker();
+        });
+        grid.appendChild(chip);
+      });
+    });
+  } else {
+    const modeMap = {
+      shirt:    { items: SHIRTS,  label: 'Shirt',    title: 'Select shirt' },
+      shoes:    { items: SHOES,   label: 'Shoes',    title: 'Select shoes' },
+      watch:    { items: WATCHES, label: 'Watch',    title: 'Select watch' },
+      pants:    { items: BOTTOMS, label: 'Pants',    title: 'Select jeans' },
+      't-shirt':{ items: TSHIRTS, label: 'T-Shirt',  title: 'Select t-shirt' },
+      shorts:   { items: SHORTS,  label: 'Shorts',   title: 'Select shorts' },
+      jacket:   { items: JACKETS, label: 'Jacket',   title: 'Select jacket' },
+      hoodie:   { items: HOODIES, label: 'Hoodie',   title: 'Select hoodie' },
+      belt:     { items: BELTS,   label: 'Belt',     title: 'Select belt'  },
+      bag:      { items: BAGS,    label: 'Bag',      title: 'Select bag'   },
+      socks:    { items: SOCKS,   label: 'Socks',    title: 'Select socks' },
+    };
+    const { items, label: slotLabel, title } = modeMap[pickerMode] || modeMap.shoes;
+    content.innerHTML = `<div class="picker-title">${title}</div><div id="itemPickerGrid"></div><div class="item-picker-sep">or choose a colour</div><div class="picker-grid" id="itemColourGrid"></div><span class="picker-back" onclick="switchPickerMode('colour')">← Back to all colours</span>`;
+    const grid = document.getElementById('itemPickerGrid');
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'item-card' + (outfitItems[slotLabel]?.id === item.id ? ' selected' : '');
+      const swatches = item.colours.map(h => `<div class="item-card-swatch" style="background:${h}"></div>`).join('');
+      card.innerHTML = `<div class="item-card-swatches">${swatches}</div><div class="item-card-info"><span class="item-card-name">${item.name}</span><span class="item-card-sub">${item.sub}</span></div>`;
+      card.addEventListener('click', () => {
+        const idx = SLOT_LABELS.indexOf(slotLabel);
+        clearPartner(slotLabel);
+        outfitItems[slotLabel] = item;
+        outfitSlots[idx] = item.colour;
+        selectedSlot = null;
+        switchPickerMode('colour');
+        renderOutfitSlots();
+        updateHarmony();
+        showToast(item.name + ' selected');
+      });
+      grid.appendChild(card);
+    });
+    const colourGrid = document.getElementById('itemColourGrid');
+    ALL_COLOURS.forEach(c => {
+      const chip = document.createElement('div');
+      chip.className = 'picker-chip' + (outfitSlots[SLOT_LABELS.indexOf(slotLabel)] === c.hex && !outfitItems[slotLabel] ? ' selected' : '');
+      chip.dataset.hex = c.hex;
+      chip.innerHTML = `<div class="picker-chip-swatch" style="background:${c.hex}"></div><span class="picker-chip-name">${c.name}</span>`;
+      chip.addEventListener('click', () => {
+        const idx = SLOT_LABELS.indexOf(slotLabel);
+        clearPartner(slotLabel);
+        delete outfitItems[slotLabel];
+        outfitSlots[idx] = c.hex;
+        selectedColour = c.hex;
+        selectedSlot = null;
+        switchPickerMode('colour');
+        renderOutfitSlots();
+        updateHarmony();
+        showToast(c.name + ' → ' + slotLabel);
+      });
+      colourGrid.appendChild(chip);
+    });
+  }
+}
+
+function switchPickerMode(mode) {
+  pickerMode = mode;
+  refreshPicker();
 }
 
 function renderLooks() {
@@ -1166,7 +3419,9 @@ function renderLooks() {
         <p class="look-fit-note">${look.fitNote}</p>
       </div>`;
     card.addEventListener('click', () => {
-      look.colours.forEach((h, i) => { if (i < 4) outfitSlots[i] = h; });
+      outfitSlots = new Array(SLOT_LABELS.length).fill(null); outfitItems = {};
+      const lookMap = ['Shirt','Pants','Jacket','Accent'];
+      look.colours.forEach((h, i) => { if (i < lookMap.length) outfitSlots[SLOT_LABELS.indexOf(lookMap[i])] = h; });
       renderOutfitSlots(); updateHarmony();
       showToast('Loaded: ' + look.name);
       document.getElementById('builder').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1188,7 +3443,9 @@ function renderCombos() {
         <span class="combo-occasion">${combo.occasion}</span>
       </div>`;
     card.addEventListener('click', () => {
-      combo.colours.forEach((h, i) => { if (i < 4) outfitSlots[i] = h; });
+      outfitSlots = new Array(SLOT_LABELS.length).fill(null); outfitItems = {};
+      const comboMap = ['Shirt','Pants','Jacket','Accent'];
+      combo.colours.forEach((h, i) => { if (i < comboMap.length) outfitSlots[SLOT_LABELS.indexOf(comboMap[i])] = h; });
       renderOutfitSlots(); updateHarmony();
       showToast('Loaded: ' + combo.name);
       document.getElementById('builder').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1218,26 +3475,59 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// Nav active state
+// Nav active state via IntersectionObserver
 const navItems = document.querySelectorAll('.nav-item');
-const sections = ['palette','body','builder','looks','combos','rules'];
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < 120) current = id;
+const sectionIds = ['builder','body','palette','colours','looks','combos','rules'];
+let activeSection = 'builder';
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) activeSection = entry.target.id;
   });
-  navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + current));
-}, { passive: true });
+  navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + activeSection));
+}, { rootMargin: '-15% 0px -80% 0px', threshold: 0 });
+sectionIds.forEach(id => { const el = document.getElementById(id); if (el) navObserver.observe(el); });
 
-renderHero();
-renderGrid('signatureGrid', PALETTE.signature);
+renderGrid('coreGrid',    PALETTE.core);
+renderGrid('accentGrid',  PALETTE.accent);
 renderGrid('neutralGrid', PALETTE.neutrals);
+
+// Power Colours
+(function() {
+  const grid = document.getElementById('powerGrid');
+  POWER_COLOURS.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'power-card';
+    card.innerHTML = `
+      <div class="power-swatch" style="background:${p.hex}"></div>
+      <div class="power-body">
+        <span class="power-name">${p.name}</span>
+        <span class="power-role">${p.role}</span>
+        <p class="power-desc">${p.desc}</p>
+      </div>`;
+    grid.appendChild(card);
+  });
+})();
+
+// Colours to Avoid
+(function() {
+  const grid = document.getElementById('avoidGrid');
+  AVOID.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'avoid-card';
+    card.innerHTML = `
+      <div class="avoid-dot" style="background:${a.colour}"></div>
+      <div class="avoid-text"><strong>${a.name}</strong> — ${a.reason}</div>`;
+    grid.appendChild(card);
+  });
+})();
+
 renderOutfitSlots();
-renderPicker();
+refreshPicker();
 renderLooks();
 renderCombos();
 renderRules();
+fetchWeather();
+
 </script>
 </body>
 </html>
