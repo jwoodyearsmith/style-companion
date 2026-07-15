@@ -894,6 +894,10 @@
   .rec-item-swatch { width: 8px; height: 12px; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
   .rec-item-name { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--camel); letter-spacing: 0.05em; white-space: nowrap; }
   .rec-owned-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 1px; }
+  .rec-section-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--camel); margin: 14px 0 10px; opacity: 0.8; border-top: 1px solid var(--border-faint); padding-top: 12px; }
+  .rec-section-title:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+  .rec-score-badge { font-family: 'DM Mono', monospace; font-size: 8px; font-weight: 500; color: #fff; background: var(--terracotta); border-radius: 8px; padding: 1px 5px; white-space: nowrap; }
+  .rec-swap-arrow { color: var(--text-secondary); opacity: 0.5; font-size: 11px; }
   /* AI RENDER PANEL */
   .render-panel { margin-top: 18px; padding: 16px 18px; background: rgba(176,141,87,0.04); border: 1px solid rgba(176,141,87,0.15); border-radius: 6px; }
   .render-panel-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--camel); margin-bottom: 12px; opacity: 0.8; }
@@ -2815,6 +2819,11 @@ const PALETTE = {
     { name: 'Peacock Teal (warm-leaning)', hex: '#3E6B5E', role: 'sig', rating: 'Occasional' },
     { name: 'Slate Blue-Brown',            hex: '#46504A', role: 'sig', rating: 'Occasional' },
     { name: 'Warm Aubergine',              hex: '#5C3A32', role: 'sig', rating: 'Occasional', undertone: 'brick' }, // corrected from #5A3B3E, which measured blue>green (purple-leaning) — the whole point of this entry is that it's the warmed, brick-leaning exception, so it must actually pass the undertone rule it's named for
+    // Matches the Champion Reverse Weave hoodie's actual colourway (see HOODIES) — a rare
+    // cool borrow, not a core neutral or a safe accent. R74/G44/B46: blue > green, genuinely
+    // purple-leaning, so it fails the brick-vs-purple rule on purpose and must not be
+    // treated as equivalent to warm oxblood or cognac red.
+    { name: 'Aubergine-Brown (Wine Brown)', hex: '#4A2C2E', role: 'sig', rating: 'Occasional', undertone: 'purple' },
   ],
 };
 
@@ -2896,7 +2905,11 @@ const JACKETS = [
   { id: 'wolsey-chore', name: 'Wolsey Chore Jacket', short: 'Chore Jacket', sub: 'Wolsey 1755 · Chore Jacket · Size M · Stone Twill', colours: ['#C9B79A','#A89878','#1C1C1C'], colour: '#C9B79A' },
 ];
 const HOODIES = [
-  { id: 'champion-hood',   name: 'Champion Reverse Weave Hoodie', short: 'Champion Hood',   sub: 'Champion · Heavyweight Fleece Reverse Weave · Size L · Brown', colours: ['#5C3428','#4A2A1F'], colour: '#5C3428' },
+  // Reclassified: the real colourway reads as an aubergine-brown / wine-brown, not a plain
+  // neutral brown — purple-leaning (fails the brick-vs-purple rule), Occasional-tier, a
+  // casual-only piece. Kept out of Excellent-rated/"safe red" pairing logic on purpose; see
+  // championHoodieEligible() for the casual+winter gating on when it's even offered.
+  { id: 'champion-hood',   name: 'Champion Reverse Weave Hoodie', short: 'Champion Hood',   sub: 'Champion · Heavyweight Fleece Reverse Weave · Size L · Aubergine-Brown (Wine Brown)', colours: ['#4A2C2E','#3A2224'], colour: '#4A2C2E', rating: 'Occasional', undertone: 'purple' },
   { id: 'barbour-halfzip', name: 'Barbour Half-Zip Sweater', short: 'Barbour Stone',   sub: 'Barbour · Stone Lambswool Half-Zip · Size L',                  colours: ['#C4AD88','#B09870','#D4C4A8'], colour: '#C4AD88' },
 ];
 const HATS = [
@@ -3038,9 +3051,9 @@ const LOOKS = [
     name: 'Off-Duty Heritage',
     season: 'AW',
     occasion: 'Weekend · Relaxed',
-    colours: ['#5C3428','#6B4E2E','#1A2535','#5C3A1E'],
-    pieces: 'Champion Reverse Weave Hoodie Brown (owned, L), Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
-    fitNote: 'Jumper as mid-layer not outer piece keeps the silhouette correct. Brown tee visible at collar tonally matches the hoodie'
+    colours: ['#4A2C2E','#6B4E2E','#1A2535','#5C3A1E'],
+    pieces: 'Champion Reverse Weave Hoodie, Aubergine-Brown (owned, L) — Occasional/winter-casual piece, Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
+    fitNote: 'Jumper as mid-layer not outer piece keeps the silhouette correct. The hoodie\'s wine-brown is a purple-leaning rare borrow — a deliberate exception here, not a default pairing'
   },
   {
     name: 'The Olive Layer',
@@ -3438,6 +3451,62 @@ function harmonyScore(slots, occ) {
   return { score, tip: '' };
 }
 
+const OWNED_ITEMS_BY_SLOT = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Jumper: HOODIES, Bag: BAGS, Hat: HATS, Sunglasses: SUNGLASSES };
+
+// The Champion hoodie's aubergine-brown is a casual, cold-weather-only piece — never
+// offered for Spring/Summer or Work/Smart Casual, only when the occasion is literally
+// Casual and the season (planned or live) reads as winter.
+function championHoodieEligible() {
+  if (currentOccasion !== 'casual') return false;
+  if (planMode.type === 'season') return planMode.season === 'winter';
+  const temp = currentWeather?.high ?? currentWeather?.temp ?? 14;
+  return weatherBand(temp) === 'cold';
+}
+
+// Wraps OWNED_ITEMS_BY_SLOT with any item-specific eligibility gating (currently just the
+// Champion hoodie's casual/winter restriction) so every consumer — auto-generate, the
+// recommendations panel, and the manual picker — sees the same filtered list.
+function eligibleOwnedItems(label) {
+  const items = OWNED_ITEMS_BY_SLOT[label] || [];
+  if (label === 'Jumper') return items.filter(h => h.id !== 'champion-hood' || championHoodieEligible());
+  return items;
+}
+
+// For a not-yet-excellent outfit, finds same-slot swaps (a different owned item, or a
+// different colour for a colour-only slot like Accent) that would raise the score, so the
+// builder can say exactly what to change rather than just noting the outfit could be
+// better. Sorted by biggest improvement first.
+function getImprovementSwaps() {
+  const occ = currentOccasion;
+  const filledIdx = SLOT_LABELS.map((l, i) => outfitSlots[i] !== null ? i : null).filter(i => i !== null);
+  if (filledIdx.length < 2) return { currentScore: 0, swaps: [] };
+
+  const { score: currentScore } = harmonyScore(outfitSlots, occ);
+  if (currentScore >= 95) return { currentScore, swaps: [] };
+
+  const swaps = [];
+  filledIdx.forEach(idx => {
+    const label = SLOT_LABELS[idx];
+    const currentHex = outfitSlots[idx];
+    const owned = OWNED_ITEMS_BY_SLOT[label] ? eligibleOwnedItems(label) : null;
+    const candidates = owned
+      ? owned.filter(item => item.colour !== currentHex).map(item => ({ hex: item.colour, item }))
+      : BUILDER_COLOURS_DEFAULT.filter(c => c.hex !== currentHex).map(c => ({ hex: c.hex, colour: c }));
+
+    let best = null;
+    candidates.forEach(cand => {
+      const test = [...outfitSlots];
+      test[idx] = cand.hex;
+      const { score } = harmonyScore(test, occ);
+      if (score > currentScore && (!best || score > best.score)) best = { ...cand, score };
+    });
+    if (best) swaps.push({ label, delta: best.score - currentScore, newScore: best.score, item: best.item || null, colour: best.colour || null });
+  });
+
+  swaps.sort((a, b) => b.delta - a.delta);
+  return { currentScore, swaps: swaps.slice(0, 4) };
+}
+
 function getSlotRecommendations() {
   const SIDX = {};
   SLOT_LABELS.forEach((l, i) => { SIDX[l] = i; });
@@ -3455,8 +3524,6 @@ function getSlotRecommendations() {
     test[SIDX[label]] = hex;
     return harmonyScore(test, occ).score;
   }
-
-  const OWNED_ITEMS = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Jumper: HOODIES, Bag: BAGS, Hat: HATS, Sunglasses: SUNGLASSES };
 
   // Suggestions only ever draw from the safe, rated-Excellent/Good pool by default — the
   // red-family undertone rule is hard-enforced here (BUILDER_COLOURS_DEFAULT already
@@ -3483,7 +3550,7 @@ function getSlotRecommendations() {
     if (partner && outfitSlots[SIDX[partner]]) return;
 
     // score every owned item, keep those that maintain or improve, sort best first
-    const owned = (OWNED_ITEMS[label] || [])
+    const owned = eligibleOwnedItems(label)
       .map(item => ({ item, s: scoreWith(label, item.colour) }))
       .filter(({ s }) => s >= currentScore)
       .sort((a, b) => b.s - a.s)
@@ -3513,22 +3580,47 @@ function renderRecommendations() {
   if (!panel) return;
   const recs = getSlotRecommendations();
   const entries = Object.entries(recs);
-  if (!entries.length) { panel.style.display = 'none'; return; }
+  const { swaps } = getImprovementSwaps();
+
+  if (!entries.length && !swaps.length) { panel.style.display = 'none'; return; }
   panel.style.display = 'block';
-  panel.innerHTML = '<div class="rec-panel-title">Suggestions for empty slots</div>' +
-    entries.map(([label, { owned, colours }]) => {
-      const ownedHtml = owned.length
-        ? `<div class="rec-owned-chips">${owned.map(item => {
-            const sw = item.colours.map(h => `<div class="rec-item-swatch" style="background:${h}"></div>`).join('');
-            return `<div class="rec-item-chip" title="${item.name}" onclick="applyRecItem('${label}','${item.id}')"><div class="rec-item-swatches">${sw}</div><span class="rec-item-name">${item.short}</span></div>`;
-          }).join('')}</div>` : '';
-      const sepHtml = owned.length && colours.length ? '<div class="rec-owned-sep"></div>' : '';
-      const colourHtml = colours.length
-        ? `<div class="rec-chips">${colours.map(c =>
-            `<div class="rec-chip" style="background:${c.hex}" title="${c.name}" onclick="applyRecColour('${c.hex}','${label}')"></div>`
-          ).join('')}</div><span class="rec-hint">${colours.map(c => c.name).join(' · ')}</span>` : '';
-      return `<div class="rec-row"><span class="rec-slot-name">${label}</span>${ownedHtml}${sepHtml}${colourHtml}</div>`;
-    }).join('');
+
+  const swapsHtml = swaps.length
+    ? '<div class="rec-section-title">Ways to raise the score</div>' +
+      swaps.map(({ label, delta, newScore, item, colour }) => {
+        const name = item?.short || colour?.name || '';
+        const hex = item?.colour || colour?.hex;
+        const onClick = item ? `applyRecItem('${label}','${item.id}')` : `applyRecColour('${hex}','${label}')`;
+        return `<div class="rec-row">
+          <span class="rec-slot-name">${label}</span>
+          <div class="rec-item-chip" title="${name} — ${newScore}%" onclick="${onClick}">
+            <div class="rec-item-swatches"><div class="rec-item-swatch" style="background:${hex}"></div></div>
+            <span class="rec-item-name">${name}</span>
+          </div>
+          <span class="rec-swap-arrow">→</span>
+          <span class="rec-score-badge">+${delta}%</span>
+        </div>`;
+      }).join('')
+    : '';
+
+  const emptySlotsHtml = entries.length
+    ? '<div class="rec-section-title">Suggestions for empty slots</div>' +
+      entries.map(([label, { owned, colours }]) => {
+        const ownedHtml = owned.length
+          ? `<div class="rec-owned-chips">${owned.map(item => {
+              const sw = item.colours.map(h => `<div class="rec-item-swatch" style="background:${h}"></div>`).join('');
+              return `<div class="rec-item-chip" title="${item.name}" onclick="applyRecItem('${label}','${item.id}')"><div class="rec-item-swatches">${sw}</div><span class="rec-item-name">${item.short}</span></div>`;
+            }).join('')}</div>` : '';
+        const sepHtml = owned.length && colours.length ? '<div class="rec-owned-sep"></div>' : '';
+        const colourHtml = colours.length
+          ? `<div class="rec-chips">${colours.map(c =>
+              `<div class="rec-chip" style="background:${c.hex}" title="${c.name}" onclick="applyRecColour('${c.hex}','${label}')"></div>`
+            ).join('')}</div><span class="rec-hint">${colours.map(c => c.name).join(' · ')}</span>` : '';
+        return `<div class="rec-row"><span class="rec-slot-name">${label}</span>${ownedHtml}${sepHtml}${colourHtml}</div>`;
+      }).join('')
+    : '';
+
+  panel.innerHTML = swapsHtml + emptySlotsHtml;
 }
 
 function applyRecColour(hex, label) {
@@ -3542,7 +3634,7 @@ function applyRecColour(hex, label) {
 }
 
 function applyRecItem(slotLabel, itemId) {
-  const allItems = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Hoodie: HOODIES, Bag: BAGS, Hat: HATS, Sunglasses: SUNGLASSES };
+  const allItems = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Jumper: HOODIES, Bag: BAGS, Hat: HATS, Sunglasses: SUNGLASSES };
   const item = (allItems[slotLabel] || []).find(x => x.id === itemId);
   if (!item) return;
   const i = SLOT_LABELS.indexOf(slotLabel);
@@ -3945,7 +4037,7 @@ function generateStyleTip() {
     if (id('Jumper') === 'barbour-halfzip')
       return `Barbour stone half-zip over ${topName || 'a base layer'} — the lambswool texture adds weight without adding colour. Stone sits at the warm-neutral midpoint of your palette and works with everything below it. Half-zip open is the correct silhouette at your height.`;
     if (id('Jumper') === 'champion-hood' && id('Pants') === 'se2-dry-heavy')
-      return 'Champion Reverse Weave hoodie over the Dry Heavy — the rich brown and raw indigo are a classic autumn pairing. Warm without being loud.';
+      return 'Champion Reverse Weave hoodie over the Dry Heavy — the wine-brown is a purple-leaning rare borrow, an occasional casual-winter exception rather than a safe default. Note it reads as a deliberate departure, not a core neutral.';
     if (id('Jacket') === 'wolsey-chore' && topSlot)
       return `Wolsey Chore Jacket over ${topName || 'a tee'} — the stone twill reads as quietly elevated. Worker-influenced silhouette that sits well in the Deep Autumn palette.`;
     if (id('Belt') === 'hzhy-choc' && botSlot)
@@ -4318,7 +4410,7 @@ function generateOutfit() {
         const formalOnly = !isAdaptive && (occ === 'work' || occ === 'smart');
         layerAxis = formalOnly
           ? axisFor('Jacket', JACKETS)
-          : [...axisFor('Jacket', JACKETS), ...axisFor('Jumper', HOODIES)];
+          : [...axisFor('Jacket', JACKETS), ...axisFor('Jumper', eligibleOwnedItems('Jumper'))];
         if (!layerAxis.length) layerAxis = [null];
       } else {
         layerAxis = [null];
@@ -4495,7 +4587,10 @@ function refreshPicker() {
       hat:      { items: HATS,   label: 'Hat',      title: 'Select hat'   },
       sunglasses: { items: SUNGLASSES, label: 'Sunglasses', title: 'Select sunglasses' },
     };
-    const { items, label: slotLabel, title } = modeMap[pickerMode] || modeMap.shoes;
+    const { items: rawItems, label: slotLabel, title } = modeMap[pickerMode] || modeMap.shoes;
+    // The Champion hoodie is casual/winter-only — hidden from the picker entirely outside
+    // that context, not just deprioritised.
+    const items = slotLabel === 'Jumper' ? eligibleOwnedItems('Jumper') : rawItems;
     content.innerHTML = `<div class="picker-title">${title}</div><div id="itemPickerGrid"></div><div class="item-picker-sep">or choose a colour</div><div class="picker-grid" id="itemColourGrid"></div><span class="picker-back" onclick="switchPickerMode('colour')">← Back to all colours</span>`;
     const grid = document.getElementById('itemPickerGrid');
     items.forEach(item => {
