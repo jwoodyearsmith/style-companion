@@ -3457,10 +3457,13 @@ const OWNED_ITEMS_BY_SLOT = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: 
 // offered for Spring/Summer or Work/Smart Casual, only when the occasion is literally
 // Casual and the season (planned or live) reads as winter.
 function championHoodieEligible() {
-  if (currentOccasion !== 'casual') return false;
-  if (planMode.type === 'season') return planMode.season === 'winter';
-  const temp = currentWeather?.high ?? currentWeather?.temp ?? 14;
-  return weatherBand(temp) === 'cold';
+  // Never for formal/tailored occasions — but Adaptive (the site's default) and Beach/
+  // Outdoor are fine; only Work and Smart Casual are actually excluded.
+  if (currentOccasion === 'work' || currentOccasion === 'smart') return false;
+  // Never for Spring/Summer if a season is explicitly being planned. Live weather and
+  // Autumn/Winter are both fine — this isn't a strict "must be Winter" requirement.
+  if (planMode.type === 'season' && (planMode.season === 'spring' || planMode.season === 'summer')) return false;
+  return true;
 }
 
 // Wraps OWNED_ITEMS_BY_SLOT with any item-specific eligibility gating (currently just the
