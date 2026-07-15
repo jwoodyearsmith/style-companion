@@ -2874,7 +2874,7 @@ const CAPSULE = [
 const SHOES = [
   { id: 'spezial',     name: 'Handball Spezial',   short: 'Spezial',    sub: 'Aurora Coffee · Silver · Gum',  colours: ['#5C3A1E','#B8B5AF','#9E9378'], colour: '#6B4E2E' },
   { id: 'gazelle',     name: 'Adidas Gazelle',      short: 'Gazelle',    sub: 'Stone · Burgundy · Gum',        colours: ['#C9B79A','#6E2C2C','#9E9378'], colour: '#C9B79A' },
-  { id: 'birkenstock', name: 'Birkenstock Arizona', short: 'Arizona',    sub: 'Cognac Oiled Leather',          colours: ['#8B5E3C','#6B4A2A'],           colour: '#B08D57' },
+  { id: 'birkenstock', name: 'Birkenstock Arizona', short: 'Arizona',    sub: 'Habana Oiled Leather',          colours: ['#6B4A2E','#5A3A20'],           colour: '#6B4A2E' },
   { id: 'blundstone',  name: 'Blundstone 2340',     short: 'Blundstone', sub: 'Brown Chelsea Boot',            colours: ['#6B4A2A','#4A3020'],           colour: '#3E2C20' },
 ];
 const WATCHES = [
@@ -3043,8 +3043,8 @@ const LOOKS = [
     name: 'Summer Workwear',
     season: 'SS',
     occasion: 'Casual · Warm Weather',
-    colours: ['#C9B79A','#EDE3D0','#6B6B33','#B08D57'],
-    pieces: 'Camp collar linen shirt open (EU Long), cream or tobacco tee underneath — owned: Dickies Cream; BOSS Stone Chino Short or RL Khaki; Birkenstock Arizona Cognac',
+    colours: ['#C9B79A','#EDE3D0','#6B6B33','#6B4A2E'],
+    pieces: 'Camp collar linen shirt open (EU Long), cream or tobacco tee underneath — owned: Dickies Cream; BOSS Stone Chino Short or RL Khaki; Birkenstock Arizona Habana',
     fitNote: 'Open camp collar does the torso-break work the chore jacket does in cooler months. Rise: at or just below the natural waist — not low-slung'
   },
   {
@@ -3107,8 +3107,8 @@ const LOOKS = [
     name: 'The Linen Edit',
     season: 'SS',
     occasion: 'Casual · Hot Weather',
-    colours: ['#6B6B33','#EDE3D0','#8B5E3C','#C9B79A'],
-    pieces: 'Olive linen shirt (EU Long, worn open); Dickies Cream tee underneath (owned, L); BOSS Stone Chino Shorts or RL Khaki swim (owned); Birkenstock Arizona Cognac; barefoot',
+    colours: ['#6B6B33','#EDE3D0','#6B4A2E','#C9B79A'],
+    pieces: 'Olive linen shirt (EU Long, worn open); Dickies Cream tee underneath (owned, L); BOSS Stone Chino Shorts or RL Khaki swim (owned); Birkenstock Arizona Habana; barefoot',
     fitNote: 'Linen open over a cream tee is the single most effective summer look for a tall frame — the vertical break cools the silhouette. No socks. No belt. No watch if above 28°C'
   },
   {
@@ -4023,7 +4023,7 @@ function generateStyleTip() {
   const id = label => fi[label]?.item?.id;
   const pairNote = (() => {
     if (id('Shoes') === 'birkenstock' && id('Pants') === 'se2-dry-heavy')
-      return 'Arizona birkenstocks with the Dry Heavy — cognac leather against raw indigo is a textural sweet spot. Earthy and considered.';
+      return 'Arizona birkenstocks with the Dry Heavy — Habana leather against raw indigo is a textural sweet spot. Earthy and considered.';
     if (id('Shoes') === 'birkenstock' && id('Shorts') === 'boss-chino')
       return 'Birks with the BOSS stone chinos is a clean summer pairing — relaxed without looking sloppy.';
     if (id('Shoes') === 'gazelle' && id('Pants') === 'se2-dry-heavy')
@@ -4774,11 +4774,11 @@ const AUDIT_GAPS = [
     budget: '£30–£65',
   },
   {
-    priority: 'medium',
+    priority: 'high',
     category: 'Tops',
     title: 'Moss Green Statement Piece',
-    problem: 'Your reassessed palette identifies moss green — not teal — as your most overlooked power colour. Nothing in this warm, yellow-leaning green exists in the wardrobe.',
-    suggestion: 'A moss green overshirt, pigment-dyed sweatshirt, or shirt. Warm and yellow-leaning, not a cool blue-green — close to #6E7D3E. Replace the Champion in the jumper slot with this.',
+    problem: 'Your reassessed palette identifies moss green — not teal — as your most overlooked power colour, and the jumper slot\'s current occupant has a real problem: the Champion hoodie\'s actual colourway reads as an aubergine-brown, not a plain neutral brown. R74/G44/B46 measures blue > green — genuinely purple-leaning, which fails the brick-vs-purple undertone rule the same way a wine or claret would. It\'s registered as an Occasional-tier rare borrow now, not a default, and the builder will flag any outfit built around it. This isn\'t a nice-to-have anymore — it\'s the fix for a piece that\'s actively working against the palette.',
+    suggestion: 'A moss green overshirt, pigment-dyed sweatshirt, or shirt. Warm and yellow-leaning, not a cool blue-green — close to #6E7D3E. Replace the Champion in the jumper slot with this as the default; keep the Champion only for the rare casual-winter occasion where the aubergine-brown is a deliberate exception, not the plan.',
     colours: ['#6E7D3E', '#5C6B33'],
     brands: 'Arket · Folk · Sunspel',
     size: 'Size L',
@@ -4798,17 +4798,18 @@ const AUDIT_GAPS = [
 ];
 
 const AUDIT_STRENGTHS = [
-  'Shoe rotation is strong — four pairs covering trainers, slides, Chelsea boot, and casual sneaker',
-  'Colour palette is coherent — earth tones throughout with one burgundy accent, no clashing pieces',
-  'Sock intelligence is correct — no-shows for trainers, crew for Blundstones, barefoot for Birkenstocks',
+  'Shoe rotation is strong — Birkenstock Arizona now in Habana, a genuinely deeper, more objectively correct warm-brown than the Cognac it replaced, alongside trainers, Chelsea boot, and casual sneaker',
+  'Colour palette is coherent almost everywhere — earth tones throughout with one burgundy accent that passes the brick-vs-purple undertone check cleanly. The one exception is the Champion hoodie: its actual colourway is an aubergine-brown that reads purple-leaning, now correctly flagged as an Occasional-tier piece rather than a default neutral',
+  'Sock intelligence is correct — no-shows for trainers, crew for Blundstones (pants only, never shorts), barefoot for Birkenstocks',
   'The raw denim is a quality anchor — Steady Eddie II works for casual and elevated casual',
-  'Layering is now covered — Barbour half-zip in stone sits between a tee and a jacket for mild weather',
-  'Winter head coverage sorted — Gunn Beanie in merino is the right call (warm, minimal, correct fabric)',
+  'Layering is now covered — Barbour half-zip in stone sits between a tee and a jacket for mild weather, and reads as a clean neutral where the Champion hoodie doesn\'t',
+  'Winter head coverage sorted — two Gunn Beanie colourways (grey and dark olive) let the builder pick whichever actually suits the rest of the outfit',
   'Two watches suit two registers — the Seiko for outdoor, G-Shock for casual is the right split',
+  'Sun coverage added — the Ray-Ban New Wayfarer fills a real gap for hot/warm casual and outdoor days',
   'The Bellroy sling covers daily carry without a backpack — size is appropriate for your activities',
 ];
 
-const AUDIT_SUMMARY = 'Casual and beach are fully equipped, and the knitwear gap is now closed with the Barbour half-zip. The wardrobe still falls apart the moment you need to dress up even slightly — one pair of trousers and nothing waterproof means smart casual and work remain uncovered. Chinos and a wax jacket are the two remaining critical purchases.';
+const AUDIT_SUMMARY = 'Casual and beach are fully equipped, and the knitwear gap is now closed with the Barbour half-zip — though the Champion hoodie should be treated as an occasional casual-winter piece rather than a default, since its real colourway is purple-leaning, not the neutral brown it was once listed as. The wardrobe still falls apart the moment you need to dress up even slightly — one pair of trousers and nothing waterproof means smart casual and work remain uncovered. Chinos and a wax jacket are the two remaining critical purchases; a moss green statement piece would also give the jumper slot a genuinely reliable default.';
 
 function renderAudit() {
   // Coverage bars
