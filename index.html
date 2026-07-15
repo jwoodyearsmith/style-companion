@@ -2880,7 +2880,7 @@ const BELTS = [
 ];
 const SHIRTS = [
   { id: 'avignon-cream',   name: 'Avignon Cotton Shirt',      short: 'Avignon Cream',  sub: 'Avignon · Long Sleeve · Size L · Dark Cream · 100% Cotton',              colours: ['#EDE3D0','#D8C8A8'],           colour: '#EDE3D0' },
-  { id: 'wrangler-stripe', name: 'Wrangler Western Shirt',    short: 'Wrangler Stripe', sub: 'Wrangler · Short Sleeve · Size L · Beige Stripe · Western Style',       colours: ['#C9B79A','#D8C8A8','#B8A888'], colour: '#C9B79A' },
+  { id: 'wrangler-stripe', name: 'Wrangler Western Shirt',    short: 'Wrangler Stripe', sub: 'Wrangler · Short Sleeve · Size L · Beige Stripe · Western Style',       colours: ['#C9B79A','#D8C8A8','#B8A888'], colour: '#C9B79A', tags: ['short-sleeve'] },
   { id: 'ct-flannel-sage', name: 'CT Textured Flannel Shirt', short: 'CT Sage Flannel', sub: 'Charles Tyrwhitt · Long Sleeve · Size L · Sage Green · Dobby Flannel', colours: ['#4B5A3A','#3D4A2E'],           colour: '#4B5A3A', tags: ['heavy'] },
 ];
 const TSHIRTS = [
@@ -3828,6 +3828,10 @@ function generateStyleTip() {
   if ((shoeId === 'spezial' || shoeId === 'gazelle') && fi['Shorts'] && !socksId) {
     // Trainers + shorts with no socks selected is fine — they'll be wearing no-shows
   }
+  if (fi['Shirt']?.item?.id === 'wrangler-stripe' && (fi['Jacket'] || fi['Jumper'])) {
+    const layerName = fi['Jacket']?.item?.short || fi['Jumper']?.item?.short || 'a layer';
+    return `Wrangler Stripe under ${layerName} — the Wrangler is short-sleeve, so it doesn't work under a jacket or jumper. Swap to a long-sleeve shirt, or drop the layer.`;
+  }
   if (shortId === 'rl-khaki-shorts' && (fi['Jacket'] || fi['Jumper'])) {
     return `Swim shorts with ${layerId ? fi['Jacket']?.item?.short || fi['Jumper']?.item?.short : 'a layer'} — the Ralph Laurens are swimwear, not casual shorts. A layer over swim shorts reads confused. Either swap to the BOSS chinos, or drop the layer and keep it a beach/summer look.`;
   }
@@ -4258,6 +4262,12 @@ async function fetchWeather() {
   }
 }
 
+// Finds the actual best-scoring combination across every slot the generator controls,
+// rather than greedily locking in one slot at a time. Weather/occasion/compatibility rules
+// still apply as hard eligibility filters (a real dress-code or climate constraint isn't
+// something colour scoring should be allowed to override) — but among whatever passes
+// those filters, every valid combination is scored and the single best one wins. Any slot
+// the user has already filled by hand is treated as locked and built around, not replaced.
 function generateOutfit() {
   const w       = currentWeather;
   const temp    = w?.high ?? w?.temp ?? 14;
@@ -4265,154 +4275,165 @@ function generateOutfit() {
   const isRainy = w ? (RAINY_CODES.has(w.code) || w.rainLikely) : false;
   const band    = weatherBand(temp);
   const occ     = currentOccasion;
-
-  // Helper: fill one slot, scoring each candidate against current outfit
-  function fillSlot(label, items) {
-    const idx = SLOT_LABELS.indexOf(label);
-    if (idx < 0 || outfitSlots[idx] !== null) return;
-    const partner = SLOT_PAIRS[label];
-    if (partner && outfitSlots[SLOT_LABELS.indexOf(partner)] !== null) return;
-    if (!items || !items.length) return;
-    let bestItem = null, bestScore = -1;
-    for (const item of items) {
-      const test = [...outfitSlots];
-      test[idx] = item.colour;
-      const { score } = harmonyScore(test, occ);
-      if (score > bestScore) { bestScore = score; bestItem = item; }
-    }
-    if (bestItem) {
-      outfitSlots[idx] = bestItem.colour;
-      outfitItems[label] = bestItem;
-      clearPartner(label);
-    }
-  }
-
-  // Adaptive: weather drives everything, no occasion constraints
   const isAdaptive = occ === 'adaptive';
 
-  // ── BOTTOMS ──
-  // Swim shorts only for beach, or hot+casual. Never for adaptive (can't assume swim context).
+  // A choice already made manually stays locked — the search builds the rest around it
+  // instead of overwriting it.
+  function locked(...labels) {
+    for (const label of labels) {
+      const idx = SLOT_LABELS.indexOf(label);
+      if (outfitSlots[idx] !== null) return [{ slot: label, hex: outfitSlots[idx], item: outfitItems[label] || null }];
+    }
+    return null;
+  }
+  function axisFor(label, items) {
+    return (items || []).map(item => ({ slot: label, hex: item.colour, item }));
+  }
+
+  // ── BOTTOM axis — Shorts vs Pants ──
   const swimOK = occ === 'beach' || (band === 'hot' && occ === 'casual');
   const avShorts = swimOK ? SHORTS : SHORTS.filter(s => !(s.tags || []).includes('swim'));
   const canShorts  = band === 'hot' || (band === 'warm' && (isAdaptive || (occ !== 'work' && occ !== 'smart' && occ !== 'outdoor')));
   const wantShorts = canShorts && (band === 'hot' || occ === 'beach');
 
-  if (wantShorts && avShorts.length) {
-    fillSlot('Shorts', avShorts);
-    if (!outfitSlots[SLOT_LABELS.indexOf('Shorts')]) fillSlot('Pants', BOTTOMS);
-  } else {
-    fillSlot('Pants', BOTTOMS);
-    if (canShorts && avShorts.length) fillSlot('Shorts', avShorts);
+  let bottomAxis = locked('Shorts', 'Pants');
+  if (!bottomAxis) {
+    if (wantShorts && avShorts.length) bottomAxis = axisFor('Shorts', avShorts);
+    else if (canShorts && avShorts.length) bottomAxis = [...axisFor('Shorts', avShorts), ...axisFor('Pants', BOTTOMS)];
+    else bottomAxis = axisFor('Pants', BOTTOMS);
   }
+  if (!bottomAxis.length) bottomAxis = [null];
 
-  // ── LAYER ──
-  // Decided before TOP: which layer gets worn determines what goes underneath it —
-  // a hoodie wants a t-shirt, a collared half-zip wants a collared shirt.
-  const gotShorts = outfitSlots[SLOT_LABELS.indexOf('Shorts')] !== null;
-  const needLayer = (band === 'mild' || band === 'cold' || tempLow < 12) && !gotShorts;
-  const skipLayer = band === 'hot' || occ === 'beach' || gotShorts;
+  let best = null;
 
-  if (!skipLayer && needLayer) {
-    if (!isAdaptive && (occ === 'work' || occ === 'smart')) {
-      fillSlot('Jacket', JACKETS);
-      if (band === 'cold') fillSlot('Jumper', HOODIES);
-    } else if (band === 'cold') {
-      fillSlot('Jumper', HOODIES);
-      fillSlot('Jacket', JACKETS);
-    } else {
-      fillSlot('Jacket', JACKETS);
-      fillSlot('Jumper', HOODIES);
+  for (const bottomChoice of bottomAxis) {
+    const gotShorts = bottomChoice?.slot === 'Shorts';
+
+    // ── LAYER axis — none / Jacket / Jumper (hoodie) ──
+    const needLayer = (band === 'mild' || band === 'cold' || tempLow < 12) && !gotShorts;
+    const skipLayer = band === 'hot' || occ === 'beach' || gotShorts;
+    let layerAxis = locked('Jacket', 'Jumper');
+    if (!layerAxis) {
+      if (!skipLayer && needLayer) {
+        const formalOnly = !isAdaptive && (occ === 'work' || occ === 'smart');
+        layerAxis = formalOnly
+          ? axisFor('Jacket', JACKETS)
+          : [...axisFor('Jacket', JACKETS), ...axisFor('Jumper', HOODIES)];
+        if (!layerAxis.length) layerAxis = [null];
+      } else {
+        layerAxis = [null];
+      }
+    }
+
+    for (const layerChoice of layerAxis) {
+      // ── TOP axis — Shirt vs T-Shirt ──
+      // A hoodie (reverse weave, etc.) goes over a t-shirt, never a collared shirt. A
+      // half-zip like the Barbour is collared underneath, so it wants a proper shirt
+      // instead. A short-sleeve shirt (Wrangler) never goes under any layer — jacket or
+      // jumper both need a sleeve underneath them.
+      const layerItemId = layerChoice?.item?.id;
+      const avShirtsBase = (band === 'hot' || occ === 'beach')
+        ? SHIRTS.filter(s => !(s.tags || []).includes('heavy'))
+        : SHIRTS;
+      const avShirts = layerChoice ? avShirtsBase.filter(s => !(s.tags || []).includes('short-sleeve')) : avShirtsBase;
+
+      let topAxis = locked('Shirt', 'T-Shirt');
+      if (!topAxis) {
+        if (layerItemId === 'champion-hood') topAxis = axisFor('T-Shirt', TSHIRTS);
+        else if (layerItemId === 'barbour-halfzip') topAxis = axisFor('Shirt', avShirts);
+        else if (!isAdaptive && (occ === 'work' || occ === 'smart')) topAxis = axisFor('Shirt', avShirts);
+        else topAxis = [...axisFor('Shirt', avShirts), ...axisFor('T-Shirt', TSHIRTS)];
+        if (!topAxis.length) topAxis = [null];
+      }
+
+      for (const topChoice of topAxis) {
+        // ── SHOES axis ──
+        let shoeAxis = locked('Shoes');
+        if (!shoeAxis) {
+          let avShoes = [...SHOES];
+          if (band === 'cold' || isRainy) avShoes = avShoes.filter(s => s.id !== 'birkenstock');
+          if (gotShorts) avShoes = avShoes.filter(s => s.id !== 'blundstone'); // pants-only
+          if (!isAdaptive) {
+            if (occ === 'work' || occ === 'smart') avShoes = avShoes.filter(s => s.id !== 'birkenstock');
+            if (occ === 'beach')                   avShoes = avShoes.filter(s => s.id !== 'blundstone');
+          }
+          shoeAxis = axisFor('Shoes', avShoes);
+          if (!shoeAxis.length) shoeAxis = [null];
+        }
+
+        for (const shoeChoice of shoeAxis) {
+          // ── SOCKS axis — depends on shoe + bottom ──
+          const shoeId = shoeChoice?.item?.id;
+          let socksAxis = locked('Socks');
+          if (!socksAxis) {
+            if (shoeId === 'birkenstock') socksAxis = [null]; // barefoot, always
+            else if (shoeId === 'blundstone') socksAxis = axisFor('Socks', SOCKS.filter(s => s.id !== 'glenmuir-noshows'));
+            else if (gotShorts) socksAxis = axisFor('Socks', SOCKS.filter(s => s.id === 'glenmuir-noshows'));
+            else socksAxis = axisFor('Socks', SOCKS);
+            if (!socksAxis.length) socksAxis = [null];
+          }
+
+          for (const sockChoice of socksAxis) {
+            // ── BELT axis ── (pants only, occasion-appropriate)
+            let beltAxis = locked('Belt');
+            if (!beltAxis) {
+              const needBelt = !gotShorts && (isAdaptive || occ === 'work' || occ === 'smart' || occ === 'casual' || occ === 'outdoor');
+              beltAxis = needBelt ? axisFor('Belt', BELTS) : [null];
+              if (!beltAxis.length) beltAxis = [null];
+            }
+
+            for (const beltChoice of beltAxis) {
+              // ── HAT axis ──
+              let hatAxis = locked('Hat');
+              if (!hatAxis) {
+                const hatOccOk = occ === 'outdoor' || occ === 'casual' || isAdaptive;
+                hatAxis = (hatOccOk && (band === 'cold' || band === 'mild'))
+                  ? axisFor('Hat', HATS.filter(h => h.id === 'gunn-beanie' || h.id === 'gunn-beanie-olive'))
+                  : [null];
+                if (!hatAxis.length) hatAxis = [null];
+              }
+
+              for (const hatChoice of hatAxis) {
+                // ── SUNGLASSES axis ──
+                let sunAxis = locked('Sunglasses');
+                if (!sunAxis) {
+                  const sunOccOk = occ === 'beach' || occ === 'casual' || occ === 'outdoor' || isAdaptive;
+                  sunAxis = (sunOccOk && (band === 'hot' || band === 'warm') && !isRainy)
+                    ? axisFor('Sunglasses', SUNGLASSES)
+                    : [null];
+                  if (!sunAxis.length) sunAxis = [null];
+                }
+
+                for (const sunChoice of sunAxis) {
+                  // ── WATCH axis ──
+                  const watchAxis = locked('Watch') || axisFor('Watch', WATCHES);
+
+                  for (const watchChoice of watchAxis) {
+                    const testSlots = new Array(SLOT_LABELS.length).fill(null);
+                    const testItems = {};
+                    [bottomChoice, layerChoice, topChoice, shoeChoice, sockChoice, beltChoice, hatChoice, sunChoice, watchChoice]
+                      .forEach(choice => {
+                        if (!choice) return;
+                        testSlots[SLOT_LABELS.indexOf(choice.slot)] = choice.hex;
+                        if (choice.item) testItems[choice.slot] = choice.item;
+                      });
+
+                    const { score } = harmonyScore(testSlots, occ);
+                    if (!best || score > best.score) best = { score, slots: testSlots, items: testItems };
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 
-  // ── TOP ──
-  // Flannel/heavy shirts out in hot weather regardless of occasion
-  const avShirts = (band === 'hot' || occ === 'beach')
-    ? SHIRTS.filter(s => !(s.tags || []).includes('heavy'))
-    : SHIRTS;
-  // Adaptive: tee-first in heat, shirt-first when cool (more layering-friendly)
-  const shirtFirst = !isAdaptive && (occ === 'work' || occ === 'smart' || occ === 'outdoor');
-  const adaptiveShirtFirst = isAdaptive && (band === 'mild' || band === 'cold');
-  // A hoodie (reverse weave, etc.) goes over a t-shirt, never a collared shirt. A
-  // half-zip like the Barbour is collared underneath, so it wants a proper shirt instead.
-  const jumperId = outfitItems['Jumper']?.id;
-  const wantsTeeUnderLayer   = jumperId === 'champion-hood';
-  const wantsShirtUnderLayer = jumperId === 'barbour-halfzip';
-  if (wantsTeeUnderLayer) {
-    fillSlot('T-Shirt', TSHIRTS);
-  } else if (wantsShirtUnderLayer) {
-    fillSlot('Shirt', avShirts);
-  } else if (shirtFirst || adaptiveShirtFirst) {
-    fillSlot('Shirt', avShirts);
-    fillSlot('T-Shirt', TSHIRTS);
-  } else {
-    fillSlot('T-Shirt', TSHIRTS);
-    fillSlot('Shirt', avShirts);
+  if (best) {
+    outfitSlots = best.slots;
+    outfitItems = best.items;
   }
-
-  // ── SHOES ──
-  let avShoes = [...SHOES];
-  // Always strip Birkenstocks in cold/rain
-  if (band === 'cold' || isRainy) avShoes = avShoes.filter(s => s.id !== 'birkenstock');
-  // Blundstones only ever get worn with pants, never shorts.
-  if (gotShorts) avShoes = avShoes.filter(s => s.id !== 'blundstone');
-  // Occasion-specific exclusions (not applied in adaptive — let weather decide)
-  if (!isAdaptive) {
-    if (occ === 'work' || occ === 'smart') avShoes = avShoes.filter(s => s.id !== 'birkenstock');
-    if (occ === 'beach')                   avShoes = avShoes.filter(s => s.id !== 'blundstone');
-  }
-
-  const shoeRank = (isRainy || band === 'cold')
-    ? ['blundstone', 'spezial', 'gazelle', 'birkenstock']
-    : (band === 'hot')
-    ? ['birkenstock', 'gazelle', 'spezial', 'blundstone']
-    : (!isAdaptive && (occ === 'work' || occ === 'smart'))
-    ? ['spezial', 'blundstone', 'gazelle', 'birkenstock']
-    : (!isAdaptive && occ === 'outdoor')
-    ? ['blundstone', 'spezial', 'gazelle', 'birkenstock']
-    : ['spezial', 'gazelle', 'birkenstock', 'blundstone'];
-  fillSlot('Shoes', avShoes.sort((a, b) => shoeRank.indexOf(a.id) - shoeRank.indexOf(b.id)));
-
-  // ── SOCKS ── absolute rules, decided after shoes are known
-  const shoeId = outfitItems['Shoes']?.id;
-  if (shoeId === 'birkenstock') {
-    // Slides = barefoot. No socks. Ever.
-  } else if (shoeId === 'blundstone') {
-    // Chelsea boot = crew socks only. No-shows slip down inside the shaft.
-    fillSlot('Socks', SOCKS.filter(s => s.id !== 'glenmuir-noshows'));
-  } else if (gotShorts) {
-    // Trainers with shorts = no-show liners only. Crew socks (merino/hiking) are a
-    // pants-only pairing.
-    fillSlot('Socks', SOCKS.filter(s => s.id === 'glenmuir-noshows'));
-  } else {
-    // Trainers with pants — no-shows or crew socks both work, let scoring decide.
-    fillSlot('Socks', SOCKS);
-  }
-
-  // ── BELT ──
-  const gotPants = outfitSlots[SLOT_LABELS.indexOf('Pants')] !== null;
-  const needBelt = gotPants && (isAdaptive || occ === 'work' || occ === 'smart' || occ === 'casual' || occ === 'outdoor');
-  if (needBelt) fillSlot('Belt', BELTS);
-
-  // ── HAT ──
-  // Beanie for cold/mild outdoor or casual; skip for work/smart or hot weather. Both
-  // beanie colourways are offered — harmony scoring picks whichever fits the rest of
-  // the outfit better rather than hardcoding one.
-  const hatOccOk = occ === 'outdoor' || occ === 'casual' || isAdaptive;
-  if (hatOccOk && (band === 'cold' || band === 'mild')) {
-    fillSlot('Hat', HATS.filter(h => h.id === 'gunn-beanie' || h.id === 'gunn-beanie-olive'));
-  }
-
-  // ── SUNGLASSES ──
-  // Hot/warm and not rainy — sunglasses are a sun accessory, not a rain or cold-weather one.
-  const sunOccOk = occ === 'beach' || occ === 'casual' || occ === 'outdoor' || isAdaptive;
-  if (sunOccOk && (band === 'hot' || band === 'warm') && !isRainy) {
-    fillSlot('Sunglasses', SUNGLASSES);
-  }
-
-  // ── WATCH ──
-  const watchRank = (!isAdaptive && (occ === 'work' || occ === 'smart')) ? ['seiko', 'gshock'] : ['gshock', 'seiko'];
-  fillSlot('Watch', [...WATCHES].sort((a, b) => watchRank.indexOf(a.id) - watchRank.indexOf(b.id)));
 
   renderOutfitSlots();
   updateHarmony();
