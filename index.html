@@ -33,7 +33,7 @@
     --rust:         #A6471F;
     --golden-ochre: #C68A1E;
     --forest:       #2F4A2A;
-    --teal:         #1F5A52;
+    --moss:         #6E7D3E;
     --brick:        #9C3B26;
 
     /* Neutrals */
@@ -46,7 +46,7 @@
     /* Aliases for backward-compat UI usage */
     --pine:      #2F4A2A;
     --mustard:   #6B6B33;
-    --aubergine: #6E2C2C;
+    --aubergine: #5E2D44;
     --taupe:     #C9B79A;
     --ivory:     #EDE3D0;
     --accent:    #B5562E;
@@ -145,6 +145,16 @@
     line-height: 1;
   }
   .logo-block h1 em { font-style: normal; color: var(--terracotta); }
+  .logo-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 8px;
+    opacity: 0.75;
+  }
   .season-badge {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
@@ -2093,6 +2103,7 @@
   <div class="logo-block">
     <span class="eyebrow">Personal Style Companion</span>
     <h1>Deep <em>Autumn</em></h1>
+    <span class="logo-tagline">Warm, soft direction — Autumn governs, not Winter</span>
   </div>
   <span class="season-badge">James · 186cm · 104cm chest · EU 43 shoe</span>
 </header>
@@ -2326,7 +2337,7 @@
   <!-- PALETTE -->
   <div id="palette">
     <section class="palette-section">
-      <div class="section-label">Your Colour Palette — the full Deep Autumn set, at a glance</div>
+      <div class="section-label">Your Colour Palette — the full Warm, Soft Deep Autumn set, at a glance</div>
       <div class="palette-block">
         <div class="palette-block-head">
           <span class="palette-block-title">Core — The Heavy Hitters</span>
@@ -2348,6 +2359,13 @@
         </div>
         <div class="palette-grid" id="neutralGrid"></div>
       </div>
+      <div class="palette-block">
+        <div class="palette-block-head">
+          <span class="palette-block-title">Capsule — 20 Colours</span>
+          <span class="palette-block-desc">Chosen so that any two or three combine without clashing — they share the same warm, deep-but-not-extreme undertone family.</span>
+        </div>
+        <div class="palette-grid" id="capsuleGrid"></div>
+      </div>
     </section>
   </div>
 
@@ -2355,6 +2373,7 @@
   <section class="colour-guide-section" id="colours">
     <div class="section-label">Colour Guide — how to use your palette</div>
     <p class="section-intro">Wearing Philosophy — neutral base, one colour hit</p>
+    <p class="section-desc">Reassessed from photo evidence: neutral-warm olive skin, warm dark brown (not blue-black) hair, and hazel-amber-olive eyes point to Autumn, full stop — the open question is True Autumn vs Deep Autumn, not Autumn vs Winter. This palette keeps Deep Autumn's depth but governs every choice with True Autumn's warmth: black is restricted, cool jewel tones are out, and any "deep" tone you keep — moss instead of emerald, brick-burgundy instead of true burgundy, bronze instead of pewter — is warmed first.</p>
 
     <div class="tier-grid">
       <div class="tier-card">
@@ -2367,12 +2386,13 @@
         </div>
         <div class="tier-swatch-row">
           <div class="tier-swatch" style="background:#3E2C20"><span>Chocolate</span></div>
-          <div class="tier-swatch" style="background:#EDE3D0"><span>Cream</span></div>
+          <div class="tier-swatch" style="background:#1E1208"><span>Espresso</span></div>
           <div class="tier-swatch" style="background:#B08D57"><span>Camel</span></div>
           <div class="tier-swatch" style="background:#2E2A26"><span>Charcoal</span></div>
+          <div class="tier-swatch" style="background:#6B6B33"><span>Olive</span></div>
           <div class="tier-swatch" style="background:#C9B79A"><span>Stone</span></div>
         </div>
-        <p class="tier-desc">Jeans, tees, shirts, boots, outerwear, trousers. The foundation of almost every outfit. Build freely here — multiple pieces, every context. Your instinct toward neutrals is correct.</p>
+        <p class="tier-desc">Ranked by how hard each one works: chocolate and espresso first (warm depth, no cool cast), then camel/tobacco, warm charcoal, and olive — which sits so close to neutral it earns a place here too. Oatmeal/warm ecru is a good occasional lighter base. True black is dropped from this list on purpose — it's the one neutral that reads coolest against your colouring.</p>
       </div>
 
       <div class="tier-card">
@@ -2386,58 +2406,58 @@
         <div class="hit-list">
           <div class="hit-row">
             <span class="hit-rank">1</span>
-            <div class="hit-swatch" style="background:#6B6B33"></div>
+            <div class="hit-swatch" style="background:#A6471F"></div>
             <div class="hit-body">
-              <span class="hit-name">Olive</span>
-              <span class="hit-note">Easiest pop — almost reads as neutral, lowest commitment</span>
+              <span class="hit-name">Rust / Burnt Sienna</span>
+              <span class="hit-note">Your single best accent — most intense pop, small doses, scarf or knit</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">2</span>
-            <div class="hit-swatch" style="background:#6E2C2C"></div>
+            <div class="hit-swatch" style="background:#C1621F"></div>
             <div class="hit-body">
-              <span class="hit-name">Burgundy</span>
-              <span class="hit-note">Richest hit — best in knitwear, most impact for least effort</span>
+              <span class="hit-name">Pumpkin / Burnt Orange</span>
+              <span class="hit-note">Excellent in small doses — knitwear, accessories</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">3</span>
-            <div class="hit-swatch" style="background:#6B4E2E"></div>
+            <div class="hit-swatch" style="background:#C68A1E"></div>
             <div class="hit-body">
-              <span class="hit-name">Tobacco</span>
-              <span class="hit-note">Warm brown that reads as neutral-with-depth</span>
+              <span class="hit-name">Mustard / Golden Ochre</span>
+              <span class="hit-note">Warm gold — reliable, easy to wear, never reads cold</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">4</span>
-            <div class="hit-swatch" style="background:#2F4A2A"></div>
+            <div class="hit-swatch" style="background:#6E7D3E"></div>
             <div class="hit-body">
-              <span class="hit-name">Forest Green</span>
-              <span class="hit-note">Darker, considered — best in overshirts and jackets</span>
+              <span class="hit-name">Moss Green</span>
+              <span class="hit-note">Your warm answer to emerald — considered, not safe</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">5</span>
-            <div class="hit-swatch" style="background:#1F5A52"></div>
+            <div class="hit-swatch" style="background:#9C3B26"></div>
             <div class="hit-body">
-              <span class="hit-name">Deep Teal</span>
-              <span class="hit-note">The bolder move — for when you want to be noticed</span>
+              <span class="hit-name">Brick Red</span>
+              <span class="hit-note">Deep, warm red — sits between rust and burgundy</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">6</span>
-            <div class="hit-swatch" style="background:#B5562E"></div>
+            <div class="hit-swatch" style="background:#6E2C2C"></div>
             <div class="hit-body">
-              <span class="hit-name">Terracotta</span>
-              <span class="hit-note">Mediterranean hit — best in warm weather, natural light</span>
+              <span class="hit-name">Burgundy / Oxblood</span>
+              <span class="hit-note">Your deepest usable red — richest hit, best in knitwear. Keep it brick-leaning, not purple-leaning</span>
             </div>
           </div>
           <div class="hit-row">
             <span class="hit-rank">7</span>
-            <div class="hit-swatch" style="background:#A6471F"></div>
+            <div class="hit-swatch" style="background:#B5562E"></div>
             <div class="hit-body">
-              <span class="hit-name">Rust</span>
-              <span class="hit-note">Most intense pop — small doses only, scarf or knit</span>
+              <span class="hit-name">Terracotta</span>
+              <span class="hit-note">Mediterranean hit — best in warm weather, natural light</span>
             </div>
           </div>
         </div>
@@ -2452,7 +2472,52 @@
     <div class="section-label">Colours to Avoid</div>
     <div class="avoid-grid" id="avoidGrid"></div>
 
+    <div class="section-label" style="margin-top:32px">Materials — denim, leather &amp; metal</div>
+    <div class="formula-grid" style="margin-bottom:32px">
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Denim</div>
+        <p class="tier-desc"><strong>Best:</strong> rigid indigo raw denim that fades warm — the Nudie Steady Eddie II in Dry Heavy reads as a neutral-deep on you. <strong>Good:</strong> warm-washed indigo, tobacco-brown selvedge, olive-cast denim. <strong>Avoid:</strong> true black denim and cool grey-washed denim — both flatten you the way true black does.</p>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Leather</div>
+        <p class="tier-desc"><strong>Best:</strong> chestnut, cognac, chocolate, whisky-tan. <strong>Good:</strong> dark olive leather, burnished tan. <strong>Avoid:</strong> black leather as a dominant piece (fine as small hardware/trim); oxblood leather only in warm, brick-leaning shades — not purple-oxblood.</p>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name" style="margin-bottom:10px">Metal</div>
+        <p class="tier-desc"><strong>Best:</strong> warm gold, bronze, brushed rose-gold-adjacent tones. <strong>Good:</strong> antique/aged brass, gunmetal — only brushed/matte, not polished cool steel. <strong>Avoid:</strong> polished silver and white gold as a dominant metal — coldest reading against your undertone.</p>
+      </div>
+    </div>
 
+    <div class="section-label">Colour by Category</div>
+    <div class="ref-table-wrap" style="margin-bottom:32px">
+      <table class="ref-table">
+        <thead>
+          <tr><th>Category</th><th>Recommended colours</th></tr>
+        </thead>
+        <tbody>
+          <tr class="ref-group-row"><td colspan="2">Everyday</td></tr>
+          <tr><td>T-shirts</td><td class="ref-rule">Rust, olive, chocolate, warm ecru, mustard, brick.</td></tr>
+          <tr><td>Shirts</td><td class="ref-rule">Oatmeal, camel, olive, rust-check, warm ecru. Avoid stark white as your main dress shirt — use ivory instead.</td></tr>
+          <tr><td>Knitwear</td><td class="ref-rule">Chocolate, moss, mustard, rust, camel, warm burgundy.</td></tr>
+          <tr><td>Jackets</td><td class="ref-rule">Chocolate suede/leather, olive waxed cotton, camel wool, espresso corduroy.</td></tr>
+          <tr><td>Trousers</td><td class="ref-rule">Camel, chocolate, olive, warm charcoal.</td></tr>
+          <tr><td>Chinos</td><td class="ref-rule">Camel, olive, stone, tobacco.</td></tr>
+          <tr><td>Jeans</td><td class="ref-rule">Rigid dark indigo, tobacco selvedge, olive-cast denim.</td></tr>
+          <tr><td>Shorts</td><td class="ref-rule">Stone, olive, camel — same neutral family as your trousers.</td></tr>
+          <tr class="ref-group-row"><td colspan="2">Extremities &amp; Accessories</td></tr>
+          <tr><td>Shoes</td><td class="ref-rule">Chestnut, chocolate, cognac leather.</td></tr>
+          <tr><td>Boots</td><td class="ref-rule">Dark brown (your RM Williams are a correct pick), chestnut, olive suede.</td></tr>
+          <tr><td>Trainers</td><td class="ref-rule">Brown/olive combinations (your Handball Spezials are well-chosen); camel/burgundy suede. Avoid stark white-and-black colourways as your primary pair.</td></tr>
+          <tr><td>Belts</td><td class="ref-rule">Chestnut or chocolate leather with warm-gold or bronze hardware.</td></tr>
+          <tr><td>Bags</td><td class="ref-rule">Chocolate, cognac, olive canvas/waxed cotton.</td></tr>
+          <tr class="ref-group-row"><td colspan="2">Formalwear</td></tr>
+          <tr><td>Suit</td><td class="ref-rule">Chocolate brown, espresso, warm charcoal (brown-based), deep olive for a statement suit.</td></tr>
+          <tr><td>Shirt</td><td class="ref-rule">Ivory, oatmeal, soft camel-stripe, pale sage — avoid stark white.</td></tr>
+          <tr><td>Tie</td><td class="ref-rule">Rust, burnt orange, mustard, moss, deep warm burgundy.</td></tr>
+          <tr><td>Pocket square</td><td class="ref-rule">Mustard, rust, warm olive, camel — patterns with warm ecru grounds.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="section-label" style="margin-top:40px">Watches — applying your palette to the wrist</div>
 
@@ -2463,7 +2528,7 @@
       </div>
       <div class="tier-card">
         <div class="tier-name" style="margin-bottom:10px">Dial</div>
-        <p class="tier-desc">Your palette applies directly here. Warm cream, tobacco, olive, warm green, burgundy, and golden amber are all very strong. Black works given your contrast level. Burnt orange is your most adventurous move.</p>
+        <p class="tier-desc">Your palette applies directly here. Warm cream, tobacco, olive, warm green, burgundy, and golden amber are all very strong. Black only works if the case or strap is warm (bronze case, brown leather) to offset it — black-on-steel is your weakest watch combination. Burnt orange is your most adventurous move.</p>
       </div>
       <div class="tier-card">
         <div class="tier-name" style="margin-bottom:10px">Strap</div>
@@ -2518,17 +2583,10 @@
             </div>
           </div>
           <div class="hit-row">
-            <div class="hit-swatch" style="background:#1A1410"></div>
-            <div class="hit-body">
-              <span class="hit-name">Black</span>
-              <span class="hit-note">Works given your contrast level — chocolate reads better</span>
-            </div>
-          </div>
-          <div class="hit-row">
             <div class="hit-swatch" style="background:#A6471F"></div>
             <div class="hit-body">
               <span class="hit-name">Burnt Orange / Copper</span>
-              <span class="hit-note">Your most adventurous dial — very Deep Autumn</span>
+              <span class="hit-note">Your most adventurous dial — very warm, soft Deep Autumn</span>
             </div>
           </div>
         </div>
@@ -2538,31 +2596,31 @@
         <div class="tier-sub" style="margin-bottom:16px">Use with more caution</div>
         <div class="hit-list" style="margin-bottom:28px">
           <div class="hit-row">
+            <div class="hit-swatch" style="background:#1A1410"></div>
+            <div class="hit-body">
+              <span class="hit-name">Black</span>
+              <span class="hit-note">Good only if the case/strap is warm (bronze case, brown leather) to offset it. Black-on-steel is your weakest watch combination.</span>
+            </div>
+          </div>
+          <div class="hit-row">
             <div class="hit-swatch" style="background:#6B9AC4"></div>
             <div class="hit-body">
-              <span class="hit-name">Stark Cool Blue</span>
-              <span class="hit-note">Fights your warmth. Warm navy or petrol blue is fine — icy bright blue is your weakest.</span>
+              <span class="hit-name">Blue Dials</span>
+              <span class="hit-note">Avoid, especially icy or royal blue — fights your warmth directly.</span>
             </div>
           </div>
           <div class="hit-row">
             <div class="hit-swatch" style="background:#A8A8A8"></div>
             <div class="hit-body">
-              <span class="hit-name">Silver / Grey Dial</span>
-              <span class="hit-note">Functional but flat against you</span>
-            </div>
-          </div>
-          <div class="hit-row">
-            <div class="hit-swatch" style="background:#F5F5F5"></div>
-            <div class="hit-body">
-              <span class="hit-name">Pure / Optic White</span>
-              <span class="hit-note">Same issue as optic white in clothing — cool, drains warmth</span>
+              <span class="hit-name">Silver / White Dial</span>
+              <span class="hit-note">Avoid as your primary watch — functional but flat against you</span>
             </div>
           </div>
         </div>
 
         <div class="brand-note" style="margin-top:0">
           <div class="brand-note-icon">◆</div>
-          <p><strong>Your Seiko AGS Landmaster:</strong> Steel case with dark dial — works fine because it reads as a tool watch rather than a jewellery piece, so metal rules matter less. The dark dial is your stronger end for steel. Put it on a tan or tobacco leather NATO and it will immediately feel more cohesive with your colouring.</p>
+          <p><strong>Your Seiko AGS Landmaster:</strong> Steel case with dark dial — technically your weakest watch combination, but it works here because it reads as a tool watch rather than a jewellery piece, so metal rules matter less. Put it on a tan or tobacco leather NATO and it will immediately feel more cohesive with your colouring — treat it as a utility exception, not your main metal statement.</p>
         </div>
       </div>
     </div>
@@ -2635,8 +2693,8 @@
 
   <!-- DRESSING RULES -->
   <section class="rules-section" id="rules">
-    <div class="section-label">Your Dressing Code — rules for Deep Autumn · workwear &amp; heritage</div>
-    <p class="section-intro">12 rules</p>
+    <div class="section-label">Your Dressing Code — rules for Warm, Soft Deep Autumn · workwear &amp; heritage</div>
+    <p class="section-intro">13 rules</p>
     <p class="section-desc">Colour, fit, and aesthetic rules for the workwear and heritage direction — calibrated to the Deep Autumn palette and the confirmed frame.</p>
     <div class="rules-grid" id="rulesGrid"></div>
   </section>
@@ -2680,37 +2738,65 @@ const PALETTE = {
   ],
   accent: [
     { name: 'Rust',          hex: '#A6471F', role: 'sig' },
+    { name: 'Pumpkin',       hex: '#C1621F', role: 'sig' },
     { name: 'Golden Ochre',  hex: '#C68A1E', role: 'sig' },
-    { name: 'Forest Green',  hex: '#2F4A2A', role: 'sig' },
-    { name: 'Deep Teal',     hex: '#1F5A52', role: 'sig' },
+    { name: 'Moss Green',    hex: '#6E7D3E', role: 'sig' },
     { name: 'Brick',         hex: '#9C3B26', role: 'sig' },
   ],
   neutrals: [
     { name: 'Chocolate',    hex: '#3E2C20', role: 'neu' },
+    { name: 'Espresso',     hex: '#1E1208', role: 'neu' },
     { name: 'Cream',        hex: '#EDE3D0', role: 'neu' },
     { name: 'Stone',        hex: '#C9B79A', role: 'neu' },
     { name: 'Warm Charcoal',hex: '#2E2A26', role: 'neu' },
-    { name: 'Deep Navy',    hex: '#1A2535', role: 'neu' },
   ],
   extended: [
     { name: 'Copper',     hex: '#9B5C28', role: 'sig' },
     { name: 'Amber',      hex: '#C4821A', role: 'sig' },
-    { name: 'Plum',       hex: '#5E2D44', role: 'sig' },
+    { name: 'Aubergine',  hex: '#5E2D44', role: 'sig' },
     { name: 'Taupe',      hex: '#8B7B6B', role: 'neu' },
     { name: 'Khaki',      hex: '#7A7A3A', role: 'neu' },
     { name: 'Parchment',  hex: '#D8C8A8', role: 'neu' },
   ],
   expanded: [
-    { name: 'Cognac',     hex: '#8B5E3C', role: 'sig' },
-    { name: 'Army Green', hex: '#4A4D20', role: 'sig' },
-    { name: 'Sage',       hex: '#7D8C68', role: 'neu' },
-    { name: 'Ivory',      hex: '#F4E8D0', role: 'neu' },
-    { name: 'Espresso',   hex: '#1E1208', role: 'neu' },
-    { name: 'Warm Sand',  hex: '#C8A87A', role: 'neu' },
+    { name: 'Cognac',           hex: '#8B5E3C', role: 'sig' },
+    { name: 'Army Green',       hex: '#4A4D20', role: 'sig' },
+    { name: 'Sage',             hex: '#7D8C68', role: 'neu' },
+    { name: 'Ivory',            hex: '#F4E8D0', role: 'neu' },
+    { name: 'Warm Sand',        hex: '#C8A87A', role: 'neu' },
+    { name: 'Forest Green',     hex: '#2F4A2A', role: 'sig' },
+    { name: 'Deep Bottle Green',hex: '#16332A', role: 'sig' },
+    { name: 'Deep Navy',        hex: '#1A2535', role: 'neu' },
+    { name: 'Saffron',          hex: '#D19A2A', role: 'sig' },
+    { name: 'Paprika',          hex: '#B8461E', role: 'sig' },
+    { name: 'Soft Coral',       hex: '#C97656', role: 'sig' },
   ]
 };
 
 const ALL_COLOURS = [...PALETTE.core, ...PALETTE.accent, ...PALETTE.neutrals, ...PALETTE.extended, ...PALETTE.expanded];
+
+const CAPSULE = [
+  { name: 'Chocolate',           hex: '#3E2C20' },
+  { name: 'Espresso',            hex: '#1E1208' },
+  { name: 'Camel',               hex: '#B08D57' },
+  { name: 'Tobacco',             hex: '#6B4E2E' },
+  { name: 'Warm Charcoal',       hex: '#2E2A26' },
+  { name: 'Olive',               hex: '#6B6B33' },
+  { name: 'Moss Green',          hex: '#6E7D3E' },
+  { name: 'Rust',                hex: '#A6471F' },
+  { name: 'Brick Red',           hex: '#9C3B26' },
+  { name: 'Mustard',             hex: '#C68A1E' },
+  { name: 'Warm Gold',           hex: '#C5A028' },
+  { name: 'Burnt Orange',        hex: '#C1621F' },
+  { name: 'Terracotta',          hex: '#B5562E' },
+  { name: 'Oxblood',             hex: '#6E2C2C' },
+  { name: 'Stone',               hex: '#C9B79A' },
+  { name: 'Oatmeal',             hex: '#D8C8A8' },
+  { name: 'Ivory',               hex: '#F4E8D0' },
+  { name: 'Deep Bottle Green',   hex: '#16332A' },
+  { name: 'Warm Plum',           hex: '#5E2D44' },
+  { name: 'Rigid Dark Indigo',   hex: '#1A2535' },
+];
 
 const SHOES = [
   { id: 'spezial',     name: 'Handball Spezial',   short: 'Spezial',    sub: 'Aurora Coffee · Silver · Gum',  colours: ['#5C3A1E','#B8B5AF','#9E9378'], colour: '#6B4E2E' },
@@ -2772,7 +2858,7 @@ const POWER_COLOURS = [
     name: 'Burgundy',
     hex: '#6E2C2C',
     role: 'Your richness colour',
-    desc: 'Against olive skin and dark hair, burgundy creates depth and contrast that is genuinely striking — makes your eyes read warmer and your complexion more vivid. The easiest way to elevate a simple outfit.'
+    desc: 'Against olive skin and dark hair, burgundy creates depth and contrast that is genuinely striking — makes your eyes read warmer and your complexion more vivid. Keep it on the warm, brick-leaning side rather than a purple-leaning oxblood, and it\'s the easiest way to elevate a simple outfit.'
   },
   {
     name: 'Olive',
@@ -2781,10 +2867,10 @@ const POWER_COLOURS = [
     desc: 'Sits so naturally against your colouring that it almost reads as a neutral while still being clearly a colour. Olive on you looks intentional and grounded — the colour most associated with the Mediterranean direction.'
   },
   {
-    name: 'Deep Teal',
-    hex: '#1F5A52',
-    role: 'Your unexpected power colour',
-    desc: 'Most Deep Autumns overlook teal, reaching for safer browns. This specific deep, muted teal creates a striking contrast with warm olive skin that few colours replicate. Use it as a statement piece.'
+    name: 'Moss Green',
+    hex: '#6E7D3E',
+    role: 'Your grounding green',
+    desc: 'The warm, yellow-leaning green that replaces cooler jewel greens (emerald, teal) in your palette. It pushes hazel eyes toward green and reads as considered rather than safe — strongest in knitwear and overshirts.'
   },
 ];
 
@@ -2797,12 +2883,14 @@ const FOUNDATION = [
 ];
 
 const AVOID = [
-  { colour: '#1A1A1A', name: 'Pure Black', reason: 'Drains slightly against your warmth. Replace with Chocolate or Warm Charcoal. Exception: genuine black tie only.' },
-  { colour: '#F5F5F5', name: 'Optic White', reason: 'The bluish bright white fights your warmth. Use Cream, ecru, or ivory instead — always.' },
-  { colour: '#A8C8E8', name: 'Cool Pastels', reason: 'Baby blue, lavender, icy pink, mint. They make warm skin look sallow.' },
-  { colour: '#C040A0', name: 'Jewel Cool Tones', reason: 'Fuchsia, cobalt, bright emerald, pure magenta. Too clear and cold for your depth.' },
-  { colour: '#888888', name: 'Cool Mid-Grey', reason: 'Flattens you entirely. If you need grey, go deep and warm (charcoal) or skip it.' },
-  { colour: '#FF6600', name: 'Neon Brights', reason: 'Bright orange, lemon yellow, lime. Your palette is muted and complex — spectrum brights read cheap against it.' },
+  { colour: '#1A1A1A', name: 'True / Cool Black', reason: 'Reads coolest and hardest against your warm-olive, deep-but-not-extreme colouring. Small doses only — shoe sole, watch case, belt keeper. Chocolate or espresso do the job everywhere else.' },
+  { colour: '#F5F5F5', name: 'Pure / Stark White', reason: 'Bluish bright white fights your warmth and flattens your skin. Use warm ivory, oatmeal, or ecru instead — always.' },
+  { colour: '#C9DCEA', name: 'Icy Pastels', reason: 'Ice blue, ice pink, ice lavender. Pale and cold — they make warm-olive skin look sallow rather than healthy.' },
+  { colour: '#C0348C', name: 'Magenta / Fuchsia', reason: 'Too clear and cold for your depth — sits outside the warm, muted family entirely.' },
+  { colour: '#1E4FB0', name: 'True Sapphire / Royal Blue', reason: 'The clearest example of the cool, high-contrast Winter edge your data doesn\'t support. Warm navy in denim is fine; a saturated royal blue is not.' },
+  { colour: '#F2C4D1', name: 'Cool Baby Pink', reason: 'Reads pale and blue-based against your depth. Soft coral or terracotta does the same job warm.' },
+  { colour: '#9AA3AC', name: 'Silver-Grey (blue-based)', reason: 'Flattens you entirely. If you need grey, go deep and warm (charcoal) or skip it.' },
+  { colour: '#12805A', name: 'True Emerald', reason: 'Cool, clear blue-green — moss or hunter green is your version instead.' },
 ];
 
 const CONTEXTS = [
@@ -2813,8 +2901,8 @@ const CONTEXTS = [
   },
   {
     title: 'Smart Casual',
-    desc: 'Knitwear in burgundy, deep navy, and forest green over cream or stone. Clean chino and brown leather. One statement colour; neutrals carry the rest.',
-    chips: ['#6E2C2C','#1A2535','#2F4A2A','#EDE3D0','#C9B79A','#3E2C20']
+    desc: 'Knitwear in burgundy, aubergine (occasional, warm-plum only), and moss green over cream or stone. Clean chino and brown leather. One statement colour; neutrals carry the rest.',
+    chips: ['#6E2C2C','#5E2D44','#6E7D3E','#EDE3D0','#C9B79A','#3E2C20']
   },
   {
     title: 'Summer / Mediterranean',
@@ -2823,17 +2911,17 @@ const CONTEXTS = [
   },
   {
     title: 'Winter',
-    desc: 'Go deeper. Tobacco, chocolate, burgundy, forest green, deep teal in heavier textures. Layer warm tones rather than retreating to black and grey.',
-    chips: ['#6B4E2E','#3E2C20','#6E2C2C','#2F4A2A','#1F5A52','#2E2A26']
+    desc: 'Go deeper. Tobacco, chocolate, burgundy, moss green, deep bottle green (occasional) in heavier textures. Layer warm tones rather than retreating to black and grey.',
+    chips: ['#6B4E2E','#3E2C20','#6E2C2C','#6E7D3E','#16332A','#2E2A26']
   },
   {
     title: 'Formal',
-    desc: 'Deep navy suit where you have the choice. A deep brown or warm charcoal suit is a distinctive alternative to the standard grey. Black tie stays black.',
-    chips: ['#1A2535','#3E2C20','#2E2A26','#EDE3D0']
+    desc: 'Chocolate brown, espresso, or warm charcoal (brown-based) suit is a distinctive alternative to the standard grey — a deep olive suit is the boldest statement. Black tie stays black.',
+    chips: ['#3E2C20','#1E1208','#2E2A26','#4A4D20','#EDE3D0']
   },
   {
     title: 'Colour by Garment',
-    desc: 'Trousers: tobacco, olive, stone, camel, charcoal, chocolate. Shirts: cream base, then olive, terracotta, tobacco, burgundy, forest. Outerwear: olive, tobacco, chocolate, navy. Footwear: dark brown and chocolate — keep black for black tie only.',
+    desc: 'Trousers: tobacco, olive, stone, camel, charcoal, chocolate. Shirts: cream base, then olive, terracotta, tobacco, burgundy, moss. Outerwear: olive, tobacco, chocolate, espresso. Footwear: dark brown and chocolate — keep black for black tie only.',
     chips: ['#6B4E2E','#6B6B33','#C9B79A','#B08D57','#2E2A26','#EDE3D0','#B5562E','#3E2C20']
   },
 ];
@@ -2919,12 +3007,12 @@ const LOOKS = [
     fitNote: 'Burgundy against olive skin reads with real depth. One colour hit, neutrals carry everything else'
   },
   {
-    name: 'Deep Navy & Camel',
+    name: 'Aubergine & Camel',
     season: 'AW',
     occasion: 'Smart Casual · Elevated',
-    colours: ['#1A2535','#B08D57','#3E2C20','#EDE3D0'],
-    pieces: 'Deep navy crew knit (L), camel chambray shirt or overshirt underneath, Nudie raw denim or chocolate trouser (W34/L33), Blundstone Chelsea',
-    fitNote: 'Navy + camel is the smartest neutral combination in the palette. Layered shirt collar at the V gives it workwear heritage weight'
+    colours: ['#5E2D44','#B08D57','#3E2C20','#EDE3D0'],
+    pieces: 'Aubergine crew knit (L), camel chambray shirt or overshirt underneath, Nudie raw denim or chocolate trouser (W34/L33), Blundstone Chelsea',
+    fitNote: 'Aubergine is your occasional borrow from the cooler end — keep it to the browner, warmer plums, not blue-violet. Paired with camel it stays grounded. Layered shirt collar at the V gives it workwear heritage weight'
   },
   {
     name: 'Tobacco & Stone',
@@ -2956,9 +3044,9 @@ const COMBOS = [
   { name: 'Tobacco + Olive',      occasion: 'Everyday',        colours: ['#6B4E2E','#6B6B33','#EDE3D0','#3E2C20'] },
   { name: 'Burgundy + Stone',     occasion: 'Evening',         colours: ['#6E2C2C','#C9B79A','#3E2C20','#EDE3D0'] },
   { name: 'Terracotta + Camel',   occasion: 'Smart Casual',    colours: ['#B5562E','#B08D57','#EDE3D0','#6B4E2E'] },
-  { name: 'Teal + Chocolate',     occasion: 'Statement',       colours: ['#1F5A52','#3E2C20','#EDE3D0','#B08D57'] },
+  { name: 'Moss + Chocolate',     occasion: 'Statement',       colours: ['#6E7D3E','#3E2C20','#EDE3D0','#B08D57'] },
   { name: 'Forest + Cream',       occasion: 'Casual',          colours: ['#2F4A2A','#EDE3D0','#6B4E2E','#C9B79A'] },
-  { name: 'Navy + Camel',         occasion: 'Smart',           colours: ['#1A2535','#B08D57','#3E2C20','#EDE3D0'] },
+  { name: 'Aubergine + Camel',    occasion: 'Smart',           colours: ['#5E2D44','#B08D57','#3E2C20','#EDE3D0'] },
   { name: 'Rust + Chocolate',     occasion: 'Autumn · Everyday', colours: ['#A6471F','#3E2C20','#EDE3D0','#6B4E2E'] },
   { name: 'Olive + Stone',        occasion: 'Mediterranean',   colours: ['#6B6B33','#C9B79A','#6B4E2E','#3E2C20'] },
   { name: 'Brick + Camel',        occasion: 'Casual',          colours: ['#9C3B26','#B08D57','#EDE3D0','#3E2C20'] },
@@ -2986,8 +3074,8 @@ const RULES = [
   {
     n: '04',
     title: 'One signature per outfit',
-    text: 'Tobacco, Burgundy, Terracotta, Teal, Forest Green — one at a time. Your height means a strong colour on the upper body has real impact. Let one colour lead; neutrals carry everything else.',
-    chips: ['#6B4E2E','#6E2C2C','#B5562E','#1F5A52'],
+    text: 'Tobacco, Burgundy, Terracotta, Moss Green, Rust — one at a time. Your height means a strong colour on the upper body has real impact. Let one colour lead; neutrals carry everything else.',
+    chips: ['#6B4E2E','#6E2C2C','#B5562E','#6E7D3E'],
   },
   {
     n: '05',
@@ -3037,10 +3125,16 @@ const RULES = [
     text: 'Heritage brands hold value and age better than new equivalents from lesser labels. Vinted, eBay, and Depop carry Red Wing, Barbour, Carhartt WIP, Nudie, Wolsey, and William Lockie knitwear consistently. A secondhand Red Wing 875 at £80 outperforms a new high-street boot at £120. The workwear direction rewards this approach — worn-in is the goal, not new.',
     chips: ['#6B4E2E','#3E2C20','#C9B79A'],
   },
+  {
+    n: '13',
+    title: 'Warm governs, not Winter',
+    text: 'The genuine tension in your data is True Autumn vs Deep Autumn — not Autumn vs Winter. Keep Deep Autumn\'s depth, but every "deep" colour must be warmed first: moss instead of emerald, brick-burgundy instead of true burgundy, bronze instead of pewter. Black, cool jewel tones, and icy pastels are dropped, not just used sparingly.',
+    chips: ['#3E2C20','#6E7D3E','#6E2C2C'],
+  },
 ];
 
 
-// HARMONY — Deep Autumn / Deep Winter hybrid colour theory
+// HARMONY — warm, soft Deep Autumn colour theory (Autumn governs; Winter is an occasional, warmed borrow)
 function hexToHsl(hex) {
   const r = parseInt(hex.slice(1,3),16)/255,
         g = parseInt(hex.slice(3,5),16)/255,
@@ -3062,15 +3156,20 @@ function colourFit(hex) {
   let pts = 50;
   const veryDark = l < 20, lowSat = s < 18;
   if (veryDark || lowSat) {
-    pts += 8; // very dark / desaturated colours function as deep neutrals regardless of hue
+    // Warm, soft direction: dark/desaturated colours no longer get a free pass regardless of hue.
+    // True black/grey (achromatic) and cool-dark hues (blue, teal, violet) score lower than warm
+    // dark neutrals like chocolate and espresso — black is restricted, not treated as just another deep neutral.
+    const achromatic = s < 8;
+    const coolDark = h > 165 && h < 290;
+    pts += achromatic ? 3 : (coolDark ? 2 : 8);
   } else {
     if      (h <= 50 || h >= 350) pts += 28; // reds, oranges, warm yellows — home territory
     else if (h <= 100)             pts += 22; // olive, golden-green, khaki — excellent
-    else if (h <= 135)             pts += 12; // forest greens, earthy darks
-    else if (h <= 165)             pts +=  0; // cool greens — neutral
-    else if (h <= 205)             pts -= 12; // teal / blue-green — mild conflict
-    else if (h <= 260)             pts -= 22; // cool mid-blues — fight warmth
-    else if (h <= 310)             pts -=  8; // mid purples
+    else if (h <= 135)             pts += 12; // forest / moss greens, earthy darks
+    else if (h <= 165)             pts -=  4; // cool greens — mild conflict, moss/bottle green only in small doses
+    else if (h <= 205)             pts -= 18; // teal / blue-green — dropped, not just muted
+    else if (h <= 260)             pts -= 28; // cool mid-blues, sapphire — fight your warmth directly
+    else if (h <= 310)             pts -= 12; // mid purples — occasional warm-plum borrow only
     else                           pts += 14; // warm plum / garnet territory
   }
   if      (l < 20 && s < 35)        pts += 10; // very dark neutrals
@@ -3541,7 +3640,7 @@ function generateStyleTip() {
         return `${weakLink.name} is too vivid for a Deep Autumn palette — the chroma is high enough to read as a different seasonal type. Dial it back: anything in this outfit should have richness, not brightness. Swap for something with more depth and warmth.`;
       }
       if (coolOrBright) {
-        return `${weakLink.name} is pulling cool — your Deep Autumn/Deep Winter colouring needs warmth as its base. Cool tones as a single contrast accent can work, but this is reading too blue/cool for the palette. Consider dropping to a deep neutral or swapping for a warm counterpart.`;
+        return `${weakLink.name} is pulling cool — your warm, soft Deep Autumn colouring needs warmth as its base, not a cool Winter edge. An occasional warmed borrow (deep bottle green, browner aubergine) can work in small doses, but this is reading too blue/cool for the palette. Consider dropping to a deep neutral or swapping for a warm counterpart.`;
       }
     }
 
@@ -4253,10 +4352,10 @@ const AUDIT_GAPS = [
   {
     priority: 'medium',
     category: 'Tops',
-    title: 'Deep Teal Statement Piece',
-    problem: 'Your palette analysis identifies deep teal as the most overlooked power colour for your season. Nothing in this shade exists in the wardrobe.',
-    suggestion: 'A deep, muted teal overshirt, pigment-dyed sweatshirt, or shirt. Not bright teal — the specific shade is almost green-blue, close to #1F5A52. Replace the Champion in the jumper slot with this.',
-    colours: ['#1F5A52', '#1A4A42'],
+    title: 'Moss Green Statement Piece',
+    problem: 'Your reassessed palette identifies moss green — not teal — as your most overlooked power colour. Nothing in this warm, yellow-leaning green exists in the wardrobe.',
+    suggestion: 'A moss green overshirt, pigment-dyed sweatshirt, or shirt. Warm and yellow-leaning, not a cool blue-green — close to #6E7D3E. Replace the Champion in the jumper slot with this.',
+    colours: ['#6E7D3E', '#5C6B33'],
     brands: 'Arket · Folk · Sunspel',
     size: 'Size L',
     budget: '£65–£160',
@@ -4374,6 +4473,7 @@ sectionIds.forEach(id => { const el = document.getElementById(id); if (el) navOb
 renderGrid('coreGrid',    PALETTE.core);
 renderGrid('accentGrid',  PALETTE.accent);
 renderGrid('neutralGrid', PALETTE.neutrals);
+renderGrid('capsuleGrid', CAPSULE);
 
 // Power Colours
 (function() {
