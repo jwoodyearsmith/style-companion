@@ -879,6 +879,12 @@
   .rec-item-swatch { width: 8px; height: 12px; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
   .rec-item-name { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--camel); letter-spacing: 0.05em; white-space: nowrap; }
   .rec-owned-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 1px; }
+  /* AI RENDER PANEL */
+  .render-panel { margin-top: 18px; padding: 16px 18px; background: rgba(176,141,87,0.04); border: 1px solid rgba(176,141,87,0.15); border-radius: 6px; }
+  .render-panel-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--camel); margin-bottom: 12px; opacity: 0.8; }
+  .render-loading { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); padding: 24px 0; text-align: center; }
+  .render-image { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 6px; border: 1px solid var(--border); }
+  .render-prompt { margin-top: 10px; font-size: 11px; font-style: italic; font-family: 'Playfair Display', serif; color: var(--text-secondary); line-height: 1.5; }
   /* ITEM PICKER */
   .item-card { display: flex; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 5px; cursor: pointer; border: 1px solid transparent; margin-bottom: 6px; transition: background 0.15s, border-color 0.15s; }
   .item-card:hover { background: rgba(107,78,46,0.06); border-color: rgba(107,78,46,0.25); }
@@ -2148,9 +2154,14 @@
         <p class="tip-text" id="tipText">Tap a slot to select an item or colour — start with clothing, then build out shoes and accessories.</p>
         <div class="outfit-actions">
           <button class="generate-btn visible" id="generateBtn" onclick="generateOutfit()">Generate outfit</button>
+          <button class="generate-btn visible" id="renderLookBtn" onclick="renderLook()">Render look</button>
           <button class="clear-btn" onclick="clearOutfit()" title="Clear all slots">Clear</button>
         </div>
         <div class="rec-panel" id="recPanel" style="display:none"></div>
+        <div class="render-panel" id="renderPanel" style="display:none">
+          <div class="render-panel-title">AI Render</div>
+          <div id="renderPanelBody"></div>
+        </div>
       </div>
       <div class="picker-panel">
         <div id="pickerContent"></div>
@@ -3630,6 +3641,73 @@ function clearOutfit() {
   renderOutfitSlots();
   updateHarmony();
   refreshPicker();
+  const renderPanel = document.getElementById('renderPanel');
+  if (renderPanel) renderPanel.style.display = 'none';
+}
+
+// AI RENDER — builds a natural-language prompt from the filled slots and
+// requests a rough preview image from the Pollinations.ai free image API.
+const RENDER_GARMENT_NOUNS = {
+  'Hat': 'hat', 'Shirt': 'shirt', 'T-Shirt': 't-shirt', 'Jacket': 'jacket',
+  'Jumper': 'jumper', 'Watch': 'watch', 'Accent': 'accent piece', 'Belt': 'belt',
+  'Shorts': 'shorts', 'Pants': 'pants', 'Shoes': 'shoes', 'Socks': 'socks', 'Bag': 'bag'
+};
+const RENDER_STYLE_SUFFIX = 'editorial fashion photo, neutral studio background, full body, natural lighting';
+
+function buildLookDescription() {
+  const parts = [];
+  SLOT_GROUPS.forEach(group => {
+    group.slots.forEach(label => {
+      const idx = SLOT_LABELS.indexOf(label);
+      const hex = outfitSlots[idx];
+      if (!hex) return;
+      const colourName = ALL_COLOURS.find(c => c.hex === hex)?.name || '';
+      const item = outfitItems[label];
+      const noun = item ? item.name : (RENDER_GARMENT_NOUNS[label] || label.toLowerCase());
+      const phrase = [colourName, noun].filter(Boolean).join(' ').toLowerCase();
+      if (phrase) parts.push(phrase);
+    });
+  });
+  return parts;
+}
+
+function renderLook() {
+  const parts = buildLookDescription();
+  const panel = document.getElementById('renderPanel');
+  const body = document.getElementById('renderPanelBody');
+  if (!parts.length) { showToast('Fill at least one slot to render a look'); return; }
+
+  const description = `man wearing a ${parts.join(', ')}, ${RENDER_STYLE_SUFFIX}`;
+  const url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(description);
+
+  panel.style.display = 'block';
+  body.innerHTML = '';
+  const loading = document.createElement('div');
+  loading.className = 'render-loading';
+  loading.textContent = 'Rendering look…';
+  body.appendChild(loading);
+
+  const caption = document.createElement('p');
+  caption.className = 'render-prompt';
+  caption.textContent = description;
+
+  const img = new Image();
+  img.className = 'render-image';
+  img.alt = 'AI-rendered preview of the current outfit';
+  img.onload = () => {
+    body.innerHTML = '';
+    body.appendChild(img);
+    body.appendChild(caption);
+  };
+  img.onerror = () => {
+    body.innerHTML = '';
+    const err = document.createElement('div');
+    err.className = 'render-loading';
+    err.textContent = 'Could not render image — try again.';
+    body.appendChild(err);
+    body.appendChild(caption);
+  };
+  img.src = url;
 }
 
 let currentWeather = null;
