@@ -2803,7 +2803,7 @@ const PALETTE = {
   coolBorrowsV2: [
     { name: 'Peacock Teal (warm-leaning)', hex: '#3E6B5E', role: 'sig', rating: 'Occasional' },
     { name: 'Slate Blue-Brown',            hex: '#46504A', role: 'sig', rating: 'Occasional' },
-    { name: 'Warm Aubergine',              hex: '#5A3B3E', role: 'sig', rating: 'Occasional', undertone: 'warm-leaning' },
+    { name: 'Warm Aubergine',              hex: '#5C3A32', role: 'sig', rating: 'Occasional', undertone: 'brick' }, // corrected from #5A3B3E, which measured blue>green (purple-leaning) — the whole point of this entry is that it's the warmed, brick-leaning exception, so it must actually pass the undertone rule it's named for
   ],
 };
 
@@ -2819,7 +2819,7 @@ const RED_FAMILY_UNDERTONE_RULE = {
     Burgundy: { hex: '#6E2C2C', undertone: 'brick', verdict: 'complies — safe, left unchanged' },
     // PALETTE.extended Aubergine (renamed from Plum in a concurrent update) — #5E2D44 —
     // R94/G45/B68: blue > green, reads as purple/violet.
-    Aubergine: { hex: '#5E2D44', undertone: 'purple', verdict: 'does not meet the new safe criteria — left unchanged per instructions; treat as avoid/occasional-only going forward. Distinct from the new PALETTE.coolBorrowsV2 "Warm Aubergine" (#5A3B3E), which is a separately-formulated warm-leaning variant.' },
+    Aubergine: { hex: '#5E2D44', undertone: 'purple', verdict: 'does not meet the new safe criteria — left unchanged per instructions; treat as avoid/occasional-only going forward. Distinct from the new PALETTE.coolBorrowsV2 "Warm Aubergine" (#5C3A32), which is a separately-formulated, verified brick-leaning variant.' },
   }
 };
 
@@ -3204,6 +3204,80 @@ function hexToHsl(hex) {
   return { h: h*360, s: s*100, l: l*100 };
 }
 
+// ==================================================================================
+// STYLIST COLOUR INTELLIGENCE
+// Everything below governs how the outfit builder reasons about colour: which swatch a
+// hex belongs to (if any) and its curated role/rating, the red-family undertone hard rule,
+// and the neutral-anchor / one-accent-by-default logic a stylist actually works from —
+// not just raw hue math treating every colour as an equally-valid option.
+// ==================================================================================
+
+// Looks a hex up against the curated swatch gallery so scoring can use its role
+// (neutral vs accent) and rating (Excellent/Good/Occasional), not just guess from hue/sat.
+function getSwatchMeta(hex) {
+  if (!hex) return null;
+  return ALL_COLOURS.find(c => c.hex.toLowerCase() === hex.toLowerCase()) || null;
+}
+
+// Red/burgundy/wine/plum family — hue wraps from true red through wine/plum territory.
+function isRedFamilyHue(h) { return h >= 300 || h <= 15; }
+
+// Brick-leaning (green channel >= blue channel) reads warm/brick — safe.
+// Purple-leaning (blue channel > green) reads cool/wine — the hard-avoid case.
+function redUndertoneSafe(hex) {
+  const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+  return g >= b;
+}
+
+// Hard rule: any red/burgundy/wine/plum-family colour must be brick-leaning to be usable
+// anywhere in the builder — selection, suggestion, or auto-generation. This is checked by
+// hue + undertone math, not by name, so it also catches the palette's legacy "Aubergine"
+// entry (renamed from Plum, #5E2D44, purple-leaning) without needing a hardcoded name list.
+function isBuilderSafe(hex) {
+  const { h } = hexToHsl(hex);
+  return !(isRedFamilyHue(h) && !redUndertoneSafe(hex));
+}
+
+// The colour pool the outfit builder is allowed to select or suggest from at all: every
+// curated swatch minus any red-family entry that fails the undertone rule.
+const BUILDER_COLOURS = ALL_COLOURS.filter(c => isBuilderSafe(c.hex));
+// Auto-generate and "suggestions for empty slots" only draw from Excellent/Good by default.
+// Occasional-tier (rare cool/borrowed exceptions) stays selectable in the manual picker —
+// available "on request" — but is never proactively suggested or auto-filled.
+const BUILDER_COLOURS_DEFAULT = BUILDER_COLOURS.filter(c => c.rating !== 'Occasional');
+
+// Buckets a hue into a broad family so scoring can tell a deliberate tonal echo (two
+// pieces from the same family) from two different colours competing for attention.
+function hueFamily(h) {
+  if (h <= 15 || h >= 345) return 'red';
+  if (h <= 45)  return 'orange';
+  if (h <= 70)  return 'gold';
+  if (h <= 100) return 'olive';
+  if (h <= 165) return 'green';
+  if (h <= 260) return 'blue';
+  if (h <= 300) return 'purple';
+  return 'wine';
+}
+
+// Neutral vs accent role for an arbitrary hex, falling back to a depth/saturation guess
+// when the colour isn't a named swatch (e.g. a bespoke product colour).
+function roleOf(hex, meta) {
+  if (meta?.role) return meta.role;
+  const { s, l } = hexToHsl(hex);
+  return (s < 22 || l < 24) ? 'neu' : 'sig';
+}
+
+const RATING_ADJUST = { Excellent: 8, Good: 0, Occasional: -22 };
+const ACCESSORY_SLOTS = new Set(['Belt', 'Watch', 'Hat', 'Socks', 'Bag']);
+
+// Occasion governs how accent-forward vs neutral-forward a look should read — tailoring
+// and smart occasions want restraint; casual/outdoor/beach can carry more colour.
+function occasionAccentBudget(occ) {
+  if (occ === 'work' || occ === 'smart') return { maxAccentFamilies: 1, accentPenalty: 16 };
+  if (occ === 'outdoor')                 return { maxAccentFamilies: 1, accentPenalty: 10 };
+  return { maxAccentFamilies: 1, accentPenalty: 12 }; // casual, beach, adaptive
+}
+
 function colourFit(hex) {
   const { h, s, l } = hexToHsl(hex);
   let pts = 50;
@@ -3236,34 +3310,88 @@ function colourFit(hex) {
   return Math.max(0, Math.min(100, pts));
 }
 
-function harmonyScore(slots) {
-  const filled = slots.filter(Boolean);
-  if (filled.length < 2) return { score: 0, tip: 'Select a colour from the right, then tap a slot — clothing first, then shoes, watch, hat and belt.' };
+function harmonyScore(slots, occ) {
+  occ = occ || (typeof currentOccasion !== 'undefined' ? currentOccasion : 'adaptive');
+  const filledEntries = slots.map((hex, i) => hex ? { hex, label: SLOT_LABELS[i] } : null).filter(Boolean);
+  if (filledEntries.length < 2) return { score: 0, tip: 'Select a colour from the right, then tap a slot — clothing first, then shoes, watch, hat and belt.' };
 
-  const parsed = filled.map(hex => ({ hex, hsl: hexToHsl(hex), fit: colourFit(hex) }));
+  // Hard rule, checked first: purple-leaning red/burgundy/wine/plum is never acceptable,
+  // regardless of anything else about the outfit. This is a stop, not a deduction.
+  const unsafe = filledEntries.find(e => !isBuilderSafe(e.hex));
+  if (unsafe) {
+    const name = getSwatchMeta(unsafe.hex)?.name || 'That colour';
+    return { score: 8, tip: `${name} (${unsafe.label}) reads purple-leaning, not brick — that's the one hard rule for this palette. Swap it for a brick-leaning red instead (Brick, Cognac Red, Chestnut Red, or Burgundy).` };
+  }
+
+  const parsed = filledEntries.map(({ hex, label }) => {
+    const meta = getSwatchMeta(hex);
+    const hsl = hexToHsl(hex);
+    return { hex, label, meta, hsl, fit: colourFit(hex), role: roleOf(hex, meta), rating: meta?.rating || null, family: hueFamily(hsl.h) };
+  });
+
   const avgFit = parsed.reduce((sum, c) => sum + c.fit, 0) / parsed.length;
 
-  // Contrast range — Deep looks need at least one dark and one lighter anchor
+  // Contrast range — a look needs at least one dark and one lighter anchor; everything at
+  // the same depth reads flat, not "deep."
   const lights = parsed.map(c => c.hsl.l);
   const lRange = Math.max(...lights) - Math.min(...lights);
   const contrastBonus = lRange > 45 ? 16 : lRange > 28 ? 10 : lRange > 14 ? 3 : -6;
 
-  // Competing statements: saturated, mid-lightness, different hue families at similar depth
+  // Rating — Excellent pairings are favoured by default, Good is a fine secondary choice,
+  // Occasional (rare cool/warm borrows) is a deliberate exception, scored as one rather
+  // than treated as an equally-valid default.
+  const ratingAdj = parsed.reduce((sum, c) => sum + (c.rating ? RATING_ADJUST[c.rating] : 0), 0) / parsed.length;
+
+  // Neutral-vs-accent roles — a real outfit is anchored by neutrals, with one colour doing
+  // the work of drawing the eye, not several colours competing for the same attention.
+  const accents = parsed.filter(c => c.role === 'sig');
+  const neutrals = parsed.filter(c => c.role === 'neu');
+  const accentFamilies = [...new Set(accents.map(c => c.family))];
+  const { maxAccentFamilies, accentPenalty } = occasionAccentBudget(occ);
+
+  let roleBonus = 0;
+  if (accents.length && neutrals.length / parsed.length >= 0.5) roleBonus += 8; // neutral-anchored
+  if (accentFamilies.length > maxAccentFamilies) {
+    // Competing accents from different families — the classic "too many statements" mistake.
+    roleBonus -= accentPenalty * (accentFamilies.length - maxAccentFamilies);
+  } else if (accents.length > 1 && accentFamilies.length === 1) {
+    // Same family, more than one piece — deliberate tonal layering, not a clash.
+    roleBonus += 6;
+  }
+
+  // Repetition — echoing the outfit's one accent family in two small pieces (a belt and a
+  // watch strap, say) reads as intentional; a stray, unrelated accessory colour reads
+  // accidental instead.
+  if (accentFamilies.length === 1) {
+    const echoes = parsed.filter(c => ACCESSORY_SLOTS.has(c.label) && c.family === accentFamilies[0]).length;
+    if (echoes >= 2) roleBonus += 10;
+  }
+
+  // Occasional-tier pieces are exceptions, not defaults — fine alone in small doses, but
+  // never paired with each other and never anchoring the look (standing in for a neutral).
+  const occasional = parsed.filter(c => c.rating === 'Occasional');
+  if (occasional.length > 1) roleBonus -= 20;
+  if (occasional.length && neutrals.length === 0) roleBonus -= 10;
+
+  // Competing statements — a raw colour-theory backstop: two similarly saturated, similarly
+  // deep colours from clearly different hue directions still read as a fight even before
+  // role or rating are considered.
   let clashPenalty = 0;
   const sigs = parsed.filter(c => c.hsl.s > 22 && c.hsl.l > 20 && c.hsl.l < 66);
   sigs.forEach((a, i) => {
-    sigs.slice(i+1).forEach(b => {
+    sigs.slice(i + 1).forEach(b => {
       const lGap = Math.abs(a.hsl.l - b.hsl.l);
-      const hGap = Math.min(Math.abs(a.hsl.h-b.hsl.h), 360-Math.abs(a.hsl.h-b.hsl.h));
-      const sameWarmFamily = a.hsl.h <= 140 && b.hsl.h <= 140;
-      if (!sameWarmFamily && lGap < 22 && hGap > 55) clashPenalty += 9;
+      const hGap = Math.min(Math.abs(a.hsl.h - b.hsl.h), 360 - Math.abs(a.hsl.h - b.hsl.h));
+      if (a.family !== b.family && lGap < 22 && hGap > 55) clashPenalty += 6;
     });
   });
 
-  // Palette membership — curated palette = intentional, calibrated choice
-  const palBonus = filled.filter(h => ALL_COLOURS.find(c => c.hex === h)).length * 4;
+  // Palette membership — a curated swatch is an intentional, calibrated choice.
+  const palBonus = parsed.filter(c => c.meta).length * 3;
 
-  const score = Math.min(100, Math.max(0, Math.round(avgFit * 0.65 + contrastBonus + palBonus - clashPenalty)));
+  const score = Math.min(100, Math.max(0, Math.round(
+    avgFit * 0.5 + contrastBonus + ratingAdj + roleBonus + palBonus - clashPenalty
+  )));
   return { score, tip: '' };
 }
 
@@ -3274,28 +3402,33 @@ function getSlotRecommendations() {
   SLOT_LABELS.forEach((l, i) => { if (outfitSlots[i]) filled[l] = outfitSlots[i]; });
   if (!Object.keys(filled).length) return {};
 
-  const { score: currentScore } = harmonyScore(outfitSlots);
+  const occ = currentOccasion;
+  const { score: currentScore } = harmonyScore(outfitSlots, occ);
   const fc = Object.values(filled).map(h => ALL_COLOURS.find(c => c.hex === h)).filter(Boolean);
   const sigN = fc.filter(c => c.role === 'sig').length;
 
   function scoreWith(label, hex) {
     const test = [...outfitSlots];
     test[SIDX[label]] = hex;
-    return harmonyScore(test).score;
+    return harmonyScore(test, occ).score;
   }
 
   const OWNED_ITEMS = { Shirt: SHIRTS, Shoes: SHOES, Socks: SOCKS, Watch: WATCHES, Belt: BELTS, Pants: BOTTOMS, 'T-Shirt': TSHIRTS, Shorts: SHORTS, Jacket: JACKETS, Jumper: HOODIES, Bag: BAGS, Hat: HATS };
 
+  // Suggestions only ever draw from the safe, rated-Excellent/Good pool by default — the
+  // red-family undertone rule is hard-enforced here (BUILDER_COLOURS_DEFAULT already
+  // excludes purple-leaning reds), and Occasional-tier borrows are never proactively
+  // suggested, only reachable by choosing them manually from the picker.
   const CANDIDATES = {
-    Shirt:     () => ALL_COLOURS,
-    'T-Shirt': () => ALL_COLOURS,
-    Shorts:    () => ALL_COLOURS,
-    Pants:     () => ALL_COLOURS,
-    Layer:     () => ALL_COLOURS,
-    Accent:    () => ALL_COLOURS,
-    Shoes:     () => ALL_COLOURS,
-    Hat:       () => ALL_COLOURS,
-    Belt:      () => ALL_COLOURS,
+    Shirt:     () => BUILDER_COLOURS_DEFAULT,
+    'T-Shirt': () => BUILDER_COLOURS_DEFAULT,
+    Shorts:    () => BUILDER_COLOURS_DEFAULT,
+    Pants:     () => BUILDER_COLOURS_DEFAULT,
+    Layer:     () => BUILDER_COLOURS_DEFAULT,
+    Accent:    () => BUILDER_COLOURS_DEFAULT,
+    Shoes:     () => BUILDER_COLOURS_DEFAULT,
+    Hat:       () => BUILDER_COLOURS_DEFAULT,
+    Belt:      () => BUILDER_COLOURS_DEFAULT,
     Watch:     () => null,
   };
 
@@ -3594,6 +3727,16 @@ function generateStyleTip() {
   const count = Object.keys(fi).length;
   if (count === 0) return 'Pick a top or bottom to begin — build the base first, then layer outward.';
 
+  // Red-family undertone rule — checked first, before any other colour reasoning. This is
+  // a safety net: the picker already excludes purple-leaning reds, but a bespoke item
+  // colour could still slip through.
+  const unsafeEntry = Object.entries(fi).find(([, { hex }]) => hex && !isBuilderSafe(hex));
+  if (unsafeEntry) {
+    const [label, { item, colour, hex }] = unsafeEntry;
+    const name = item?.short || colour?.name || label;
+    return `${name} (${label}) is reading purple-leaning, not brick — that's a hard avoid for reds, burgundy, wine, and plum on this palette. Swap it for Brick, Cognac Red, Chestnut Red, or Burgundy instead.`;
+  }
+
   const allC  = Object.values(fi).map(f => f.colour).filter(Boolean);
   const sigN  = allC.filter(c => c.role === 'sig').length;
   const neuN  = allC.filter(c => c.role === 'neu').length;
@@ -3658,6 +3801,30 @@ function generateStyleTip() {
 
     const lights = outfitHsl.map(d => d.hsl.l);
     const lRange = Math.max(...lights) - Math.min(...lights);
+
+    // Problem: two Occasional-tier rare borrows together — these are exception pieces,
+    // never a pair. Checked before generic contrast/depth analysis since it's a firmer
+    // rule than "add a lighter piece."
+    const occasionalPieces = Object.entries(fi).filter(([, { colour }]) => colour?.rating === 'Occasional');
+    if (occasionalPieces.length > 1) {
+      const names = occasionalPieces.map(([, { item, colour }]) => item?.short || colour?.name).join(' + ');
+      return `${names} — both are Occasional-tier rare borrows. Each is meant as one deliberate exception piece, not a pair. Drop one back to an Excellent or Good colour.`;
+    }
+    if (occasionalPieces.length === 1 && neuN === 0) {
+      const [label, { item, colour }] = occasionalPieces[0];
+      const name = item?.short || colour?.name;
+      return `${name} (${label}) is an Occasional-tier borrow — it works as an exception piece against a neutral base, but nothing here is anchoring the look yet. Add chocolate, camel, tobacco, or stone underneath it.`;
+    }
+
+    // Problem: two accent-role colours from different hue families — the "one accent by
+    // default" rule. Same-family pairs (e.g. rust + terracotta) read as deliberate tonal
+    // layering and are left alone. Also checked before generic contrast analysis.
+    const accentEntries = Object.entries(fi).filter(([, { colour }]) => colour?.role === 'sig');
+    const accentFamiliesSeen = new Set(accentEntries.map(([, { hex }]) => hueFamily(hexToHsl(hex).h)));
+    if (accentEntries.length > 1 && accentFamiliesSeen.size > 1) {
+      const names = accentEntries.map(([, { item, colour }]) => item?.short || colour?.name).join(' + ');
+      return `${names} — more than one accent competing for attention, and they're not close enough in family to read as deliberate tonal layering. Pick one to lead and let the rest go neutral, or echo just one of them in a small piece like the belt or watch strap instead.`;
+    }
 
     // Problem: all-dark — no contrast anchor
     if (lRange < 14 && Math.max(...lights) < 48) {
@@ -3772,7 +3939,7 @@ function generateStyleTip() {
 }
 
 function updateHarmony() {
-  const { score: rawScore } = harmonyScore(outfitSlots);
+  const { score: rawScore } = harmonyScore(outfitSlots, currentOccasion);
   const hasTop    = outfitSlots[SLOT_LABELS.indexOf('Shirt')] || outfitSlots[SLOT_LABELS.indexOf('T-Shirt')];
   const hasBottom = outfitSlots[SLOT_LABELS.indexOf('Shorts')] || outfitSlots[SLOT_LABELS.indexOf('Pants')];
   const hasShoes  = outfitSlots[SLOT_LABELS.indexOf('Shoes')];
@@ -4057,7 +4224,7 @@ function generateOutfit() {
     for (const item of items) {
       const test = [...outfitSlots];
       test[idx] = item.colour;
-      const { score } = harmonyScore(test);
+      const { score } = harmonyScore(test, occ);
       if (score > bestScore) { bestScore = score; bestItem = item; }
     }
     if (bestItem) {
@@ -4191,7 +4358,10 @@ function refreshPicker() {
     content.className = hasSlot ? '' : 'picker-unready';
     Object.entries(PALETTE).forEach(([g, colours]) => {
       const grid = document.getElementById(`pgrid-${g}`);
-      colours.forEach(c => {
+      // Hard-enforced red-family undertone rule: a purple-leaning red/burgundy/wine/plum
+      // (e.g. the legacy "Aubergine" entry, renamed from Plum) is never selectable here,
+      // even manually — this isn't a scoring penalty, it's excluded from the picker outright.
+      colours.filter(c => isBuilderSafe(c.hex)).forEach(c => {
         const chip = document.createElement('div');
         chip.className = 'picker-chip' + (selectedColour === c.hex ? ' selected' : '');
         chip.dataset.hex = c.hex;
@@ -4246,7 +4416,8 @@ function refreshPicker() {
       grid.appendChild(card);
     });
     const colourGrid = document.getElementById('itemColourGrid');
-    ALL_COLOURS.forEach(c => {
+    // Same hard rule applies to the flat "or choose a colour" list under item picking.
+    ALL_COLOURS.filter(c => isBuilderSafe(c.hex)).forEach(c => {
       const chip = document.createElement('div');
       chip.className = 'picker-chip' + (outfitSlots[SLOT_LABELS.indexOf(slotLabel)] === c.hex && !outfitItems[slotLabel] ? ' selected' : '');
       chip.dataset.hex = c.hex;
