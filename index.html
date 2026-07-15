@@ -2890,7 +2890,7 @@ const JACKETS = [
   { id: 'wolsey-chore', name: 'Wolsey Chore Jacket', short: 'Chore Jacket', sub: 'Wolsey 1755 · Chore Jacket · Size M · Stone Twill', colours: ['#C9B79A','#A89878','#1C1C1C'], colour: '#C9B79A' },
 ];
 const HOODIES = [
-  { id: 'champion-hood',   name: 'Champion Hoodie',          short: 'Champion Hood',   sub: 'Champion · Hooded Sweatshirt · Size L · Burgundy',             colours: ['#6B2D3A','#5A2230','#C8B8A8'], colour: '#6E2C2C' },
+  { id: 'champion-hood',   name: 'Champion Reverse Weave Hoodie', short: 'Champion Hood',   sub: 'Champion · Heavyweight Fleece Reverse Weave · Size L · Brown', colours: ['#5C3428','#4A2A1F'], colour: '#5C3428' },
   { id: 'barbour-halfzip', name: 'Barbour Half-Zip Sweater', short: 'Barbour Stone',   sub: 'Barbour · Stone Lambswool Half-Zip · Size L',                  colours: ['#C4AD88','#B09870','#D4C4A8'], colour: '#C4AD88' },
 ];
 const HATS = [
@@ -3032,9 +3032,9 @@ const LOOKS = [
     name: 'Off-Duty Heritage',
     season: 'AW',
     occasion: 'Weekend · Relaxed',
-    colours: ['#6E2C2C','#6B4E2E','#1A2535','#5C3A1E'],
-    pieces: 'Champion Hoodie Burgundy (owned, L), Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
-    fitNote: 'Jumper as mid-layer not outer piece keeps the silhouette correct. Brown tee visible at collar warms the burgundy'
+    colours: ['#5C3428','#6B4E2E','#1A2535','#5C3A1E'],
+    pieces: 'Champion Reverse Weave Hoodie Brown (owned, L), Carhartt WIP Brown tee underneath (owned), Nudie Dry Heavy, Handball Spezial Aurora Coffee, G-Shock',
+    fitNote: 'Jumper as mid-layer not outer piece keeps the silhouette correct. Brown tee visible at collar tonally matches the hoodie'
   },
   {
     name: 'The Olive Layer',
@@ -3899,7 +3899,7 @@ function generateStyleTip() {
     if (id('Jumper') === 'barbour-halfzip')
       return `Barbour stone half-zip over ${topName || 'a base layer'} — the lambswool texture adds weight without adding colour. Stone sits at the warm-neutral midpoint of your palette and works with everything below it. Half-zip open is the correct silhouette at your height.`;
     if (id('Jumper') === 'champion-hood' && id('Pants') === 'se2-dry-heavy')
-      return 'Champion burgundy hoodie over the Dry Heavy — the muted red-brown and raw indigo are a classic autumn pairing. Rich without being loud.';
+      return 'Champion Reverse Weave hoodie over the Dry Heavy — the rich brown and raw indigo are a classic autumn pairing. Warm without being loud.';
     if (id('Jacket') === 'wolsey-chore' && topSlot)
       return `Wolsey Chore Jacket over ${topName || 'a tee'} — the stone twill reads as quietly elevated. Worker-influenced silhouette that sits well in the Deep Autumn palette.`;
     if (id('Belt') === 'hzhy-choc' && botSlot)
