@@ -2696,10 +2696,59 @@ const PALETTE = {
     { name: 'Ivory',      hex: '#F4E8D0', role: 'neu' },
     { name: 'Espresso',   hex: '#1E1208', role: 'neu' },
     { name: 'Warm Sand',  hex: '#C8A87A', role: 'neu' },
-  ]
+  ],
+
+  // --- v2 additions — merged from "Extended Colour Palette — Warm, Soft Deep Autumn (v2)" ---
+  // Additive only: nothing above this comment was changed. Each v2 entry carries a `rating`
+  // (Excellent / Good / Occasional) from the source notes. Hex values are best-fit approximations
+  // since the source document described colours qualitatively rather than with exact hex codes.
+  deepNeutralsV2: [
+    { name: 'Umber',       hex: '#5A3A22', role: 'neu', rating: 'Excellent' },
+    { name: 'Bark Brown',  hex: '#4A3B2F', role: 'neu', rating: 'Excellent' },
+    { name: 'Dark Walnut', hex: '#33221A', role: 'neu', rating: 'Good' },
+    { name: 'Coffee Bean', hex: '#241609', role: 'neu', rating: 'Good' },
+  ],
+  midTonesV2: [
+    { name: 'Cinnamon',          hex: '#8B5A2B', role: 'sig', rating: 'Excellent' },
+    { name: 'Ochre',             hex: '#96721C', role: 'sig', rating: 'Excellent' },
+    { name: 'Sand / Warm Khaki', hex: '#C7B183', role: 'neu', rating: 'Good' },
+    { name: 'Fawn',              hex: '#C9A579', role: 'sig', rating: 'Good' },
+    { name: 'Toffee',            hex: '#9C7040', role: 'sig', rating: 'Good' },
+  ],
+  accentsV2: [
+    { name: 'Persimmon',    hex: '#D2571E', role: 'sig', rating: 'Excellent' },
+    { name: 'Cognac Red',   hex: '#8B3A28', role: 'sig', rating: 'Excellent', undertone: 'brick' },
+    { name: 'Paprika',      hex: '#A8401D', role: 'sig', rating: 'Excellent' },
+    { name: 'Deep Saffron', hex: '#C8850F', role: 'sig', rating: 'Good' },
+    { name: 'Chestnut Red', hex: '#9C4A34', role: 'sig', rating: 'Good', undertone: 'brick' },
+  ],
+  // Rare cool borrows — Occasional only, per source notes.
+  coolBorrowsV2: [
+    { name: 'Peacock Teal (warm-leaning)', hex: '#3E6B5E', role: 'sig', rating: 'Occasional' },
+    { name: 'Slate Blue-Brown',            hex: '#46504A', role: 'sig', rating: 'Occasional' },
+    { name: 'Warm Aubergine',              hex: '#5A3B3E', role: 'sig', rating: 'Occasional', undertone: 'warm-leaning' },
+  ],
 };
 
-const ALL_COLOURS = [...PALETTE.core, ...PALETTE.accent, ...PALETTE.neutrals, ...PALETTE.extended, ...PALETTE.expanded];
+// Red-family undertone rule (v2 addition) — applies to any red, burgundy, wine, or plum colour,
+// existing or new. Brick-leaning undertones (green channel >= blue channel, red dominant) = safe.
+// Purple-leaning undertones (blue channel > green channel) = avoid.
+// New red-family entries above carry an `undertone` field. Existing entries were NOT modified —
+// they were only checked against this rule, recorded here for reference:
+const RED_FAMILY_UNDERTONE_RULE = {
+  rule: 'brick-leaning (green >= blue channel) = safe; purple-leaning (blue > green channel) = avoid',
+  existingEntryComplianceCheck: {
+    // PALETTE.core Burgundy — #6E2C2C — R110/G44/B44: green ≈ blue, reads as brick/maroon.
+    Burgundy: { hex: '#6E2C2C', undertone: 'brick', verdict: 'complies — safe, left unchanged' },
+    // PALETTE.extended Plum — #5E2D44 — R94/G45/B68: blue > green, reads as purple/violet.
+    Plum: { hex: '#5E2D44', undertone: 'purple', verdict: 'does not meet the new safe criteria — left unchanged per instructions; treat as avoid/occasional-only going forward' },
+  }
+};
+
+const ALL_COLOURS = [
+  ...PALETTE.core, ...PALETTE.accent, ...PALETTE.neutrals, ...PALETTE.extended, ...PALETTE.expanded,
+  ...PALETTE.deepNeutralsV2, ...PALETTE.midTonesV2, ...PALETTE.accentsV2, ...PALETTE.coolBorrowsV2,
+];
 
 const SHOES = [
   { id: 'spezial',     name: 'Handball Spezial',   short: 'Spezial',    sub: 'Aurora Coffee · Silver · Gum',  colours: ['#5C3A1E','#B8B5AF','#9E9378'], colour: '#6B4E2E' },
@@ -3946,7 +3995,11 @@ function refreshPicker() {
   const content = document.getElementById('pickerContent');
   if (!content) return;
   if (pickerMode === 'colour') {
-    const GROUP_LABELS = { core: 'Core', accent: 'Accent', neutrals: 'Neutrals', extended: 'Extended', expanded: 'Deep Palette' };
+    const GROUP_LABELS = {
+      core: 'Core', accent: 'Accent', neutrals: 'Neutrals', extended: 'Extended', expanded: 'Deep Palette',
+      deepNeutralsV2: 'Deep Neutrals (v2)', midTonesV2: 'Warm Mid-Tones (v2)',
+      accentsV2: 'Accents (v2)', coolBorrowsV2: 'Cool Borrows — Occasional (v2)',
+    };
     const groupsHtml = Object.keys(PALETTE).map(g =>
       `<div class="picker-group-label">${GROUP_LABELS[g] || g}</div><div class="picker-grid" id="pgrid-${g}"></div>`
     ).join('');
