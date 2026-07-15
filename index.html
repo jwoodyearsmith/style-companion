@@ -2734,47 +2734,53 @@
 
 <script>
 const PALETTE = {
+  // Ratings added below for the outfit builder's rating-aware scoring: core/accent/neutrals
+  // are the signature "heavy hitters" and connective tissue of the palette, so Excellent;
+  // extended/expanded are the deeper, secondary tier, so Good. These didn't have a rating
+  // before the v2 merge added the field — without one here, the scoring logic couldn't
+  // reward outfits built from the original wardrobe colours the same way it rewards the
+  // newer v2 additions, even when they're genuinely excellent pairings.
   core: [
-    { name: 'Tobacco',    hex: '#6B4E2E', role: 'sig' },
-    { name: 'Camel',      hex: '#B08D57', role: 'sig' },
-    { name: 'Olive',      hex: '#6B6B33', role: 'sig' },
-    { name: 'Terracotta', hex: '#B5562E', role: 'sig' },
-    { name: 'Burgundy',   hex: '#6E2C2C', role: 'sig' },
+    { name: 'Tobacco',    hex: '#6B4E2E', role: 'neu', rating: 'Excellent' },
+    { name: 'Camel',      hex: '#B08D57', role: 'neu', rating: 'Excellent' },
+    { name: 'Olive',      hex: '#6B6B33', role: 'neu', rating: 'Excellent' },
+    { name: 'Terracotta', hex: '#B5562E', role: 'sig', rating: 'Excellent' },
+    { name: 'Burgundy',   hex: '#6E2C2C', role: 'sig', rating: 'Excellent' },
   ],
   accent: [
-    { name: 'Rust',          hex: '#A6471F', role: 'sig' },
-    { name: 'Pumpkin',       hex: '#C1621F', role: 'sig' },
-    { name: 'Golden Ochre',  hex: '#C68A1E', role: 'sig' },
-    { name: 'Moss Green',    hex: '#6E7D3E', role: 'sig' },
-    { name: 'Brick',         hex: '#9C3B26', role: 'sig' },
+    { name: 'Rust',          hex: '#A6471F', role: 'sig', rating: 'Excellent' },
+    { name: 'Pumpkin',       hex: '#C1621F', role: 'sig', rating: 'Good' },
+    { name: 'Golden Ochre',  hex: '#C68A1E', role: 'sig', rating: 'Excellent' },
+    { name: 'Moss Green',    hex: '#6E7D3E', role: 'sig', rating: 'Excellent' },
+    { name: 'Brick',         hex: '#9C3B26', role: 'sig', rating: 'Excellent' },
   ],
   neutrals: [
-    { name: 'Chocolate',    hex: '#3E2C20', role: 'neu' },
-    { name: 'Espresso',     hex: '#1E1208', role: 'neu' },
-    { name: 'Cream',        hex: '#EDE3D0', role: 'neu' },
-    { name: 'Stone',        hex: '#C9B79A', role: 'neu' },
-    { name: 'Warm Charcoal',hex: '#2E2A26', role: 'neu' },
+    { name: 'Chocolate',    hex: '#3E2C20', role: 'neu', rating: 'Excellent' },
+    { name: 'Espresso',     hex: '#1E1208', role: 'neu', rating: 'Excellent' },
+    { name: 'Cream',        hex: '#EDE3D0', role: 'neu', rating: 'Excellent' },
+    { name: 'Stone',        hex: '#C9B79A', role: 'neu', rating: 'Excellent' },
+    { name: 'Warm Charcoal',hex: '#2E2A26', role: 'neu', rating: 'Excellent' },
   ],
   extended: [
-    { name: 'Copper',     hex: '#9B5C28', role: 'sig' },
-    { name: 'Amber',      hex: '#C4821A', role: 'sig' },
-    { name: 'Aubergine',  hex: '#5E2D44', role: 'sig' },
-    { name: 'Taupe',      hex: '#8B7B6B', role: 'neu' },
-    { name: 'Khaki',      hex: '#7A7A3A', role: 'neu' },
-    { name: 'Parchment',  hex: '#D8C8A8', role: 'neu' },
+    { name: 'Copper',     hex: '#9B5C28', role: 'sig', rating: 'Good' },
+    { name: 'Amber',      hex: '#C4821A', role: 'sig', rating: 'Good' },
+    { name: 'Aubergine',  hex: '#5E2D44', role: 'sig', rating: 'Occasional' },
+    { name: 'Taupe',      hex: '#8B7B6B', role: 'neu', rating: 'Good' },
+    { name: 'Khaki',      hex: '#7A7A3A', role: 'neu', rating: 'Good' },
+    { name: 'Parchment',  hex: '#D8C8A8', role: 'neu', rating: 'Good' },
   ],
   expanded: [
-    { name: 'Cognac',           hex: '#8B5E3C', role: 'sig' },
-    { name: 'Army Green',       hex: '#4A4D20', role: 'sig' },
-    { name: 'Sage',             hex: '#7D8C68', role: 'neu' },
-    { name: 'Ivory',            hex: '#F4E8D0', role: 'neu' },
-    { name: 'Warm Sand',        hex: '#C8A87A', role: 'neu' },
-    { name: 'Forest Green',     hex: '#2F4A2A', role: 'sig' },
-    { name: 'Deep Bottle Green',hex: '#16332A', role: 'sig' },
-    { name: 'Deep Navy',        hex: '#1A2535', role: 'neu' },
-    { name: 'Saffron',          hex: '#D19A2A', role: 'sig' },
-    { name: 'Paprika',          hex: '#B8461E', role: 'sig' },
-    { name: 'Soft Coral',       hex: '#C97656', role: 'sig' },
+    { name: 'Cognac',           hex: '#8B5E3C', role: 'sig', rating: 'Good' },
+    { name: 'Army Green',       hex: '#4A4D20', role: 'sig', rating: 'Good' },
+    { name: 'Sage',             hex: '#7D8C68', role: 'neu', rating: 'Good' },
+    { name: 'Ivory',            hex: '#F4E8D0', role: 'neu', rating: 'Good' },
+    { name: 'Warm Sand',        hex: '#C8A87A', role: 'neu', rating: 'Good' },
+    { name: 'Forest Green',     hex: '#2F4A2A', role: 'sig', rating: 'Good' },
+    { name: 'Deep Bottle Green',hex: '#16332A', role: 'sig', rating: 'Good' },
+    { name: 'Deep Navy',        hex: '#1A2535', role: 'neu', rating: 'Good' },
+    { name: 'Saffron',          hex: '#D19A2A', role: 'sig', rating: 'Good' },
+    { name: 'Paprika',          hex: '#B8461E', role: 'sig', rating: 'Good' },
+    { name: 'Soft Coral',       hex: '#C97656', role: 'sig', rating: 'Good' },
   ],
 
   // --- v2 additions — merged from "Extended Colour Palette — Warm, Soft Deep Autumn (v2)" ---
@@ -3269,15 +3275,30 @@ function hueFamily(h) {
 }
 
 // Neutral vs accent role for an arbitrary hex, falling back to a depth/saturation guess
-// when the colour isn't a named swatch (e.g. a bespoke product colour).
+// when the colour isn't a named swatch (e.g. a bespoke product colour). Three buckets read
+// as neutral: very dark/desaturated (chocolate, espresso), muted warm midtones (tobacco,
+// camel, this kind of walnut-brown — moderate saturation but not a loud statement), and
+// light muted neutrals (stone, oatmeal). Anything punchier than that is an accent.
 function roleOf(hex, meta) {
   if (meta?.role) return meta.role;
   const { s, l } = hexToHsl(hex);
-  return (s < 22 || l < 24) ? 'neu' : 'sig';
+  const veryMutedOrDark = s < 22 || l < 24;
+  const mutedWarmMidtone = l < 40 && s < 45;
+  const lightNeutral = l >= 55 && l <= 82 && s < 38;
+  return (veryMutedOrDark || mutedWarmMidtone || lightNeutral) ? 'neu' : 'sig';
 }
 
 const RATING_ADJUST = { Excellent: 8, Good: 0, Occasional: -22 };
 const ACCESSORY_SLOTS = new Set(['Belt', 'Watch', 'Hat', 'Socks', 'Bag', 'Sunglasses']);
+// The slots that actually carry an outfit's visual weight — a shirt or a pair of trousers
+// changes how a look reads; a watch strap or a sock rarely does. The "one accent" rule and
+// its competing-statement penalty apply here; small accessories participate only through
+// the echo/repetition bonus, not as a rival accent in their own right.
+const PRIMARY_ACCENT_SLOTS = new Set(['Shirt', 'T-Shirt', 'Jacket', 'Jumper', 'Shorts', 'Pants', 'Shoes', 'Accent']);
+function SLOT_WEIGHT(label) {
+  if (PRIMARY_ACCENT_SLOTS.has(label)) return label === 'Shoes' ? 0.8 : 1;
+  return 0.3; // accessories: Belt, Watch, Hat, Socks, Bag, Sunglasses
+}
 
 // Occasion governs how accent-forward vs neutral-forward a look should read — tailoring
 // and smart occasions want restraint; casual/outdoor/beach can carry more colour.
@@ -3335,42 +3356,54 @@ function harmonyScore(slots, occ) {
   const parsed = filledEntries.map(({ hex, label }) => {
     const meta = getSwatchMeta(hex);
     const hsl = hexToHsl(hex);
-    return { hex, label, meta, hsl, fit: colourFit(hex), role: roleOf(hex, meta), rating: meta?.rating || null, family: hueFamily(hsl.h) };
+    return { hex, label, meta, hsl, fit: colourFit(hex), role: roleOf(hex, meta), rating: meta?.rating || null, family: hueFamily(hsl.h), weight: SLOT_WEIGHT(label) };
   });
+  const totalWeight = parsed.reduce((sum, c) => sum + c.weight, 0);
 
-  const avgFit = parsed.reduce((sum, c) => sum + c.fit, 0) / parsed.length;
+  // Small pieces (socks, a watch strap, sunglasses) shouldn't be able to swing the score as
+  // hard as a shirt or trousers can — everything below is weighted by how much visual real
+  // estate a slot actually occupies, not counted as an equal one-of-N vote.
+  const avgFit = parsed.reduce((sum, c) => sum + c.fit * c.weight, 0) / totalWeight;
 
   // Contrast range — a look needs at least one dark and one lighter anchor; everything at
-  // the same depth reads flat, not "deep."
+  // the same depth reads flat, not "deep." Contrast is about the extremes present, so this
+  // stays unweighted — a light sock or dark belt genuinely does create separation.
   const lights = parsed.map(c => c.hsl.l);
   const lRange = Math.max(...lights) - Math.min(...lights);
   const contrastBonus = lRange > 45 ? 16 : lRange > 28 ? 10 : lRange > 14 ? 3 : -6;
 
   // Rating — Excellent pairings are favoured by default, Good is a fine secondary choice,
   // Occasional (rare cool/warm borrows) is a deliberate exception, scored as one rather
-  // than treated as an equally-valid default.
-  const ratingAdj = parsed.reduce((sum, c) => sum + (c.rating ? RATING_ADJUST[c.rating] : 0), 0) / parsed.length;
+  // than treated as an equally-valid default. Weighted the same way as fit.
+  const ratingAdj = parsed.reduce((sum, c) => sum + (c.rating ? RATING_ADJUST[c.rating] : 0) * c.weight, 0) / totalWeight;
 
   // Neutral-vs-accent roles — a real outfit is anchored by neutrals, with one colour doing
   // the work of drawing the eye, not several colours competing for the same attention.
-  const accents = parsed.filter(c => c.role === 'sig');
   const neutrals = parsed.filter(c => c.role === 'neu');
-  const accentFamilies = [...new Set(accents.map(c => c.family))];
+  const neutralWeight = neutrals.reduce((s, c) => s + c.weight, 0);
+
+  // The "one accent" rule is about the pieces that actually carry visual weight (shirt,
+  // jacket, trousers, shoes, the dedicated Accent slot) — a small accessory shouldn't be
+  // able to trigger the same "competing statements" penalty a second garment would. Small
+  // accessories still matter, just through the echo bonus below, not as a rival accent.
+  const primaryAccents = parsed.filter(c => c.role === 'sig' && PRIMARY_ACCENT_SLOTS.has(c.label));
+  const accentFamilies = [...new Set(primaryAccents.map(c => c.family))];
   const { maxAccentFamilies, accentPenalty } = occasionAccentBudget(occ);
 
   let roleBonus = 0;
-  if (accents.length && neutrals.length / parsed.length >= 0.5) roleBonus += 8; // neutral-anchored
+  if (primaryAccents.length && neutralWeight / totalWeight >= 0.5) roleBonus += 8; // neutral-anchored
   if (accentFamilies.length > maxAccentFamilies) {
     // Competing accents from different families — the classic "too many statements" mistake.
     roleBonus -= accentPenalty * (accentFamilies.length - maxAccentFamilies);
-  } else if (accents.length > 1 && accentFamilies.length === 1) {
+  } else if (primaryAccents.length > 1 && accentFamilies.length === 1) {
     // Same family, more than one piece — deliberate tonal layering, not a clash.
     roleBonus += 6;
   }
 
   // Repetition — echoing the outfit's one accent family in two small pieces (a belt and a
   // watch strap, say) reads as intentional; a stray, unrelated accessory colour reads
-  // accidental instead.
+  // accidental instead. This is where a small accessory earns its keep, rather than by
+  // fighting the primary pieces for its own "accent" status.
   if (accentFamilies.length === 1) {
     const echoes = parsed.filter(c => ACCESSORY_SLOTS.has(c.label) && c.family === accentFamilies[0]).length;
     if (echoes >= 2) roleBonus += 10;
@@ -3384,9 +3417,10 @@ function harmonyScore(slots, occ) {
 
   // Competing statements — a raw colour-theory backstop: two similarly saturated, similarly
   // deep colours from clearly different hue directions still read as a fight even before
-  // role or rating are considered.
+  // role or rating are considered. Scoped to primary slots for the same reason as above —
+  // a saturated sock shouldn't read as "fighting" a shirt the way two loud garments would.
   let clashPenalty = 0;
-  const sigs = parsed.filter(c => c.hsl.s > 22 && c.hsl.l > 20 && c.hsl.l < 66);
+  const sigs = parsed.filter(c => PRIMARY_ACCENT_SLOTS.has(c.label) && c.hsl.s > 22 && c.hsl.l > 20 && c.hsl.l < 66);
   sigs.forEach((a, i) => {
     sigs.slice(i + 1).forEach(b => {
       const lGap = Math.abs(a.hsl.l - b.hsl.l);
@@ -3396,7 +3430,7 @@ function harmonyScore(slots, occ) {
   });
 
   // Palette membership — a curated swatch is an intentional, calibrated choice.
-  const palBonus = parsed.filter(c => c.meta).length * 3;
+  const palBonus = parsed.reduce((sum, c) => sum + (c.meta ? 3 * c.weight : 0), 0);
 
   const score = Math.min(100, Math.max(0, Math.round(
     avgFit * 0.5 + contrastBonus + ratingAdj + roleBonus + palBonus - clashPenalty
@@ -3748,9 +3782,11 @@ function generateStyleTip() {
     return `${name} (${label}) is reading purple-leaning, not brick — that's a hard avoid for reds, burgundy, wine, and plum on this palette. Swap it for Brick, Cognac Red, Chestnut Red, or Burgundy instead.`;
   }
 
-  const allC  = Object.values(fi).map(f => f.colour).filter(Boolean);
-  const sigN  = allC.filter(c => c.role === 'sig').length;
-  const neuN  = allC.filter(c => c.role === 'neu').length;
+  // Fall back to roleOf()'s depth/saturation guess for bespoke item colours that aren't an
+  // exact palette match (a hoodie or sunglasses colour, say), same as harmonyScore does.
+  const allRoles = Object.values(fi).map(f => roleOf(f.hex, f.colour));
+  const sigN = allRoles.filter(r => r === 'sig').length;
+  const neuN = allRoles.filter(r => r === 'neu').length;
 
   const topSlot  = fi['T-Shirt'] || fi['Shirt'];
   const botSlot  = fi['Pants']   || fi['Shorts'];
@@ -3778,13 +3814,16 @@ function generateStyleTip() {
     const socksName = fi['Socks'].item.short;
     return `${socksName} with the Arizona slides — that's a hard no. Slides are worn barefoot. Remove the socks.`;
   }
+  if (shoeId === 'blundstone' && fi['Shorts']) {
+    return `Blundstones with shorts — these only come out with pants. Swap to the Gazelles or Spezials, or swap the shorts for the Dry Heavy.`;
+  }
   if (shoeId === 'blundstone' && socksId === 'glenmuir-noshows') {
     return `No-show liners inside the Blundstones won't stay up — the boot shaft is too tall. Swap to the Merino Brown or Hiking socks.`;
   }
-  if ((shoeId === 'spezial' || shoeId === 'gazelle') && (socksId === 'glenmuir-merino' || socksId === 'niorasen-hiking')) {
+  if ((shoeId === 'spezial' || shoeId === 'gazelle') && fi['Shorts'] && (socksId === 'glenmuir-merino' || socksId === 'niorasen-hiking')) {
     const socksName = fi['Socks'].item.short;
     const shoeName2 = fi['Shoes'].item.short;
-    return `${socksName} with the ${shoeName2} — crew socks on low trainers is always wrong, regardless of weather. Trainers get no-show liners. Swap immediately.`;
+    return `${socksName} with the ${shoeName2} and shorts — crew socks only come out with pants. With shorts, trainers get no-show liners instead.`;
   }
   if ((shoeId === 'spezial' || shoeId === 'gazelle') && fi['Shorts'] && !socksId) {
     // Trainers + shorts with no socks selected is fine — they'll be wearing no-shows
@@ -3827,10 +3866,13 @@ function generateStyleTip() {
       return `${name} (${label}) is an Occasional-tier borrow — it works as an exception piece against a neutral base, but nothing here is anchoring the look yet. Add chocolate, camel, tobacco, or stone underneath it.`;
     }
 
-    // Problem: two accent-role colours from different hue families — the "one accent by
-    // default" rule. Same-family pairs (e.g. rust + terracotta) read as deliberate tonal
-    // layering and are left alone. Also checked before generic contrast analysis.
-    const accentEntries = Object.entries(fi).filter(([, { colour }]) => colour?.role === 'sig');
+    // Problem: two accent-role colours from different hue families, on the pieces that
+    // actually carry visual weight — the "one accent by default" rule. Small accessories
+    // are excluded here (they only ever echo the main accent, never rival it); same-family
+    // pairs (e.g. rust + terracotta) read as deliberate tonal layering and are left alone.
+    const accentEntries = Object.entries(fi).filter(([label, { colour, hex }]) =>
+      PRIMARY_ACCENT_SLOTS.has(label) && roleOf(hex, colour) === 'sig'
+    );
     const accentFamiliesSeen = new Set(accentEntries.map(([, { hex }]) => hueFamily(hexToHsl(hex).h)));
     if (accentEntries.length > 1 && accentFamiliesSeen.size > 1) {
       const names = accentEntries.map(([, { item, colour }]) => item?.short || colour?.name).join(' + ');
@@ -4263,23 +4305,9 @@ function generateOutfit() {
     if (canShorts && avShorts.length) fillSlot('Shorts', avShorts);
   }
 
-  // ── TOP ──
-  // Flannel/heavy shirts out in hot weather regardless of occasion
-  const avShirts = (band === 'hot' || occ === 'beach')
-    ? SHIRTS.filter(s => !(s.tags || []).includes('heavy'))
-    : SHIRTS;
-  // Adaptive: tee-first in heat, shirt-first when cool (more layering-friendly)
-  const shirtFirst = !isAdaptive && (occ === 'work' || occ === 'smart' || occ === 'outdoor');
-  const adaptiveShirtFirst = isAdaptive && (band === 'mild' || band === 'cold');
-  if (shirtFirst || adaptiveShirtFirst) {
-    fillSlot('Shirt', avShirts);
-    fillSlot('T-Shirt', TSHIRTS);
-  } else {
-    fillSlot('T-Shirt', TSHIRTS);
-    fillSlot('Shirt', avShirts);
-  }
-
   // ── LAYER ──
+  // Decided before TOP: which layer gets worn determines what goes underneath it —
+  // a hoodie wants a t-shirt, a collared half-zip wants a collared shirt.
   const gotShorts = outfitSlots[SLOT_LABELS.indexOf('Shorts')] !== null;
   const needLayer = (band === 'mild' || band === 'cold' || tempLow < 12) && !gotShorts;
   const skipLayer = band === 'hot' || occ === 'beach' || gotShorts;
@@ -4297,10 +4325,37 @@ function generateOutfit() {
     }
   }
 
+  // ── TOP ──
+  // Flannel/heavy shirts out in hot weather regardless of occasion
+  const avShirts = (band === 'hot' || occ === 'beach')
+    ? SHIRTS.filter(s => !(s.tags || []).includes('heavy'))
+    : SHIRTS;
+  // Adaptive: tee-first in heat, shirt-first when cool (more layering-friendly)
+  const shirtFirst = !isAdaptive && (occ === 'work' || occ === 'smart' || occ === 'outdoor');
+  const adaptiveShirtFirst = isAdaptive && (band === 'mild' || band === 'cold');
+  // A hoodie (reverse weave, etc.) goes over a t-shirt, never a collared shirt. A
+  // half-zip like the Barbour is collared underneath, so it wants a proper shirt instead.
+  const jumperId = outfitItems['Jumper']?.id;
+  const wantsTeeUnderLayer   = jumperId === 'champion-hood';
+  const wantsShirtUnderLayer = jumperId === 'barbour-halfzip';
+  if (wantsTeeUnderLayer) {
+    fillSlot('T-Shirt', TSHIRTS);
+  } else if (wantsShirtUnderLayer) {
+    fillSlot('Shirt', avShirts);
+  } else if (shirtFirst || adaptiveShirtFirst) {
+    fillSlot('Shirt', avShirts);
+    fillSlot('T-Shirt', TSHIRTS);
+  } else {
+    fillSlot('T-Shirt', TSHIRTS);
+    fillSlot('Shirt', avShirts);
+  }
+
   // ── SHOES ──
   let avShoes = [...SHOES];
   // Always strip Birkenstocks in cold/rain
   if (band === 'cold' || isRainy) avShoes = avShoes.filter(s => s.id !== 'birkenstock');
+  // Blundstones only ever get worn with pants, never shorts.
+  if (gotShorts) avShoes = avShoes.filter(s => s.id !== 'blundstone');
   // Occasion-specific exclusions (not applied in adaptive — let weather decide)
   if (!isAdaptive) {
     if (occ === 'work' || occ === 'smart') avShoes = avShoes.filter(s => s.id !== 'birkenstock');
@@ -4325,9 +4380,13 @@ function generateOutfit() {
   } else if (shoeId === 'blundstone') {
     // Chelsea boot = crew socks only. No-shows slip down inside the shaft.
     fillSlot('Socks', SOCKS.filter(s => s.id !== 'glenmuir-noshows'));
-  } else {
-    // Trainers (Spezial, Gazelle) = no-show liners. Always.
+  } else if (gotShorts) {
+    // Trainers with shorts = no-show liners only. Crew socks (merino/hiking) are a
+    // pants-only pairing.
     fillSlot('Socks', SOCKS.filter(s => s.id === 'glenmuir-noshows'));
+  } else {
+    // Trainers with pants — no-shows or crew socks both work, let scoring decide.
+    fillSlot('Socks', SOCKS);
   }
 
   // ── BELT ──
