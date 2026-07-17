@@ -3315,6 +3315,10 @@ function SLOT_WEIGHT(label) {
   return 0.3; // accessories: Belt, Watch, Hat, Socks, Bag, Sunglasses
 }
 
+// No-show liners sit hidden inside the shoe — worn, they're not visible at all, so they
+// shouldn't move the score any more than leaving the slot empty would.
+const NOSHOW_SOCKS_HEX = SOCKS.find(s => s.id === 'glenmuir-noshows')?.colour;
+
 // Occasion governs how accent-forward vs neutral-forward a look should read — tailoring
 // and smart occasions want restraint; casual/outdoor/beach can carry more colour.
 function occasionAccentBudget(occ) {
@@ -3357,7 +3361,14 @@ function colourFit(hex) {
 
 function harmonyScore(slots, occ) {
   occ = occ || (typeof currentOccasion !== 'undefined' ? currentOccasion : 'adaptive');
-  const filledEntries = slots.map((hex, i) => hex ? { hex, label: SLOT_LABELS[i] } : null).filter(Boolean);
+  const filledEntries = slots.map((hex, i) => {
+    if (!hex) return null;
+    const label = SLOT_LABELS[i];
+    // No-show liners are invisible once worn — treat the slot as empty, not as a colour
+    // choice that can help or hurt the score.
+    if (label === 'Socks' && hex === NOSHOW_SOCKS_HEX) return null;
+    return { hex, label };
+  }).filter(Boolean);
   if (filledEntries.length < 2) return { score: 0, tip: 'Select a colour from the right, then tap a slot — clothing first, then shoes, watch, hat and belt.' };
 
   // Hard rule, checked first: purple-leaning red/burgundy/wine/plum is never acceptable,
@@ -3881,7 +3892,11 @@ function generateStyleTip() {
 
   // Fall back to roleOf()'s depth/saturation guess for bespoke item colours that aren't an
   // exact palette match (a hoodie or sunglasses colour, say), same as harmonyScore does.
-  const allRoles = Object.values(fi).map(f => roleOf(f.hex, f.colour));
+  // No-show liners are invisible once worn, so they're skipped here too — same as
+  // harmonyScore, they shouldn't count as a "neutral" propping up the balance.
+  const allRoles = Object.entries(fi)
+    .filter(([label, f]) => !(label === 'Socks' && f.hex === NOSHOW_SOCKS_HEX))
+    .map(([, f]) => roleOf(f.hex, f.colour));
   const sigN = allRoles.filter(r => r === 'sig').length;
   const neuN = allRoles.filter(r => r === 'neu').length;
 
