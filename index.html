@@ -3327,6 +3327,16 @@ function occasionAccentBudget(occ) {
   return { maxAccentFamilies: 1, accentPenalty: 12 }; // casual, beach, adaptive
 }
 
+// The Accent slot is a pure colour choice with no garment attached to it — when
+// recommending one, say what kind of piece would actually carry it, tailored to occasion,
+// rather than just handing over a swatch with no context.
+function accentCarrierHint(occ) {
+  if (occ === 'work' || occ === 'smart') return 'as a pocket square, tie, or knit tie';
+  if (occ === 'beach')                   return 'as a cap trim, bag strap, or beaded bracelet';
+  if (occ === 'outdoor')                 return 'as a beanie, scarf, or visible sock';
+  return 'as a scarf, knit trim, or visible sock'; // casual / adaptive
+}
+
 function colourFit(hex) {
   const { h, s, l } = hexToHsl(hex);
   let pts = 50;
@@ -3503,6 +3513,9 @@ function getImprovementSwaps() {
   const swaps = [];
   filledIdx.forEach(idx => {
     const label = SLOT_LABELS[idx];
+    // Swim shorts have a built-in waistband — a belt has no business here at all, so don't
+    // suggest a "better" belt colour either.
+    if (label === 'Belt' && outfitItems['Shorts']?.tags?.includes('swim')) return;
     const currentHex = outfitSlots[idx];
     const owned = OWNED_ITEMS_BY_SLOT[label] ? eligibleOwnedItems(label) : null;
     const candidates = owned
@@ -3564,6 +3577,8 @@ function getSlotRecommendations() {
     if (outfitSlots[i] || !CANDIDATES[label]) return;
     const partner = SLOT_PAIRS[label];
     if (partner && outfitSlots[SIDX[partner]]) return;
+    // Swim shorts have a built-in waistband — never suggest a belt with them.
+    if (label === 'Belt' && outfitItems['Shorts']?.tags?.includes('swim')) return;
 
     // score every owned item, keep those that maintain or improve, sort best first
     const owned = eligibleOwnedItems(label)
@@ -3607,6 +3622,7 @@ function renderRecommendations() {
         const name = item?.short || colour?.name || '';
         const hex = item?.colour || colour?.hex;
         const onClick = item ? `applyRecItem('${label}','${item.id}')` : `applyRecColour('${hex}','${label}')`;
+        const carrierHtml = label === 'Accent' ? `<span class="rec-hint">${accentCarrierHint(currentOccasion)}</span>` : '';
         return `<div class="rec-row">
           <span class="rec-slot-name">${label}</span>
           <div class="rec-item-chip" title="${name} — ${newScore}%" onclick="${onClick}">
@@ -3615,6 +3631,7 @@ function renderRecommendations() {
           </div>
           <span class="rec-swap-arrow">→</span>
           <span class="rec-score-badge">+${delta}%</span>
+          ${carrierHtml}
         </div>`;
       }).join('')
     : '';
@@ -3628,10 +3645,11 @@ function renderRecommendations() {
               return `<div class="rec-item-chip" title="${item.name}" onclick="applyRecItem('${label}','${item.id}')"><div class="rec-item-swatches">${sw}</div><span class="rec-item-name">${item.short}</span></div>`;
             }).join('')}</div>` : '';
         const sepHtml = owned.length && colours.length ? '<div class="rec-owned-sep"></div>' : '';
+        const carrierSuffix = label === 'Accent' ? ` — ${accentCarrierHint(currentOccasion)}` : '';
         const colourHtml = colours.length
           ? `<div class="rec-chips">${colours.map(c =>
               `<div class="rec-chip" style="background:${c.hex}" title="${c.name}" onclick="applyRecColour('${c.hex}','${label}')"></div>`
-            ).join('')}</div><span class="rec-hint">${colours.map(c => c.name).join(' · ')}</span>` : '';
+            ).join('')}</div><span class="rec-hint">${colours.map(c => c.name).join(' · ')}${carrierSuffix}</span>` : '';
         return `<div class="rec-row"><span class="rec-slot-name">${label}</span>${ownedHtml}${sepHtml}${colourHtml}</div>`;
       }).join('')
     : '';
